@@ -75,6 +75,12 @@ const config: Config = {
         },
         {
           type: "docSidebar",
+          sidebarId: "devices",
+          position: "left",
+          label: "Devices",
+        },
+        {
+          type: "docSidebar",
           sidebarId: "releases",
           position: "left",
           label: "Release Notes",
