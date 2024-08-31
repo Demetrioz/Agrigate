@@ -24,6 +24,36 @@ const sidebars: SidebarsConfig = {
     },
   ],
   guides: ["guides/intro"],
+  devices: [
+    "devices/intro",
+    {
+      type: "category",
+      label: "Raised Bed Irrigation",
+      link: {
+        type: "generated-index",
+      },
+      items: ["devices/raised-bed-irrigation/intro"],
+    },
+    {
+      type: "category",
+      label: "Greenhouse Controller",
+      link: {
+        type: "generated-index",
+      },
+      items: ["devices/greenhouse-controller/intro"],
+    },
+    {
+      type: "category",
+      label: "Grow Tent Controller",
+      link: {
+        type: "generated-index",
+      },
+      items: [
+        "devices/grow-tent-controller/intro",
+        "devices/grow-tent-controller/bom",
+      ],
+    },
+  ],
   releases: ["releases/0.1.0"],
 
   // But you can create a sidebar manually
