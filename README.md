@@ -30,7 +30,12 @@ some version of a Raspberry Pi.
 
 The `docs` directory contains the code for the documentation website.
 
+### Utilities
+
+The `utilities` directory contains various helper scripts and utilities for
+managing the repo and it's dependencies
+
 ## Documentation
 
-Full documentation for agrigate can be found at
-[Coming Soon!](https://github.com/Demetrioz/Agrigate).
+Full documentation for agrigate can be found on
+[GitHub Pages](https://demetrioz.github.io/Agrigate/).
