@@ -1,47 +1,71 @@
----
-sidebar_position: 1
----
+# Introduction
 
-# Tutorial Intro
+Agrigate is a platform that collects, manages, and analyzes all of your
+agricultural data and helps you run a more efficient, profitable farm.
 
-Let's discover **Docusaurus in less than 5 minutes**.
+## How to use Agrigate
 
-## Getting Started
+Lets take a look at the three ways that you can utilize Agrigate:
 
-Get started by **creating a new site**.
+1. Run everything locally on your device (Coming soon!)
+2. Install and connect to a local, self-managed server (Coming soon!)
+3. Use a paid hosting service (Coming soon!)
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+Regardless of which option you choose, you must first download the app from
+the app store on Android, iOS, Mac, Windows, or Linux. You can also download
+the binary from the GitHub release or build it from source.
 
-### What you'll need
+### Local Only (Coming Soon!)
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+If you choose to do so, you can run agrigate exclusively on your local device.
+This is the easiest, but most limited, way to get started. After downloading and
+installing Agrigate, choose "Local Only" when starting the app for the first
+time.
 
-## Generate a new site
+This will keep all data local to your device, but you loose certain network
+functionality such as accessing your information from multiple devices and
+capturing telemetry from IoT devices. Changing to a new device will require
+exporting your data and importing it on the new device.
 
-Generate a new Docusaurus site using the **classic template**.
+### Self-Managed (Coming Soon!)
 
-The classic template will automatically be added to your project after you run the command:
+The second option is installing and running an Agrigate server locally or via
+a cloud provider. This will allow you to connect to and manage IoT devices,
+run jobs, and be able to share data between multiple devices.
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+You'll install the server, then download the app as normal, choose "Server", and
+enter your server's address.
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+### Hosted (Coming Soon!)
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+Using a hosted service is the same as running on self-managed server, except you
+don't have to manage the server yourself. When downloading the app, select
+"Hosted" and choose a payment plan.
 
-## Start your site
+## Technical Details
 
-Run the development server:
+Agrigate is an entire platform with a client application, optional server, and
+a collection of devices to help make growing your own food easier.
 
-```bash
-cd my-website
-npm run start
-```
+### Dependencies
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+Agrigate consists of several components. The client is is built with
+[Flutter](https://flutter.dev/), while the server is built using
+[.Net](https://dotnet.microsoft.com/en-us/) and physical devices utilize
+[CircuitPython](https://circuitpython.org/).
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+### Versioning
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+All components within Agrigate utilize
+[semantic versioning](https://semver.org/) and follow the
+\{MAJOR\}.\{MINOR\}.\{PATCH\} format. Release information can be found via the
+[Releases](https://demetrioz.github.io/Agrigate/releases/0.1.0) page
+
+## Contact Information
+
+Agrigate is developed and maintained by Kevin Williams. For assistance, reach
+out to
+[kevin.williams@kevinwilliams.dev](mailto:kevin.williams@kevinwilliams.dev)
+
+Have you encountered a bug?
+[Let me know!](https://github.com/Demetrioz/Agrigate/issues)

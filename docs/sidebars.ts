@@ -20,7 +20,7 @@ const sidebars: SidebarsConfig = {
       link: {
         type: "generated-index",
       },
-      items: ["getting-started/server", "getting-started/client"],
+      items: ["getting-started/client", "getting-started/server"],
     },
   ],
   guides: ["guides/intro"],
