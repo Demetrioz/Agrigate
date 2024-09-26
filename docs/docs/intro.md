@@ -64,8 +64,7 @@ All components within Agrigate utilize
 ## Contact Information
 
 Agrigate is developed and maintained by Kevin Williams. For assistance, reach
-out to
-[kevin.williams@kevinwilliams.dev](mailto:kevin.williams@kevinwilliams.dev)
+out to via [email](mailto:kevin@ktech.industries)
 
 Have you encountered a bug?
 [Let me know!](https://github.com/Demetrioz/Agrigate/issues)
