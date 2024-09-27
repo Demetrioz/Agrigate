@@ -5,7 +5,14 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
+        "DOTNET_ENVIRONMENT": "Development",
+        "Telemetry__ClientId": "",
+        "Telemetry__Host": "",
+        "Telemetry__Port": "",
+        "Telemetry__Topic": "",
+        "Telemetry__Username": "",
+        "Telemetry__Password": "",
+        "Telemetry__SecureConnection": ""
       }
     }
   }
