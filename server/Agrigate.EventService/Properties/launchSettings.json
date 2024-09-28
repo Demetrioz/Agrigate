@@ -12,7 +12,12 @@
         "Telemetry__Topic": "",
         "Telemetry__Username": "",
         "Telemetry__Password": "",
-        "Telemetry__SecureConnection": ""
+        "Telemetry__SecureConnection": "",
+        "Database__Host": "",
+        "Database__Port": "",
+        "Database__Database": "",
+        "Database__Username": "",
+        "Database__Password": ""
       }
     }
   }

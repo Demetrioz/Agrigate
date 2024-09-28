@@ -1,11 +1,33 @@
+using Agrigate.Domain.Configuration;
+using Agrigate.Domain.Contexts;
 using Agrigate.EventService.Actors;
 using Agrigate.EventService.Configuration;
 using Akka.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 var builder = Host.CreateApplicationBuilder(args);
 
+//////////////////////////////////////////
+//          Configure Settings          //
+//////////////////////////////////////////
+
 builder.Services.Configure<TelemetryOptions>(
     builder.Configuration.GetSection("Telemetry"));
+
+var dbOptions = new DatabaseOptions();
+builder.Configuration.Bind("Database", dbOptions);
+
+//////////////////////////////////////////
+//            Database Setup            //
+//////////////////////////////////////////
+
+var connectionString = $"Host={dbOptions.Host};Port={dbOptions.Port};Database={dbOptions.Database};User Id={dbOptions.Username};Password={dbOptions.Password};";
+builder.Services.AddDbContextFactory<AgrigateContext>(options =>
+    options.UseNpgsql(connectionString));
+
+//////////////////////////////////////////
+//               Akka.Net               //
+//////////////////////////////////////////
 
 builder.Services.AddAkka(nameof(Agrigate.EventService), builder =>
 {

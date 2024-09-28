@@ -1,6 +1,8 @@
 using Agrigate.Core.Actors;
+using Agrigate.Domain.Contexts;
 using Agrigate.EventService.Configuration;
 using Akka.Event;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MQTTnet.Client;
 using MQTTnet.Formatter;
@@ -15,13 +17,19 @@ namespace Agrigate.EventService.Actors;
 public class TelemetryHandler : MQTTActor
 {
     private readonly TelemetryOptions _config;
+    private readonly IDbContextFactory<AgrigateContext> _dbFactory;
 
     private IMqttClient? _client;
 
-    public TelemetryHandler(IOptions<TelemetryOptions> options) 
+    public TelemetryHandler(
+        IOptions<TelemetryOptions> options, 
+        IDbContextFactory<AgrigateContext> dbFactory
+    )
     {
         _config = options.Value 
             ?? throw new ArgumentNullException(nameof(options));
+        _dbFactory = dbFactory 
+            ?? throw new ArgumentNullException(nameof(dbFactory));
     }
 
     protected override void PreStart()
