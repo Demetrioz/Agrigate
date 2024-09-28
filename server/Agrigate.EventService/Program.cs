@@ -1,4 +1,5 @@
 using Agrigate.Core.Services.MqttService;
+using Agrigate.Core.Services.TelemetryService;
 using Agrigate.Domain.Configuration;
 using Agrigate.Domain.Contexts;
 using Agrigate.EventService.Actors;
@@ -23,14 +24,16 @@ builder.Configuration.Bind("Database", dbOptions);
 //////////////////////////////////////////
 
 var connectionString = $"Host={dbOptions.Host};Port={dbOptions.Port};Database={dbOptions.Database};User Id={dbOptions.Username};Password={dbOptions.Password};";
-builder.Services.AddDbContextFactory<AgrigateContext>(options =>
+builder.Services.AddDbContext<AgrigateContext>(options =>
     options.UseNpgsql(connectionString));
 
 //////////////////////////////////////////
 //          Configure Services          //
 //////////////////////////////////////////
 
-builder.Services.AddSingleton<IMqttService, MqttService>();
+builder.Services
+    .AddSingleton<IMqttService, MqttService>()
+    .AddTransient<ITelemetryService, TelemetryService>();
 
 //////////////////////////////////////////
 //               Akka.Net               //

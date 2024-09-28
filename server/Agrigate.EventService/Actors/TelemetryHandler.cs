@@ -1,13 +1,14 @@
 using Agrigate.Core.Actors;
 using Agrigate.Core.Services.MqttService;
-using Agrigate.Domain.Contexts;
+using Agrigate.Core.Services.TelemetryService;
+using Agrigate.Core.Services.TelemetryService.Models;
 using Agrigate.EventService.Configuration;
 using Akka.Event;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MQTTnet.Client;
 using MQTTnet.Formatter;
 using MQTTnet.Protocol;
+using Newtonsoft.Json;
 
 namespace Agrigate.EventService.Actors;
 
@@ -17,21 +18,22 @@ namespace Agrigate.EventService.Actors;
 /// </summary>
 public class TelemetryHandler : MQTTActor
 {
+    private readonly IServiceProvider _serviceProvider;
     private readonly TelemetryOptions _config;
-    private readonly IDbContextFactory<AgrigateContext> _dbFactory;
 
     private IMqttClient? _client;
 
     public TelemetryHandler(
-        IOptions<TelemetryOptions> options, 
-        IDbContextFactory<AgrigateContext> dbFactory,
+        IServiceProvider serviceProvider,
         IMqttService mqttService
     ) : base(mqttService)
     {
-        _config = options.Value 
-            ?? throw new ArgumentNullException(nameof(options));
-        _dbFactory = dbFactory 
-            ?? throw new ArgumentNullException(nameof(dbFactory));
+        _serviceProvider = serviceProvider
+            ?? throw new ArgumentNullException(nameof(serviceProvider));
+
+        _config = _serviceProvider
+            .GetRequiredService<IOptions<TelemetryOptions>>().Value
+            ?? throw new ArgumentNullException(nameof(TelemetryOptions));
     }
 
     protected override void PreStart()
@@ -101,18 +103,22 @@ public class TelemetryHandler : MQTTActor
     /// </summary>
     /// <param name="e"></param>
     /// <returns></returns>
-    private Task HandleTelemetryEvent(MqttApplicationMessageReceivedEventArgs e)
+    private async Task HandleTelemetryEvent(MqttApplicationMessageReceivedEventArgs e)
     {
         try
         {
             var message = System.Text.Encoding.UTF8.GetString(e.ApplicationMessage.PayloadSegment);
-            Logger.Info("Received Message [{0}] from topic [{1}]", message, e.ApplicationMessage.Topic);
+            var telemetry = JsonConvert.DeserializeObject<TelemetryBase>(message) 
+                ?? throw new ApplicationException("Cannot insert null telemetry");
+
+            using var scope = _serviceProvider.CreateScope();
+            var telemetryService = scope.ServiceProvider.GetRequiredService<ITelemetryService>();
+
+            await telemetryService.InsertDeviceTelemetry(telemetry);
         }
         catch (Exception ex)
         {
-            Logger.Error("Unable to process message: {1}", ex.Message);
+            Logger.Error("Unable to process telemetry: {0}", ex.Message);
         }
-
-        return Task.CompletedTask;
     }
 }
