@@ -1,3 +1,4 @@
+using Agrigate.Core.Services.MqttService;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Formatter;
@@ -11,11 +12,12 @@ namespace Agrigate.Core.Actors;
 /// </summary>
 public abstract class MQTTActor : AgrigateActor
 {
-    protected readonly MqttFactory MqttFactory;
+    protected readonly IMqttService MqttService;
 
-    public MQTTActor()
+    public MQTTActor(IMqttService mqttService)
     {
-        MqttFactory = new MqttFactory();
+        MqttService = mqttService
+            ?? throw new ArgumentNullException(nameof(mqttService));
     }
 
     /// <summary>
@@ -44,7 +46,7 @@ public abstract class MQTTActor : AgrigateActor
         CancellationToken cancellationToken = default
     )
     {
-        var client = MqttFactory.CreateMqttClient();
+        var client = MqttService.CreateMqttClient();
         var tlsOptions = new MqttClientTlsOptions
         {
             UseTls = secure
@@ -96,7 +98,7 @@ public abstract class MQTTActor : AgrigateActor
         CancellationToken cancellationToken = default
     )
     {
-        var options = MqttFactory.CreateSubscribeOptionsBuilder()
+        var options = MqttService.CreateSubscribeOptionsBuilder()
             .WithTopicFilter(f => 
             { 
                 f.WithTopic(topic); 

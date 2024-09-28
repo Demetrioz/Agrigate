@@ -1,4 +1,5 @@
 using Agrigate.Core.Actors;
+using Agrigate.Core.Services.MqttService;
 using Agrigate.Domain.Contexts;
 using Agrigate.EventService.Configuration;
 using Akka.Event;
@@ -23,8 +24,9 @@ public class TelemetryHandler : MQTTActor
 
     public TelemetryHandler(
         IOptions<TelemetryOptions> options, 
-        IDbContextFactory<AgrigateContext> dbFactory
-    )
+        IDbContextFactory<AgrigateContext> dbFactory,
+        IMqttService mqttService
+    ) : base(mqttService)
     {
         _config = options.Value 
             ?? throw new ArgumentNullException(nameof(options));

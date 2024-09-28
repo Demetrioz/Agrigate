@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agrigate.Core", "server\Agr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Domain", "server\Agrigate.Domain\Agrigate.Domain.csproj", "{13006ECB-16EB-4DF1-9488-DC13351F7BFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Tests", "server\Agrigate.Tests\Agrigate.Tests.csproj", "{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{13006ECB-16EB-4DF1-9488-DC13351F7BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13006ECB-16EB-4DF1-9488-DC13351F7BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13006ECB-16EB-4DF1-9488-DC13351F7BFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +43,7 @@ Global
 		{A826FED7-95F8-4280-BAD4-6358470E1C19} = {F7B25A45-08C6-4473-8495-C9E2C7B39B9F}
 		{BFA52CE7-EDDB-400F-A1DC-B9BB8DE917D3} = {F7B25A45-08C6-4473-8495-C9E2C7B39B9F}
 		{13006ECB-16EB-4DF1-9488-DC13351F7BFC} = {F7B25A45-08C6-4473-8495-C9E2C7B39B9F}
+		{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1} = {F7B25A45-08C6-4473-8495-C9E2C7B39B9F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5D97BE5B-26CA-4A2E-821F-8C32ABE39588}
