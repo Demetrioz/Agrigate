@@ -27,7 +27,7 @@ functionality such as accessing your information from multiple devices and
 capturing telemetry from IoT devices. Changing to a new device will require
 exporting your data and importing it on the new device.
 
-### Self-Managed (Coming Soon!)
+### Self-Managed
 
 The second option is installing and running an Agrigate server locally or via
 a cloud provider. This will allow you to connect to and manage IoT devices,
@@ -35,6 +35,13 @@ run jobs, and be able to share data between multiple devices.
 
 You'll install the server, then download the app as normal, choose "Server", and
 enter your server's address.
+
+:::info
+
+The first step when running a self-managed instance of Agrigate is to [setup
+the server](getting-started/server)
+
+:::
 
 ### Hosted (Coming Soon!)
 
