@@ -1,3 +1,4 @@
+using Agrigate.Core.Configuration;
 using Agrigate.Core.Services.MqttService;
 using Agrigate.Core.Services.TelemetryService;
 using Agrigate.Domain.Configuration;
@@ -5,6 +6,7 @@ using Agrigate.Domain.Contexts;
 using Agrigate.EventService.Actors;
 using Agrigate.EventService.Configuration;
 using Akka.Hosting;
+using Akka.Remote.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -18,6 +20,9 @@ builder.Services.Configure<TelemetryOptions>(
 
 var dbOptions = new DatabaseOptions();
 builder.Configuration.Bind("Database", dbOptions);
+
+var serviceOptions = new ServiceOptions();
+builder.Configuration.Bind("Service", serviceOptions);
 
 //////////////////////////////////////////
 //            Database Setup            //
@@ -42,6 +47,11 @@ builder.Services
 builder.Services.AddAkka(nameof(Agrigate.EventService), builder =>
 {
     builder
+        .WithRemoting(
+            hostname: "0.0.0.0",
+            publicHostname: serviceOptions.Hostname,
+            port: serviceOptions.Port
+        )
         .WithActors((system, registry, resolver) =>
         {
             var supervisorProps = resolver.Props<EventSupervisor>();

@@ -21,7 +21,15 @@
         "Database__Port": "",
         "Database__Database": "",
         "Database__Username": "",
-        "Database__Password": ""
+        "Database__Password": "",
+        "Api__ApiService__ServiceName": "",
+        "Api__ApiService__HostName": "",
+        "Api__ApiService__SupervisorName": "",
+        "Api__ApiService__Port": "",
+        "Api__EventService__ServiceName": "",
+        "Api__EventService__HostName": "",
+        "Api__EventService__SupervisorName": "",
+        "Api__EventService__Port": ""
       }
     },
     "https": {
@@ -36,7 +44,15 @@
         "Database__Port": "",
         "Database__Database": "",
         "Database__Username": "",
-        "Database__Password": ""
+        "Database__Password": "",
+        "Api__ApiService__ServiceName": "",
+        "Api__ApiService__HostName": "",
+        "Api__ApiService__SupervisorName": "",
+        "Api__ApiService__Port": "",
+        "Api__EventService__ServiceName": "",
+        "Api__EventService__HostName": "",
+        "Api__EventService__SupervisorName": "",
+        "Api__EventService__Port": ""
       }
     },
     "IIS Express": {
@@ -49,7 +65,15 @@
         "Database__Port": "",
         "Database__Database": "",
         "Database__Username": "",
-        "Database__Password": ""
+        "Database__Password": "",
+        "Api__ApiService__ServiceName": "",
+        "Api__ApiService__HostName": "",
+        "Api__ApiService__SupervisorName": "",
+        "Api__ApiService__Port": "",
+        "Api__EventService__ServiceName": "",
+        "Api__EventService__HostName": "",
+        "Api__EventService__SupervisorName": "",
+        "Api__EventService__Port": ""
       }
     }
   }

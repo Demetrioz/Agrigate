@@ -17,7 +17,10 @@
         "Database__Port": "",
         "Database__Database": "",
         "Database__Username": "",
-        "Database__Password": ""
+        "Database__Password": "",
+        "Service__ServiceName": "",
+        "Service__Hostname": "",
+        "Service__Port": ""
       }
     }
   }

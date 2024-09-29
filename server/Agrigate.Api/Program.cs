@@ -1,6 +1,10 @@
+using Agrigate.Api.Actors;
+using Agrigate.Api.Configuration;
 using Agrigate.Core.Services.DeviceService;
 using Agrigate.Domain.Configuration;
 using Agrigate.Domain.Contexts;
+using Akka.Hosting;
+using Akka.Remote.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 //////////////////////////////////////////
 //          Configure Settings          //
 //////////////////////////////////////////
+
+var apiOptions = new ApiOptions();
+builder.Configuration.Bind("Api", apiOptions);
+
+builder.Services.Configure<ApiOptions>(
+    builder.Configuration.GetSection("Api"));
 
 var dbOptions = new DatabaseOptions();
 builder.Configuration.Bind("Database", dbOptions);
@@ -30,6 +40,30 @@ builder.Services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//////////////////////////////////////////
+//               Akka.Net               //
+//////////////////////////////////////////
+
+builder.Services.AddAkka(nameof(Agrigate.Api), builder =>
+{
+    builder
+        .WithRemoting(
+            hostname: "0.0.0.0",
+            publicHostname: apiOptions.ApiService.Hostname,
+            port: apiOptions.ApiService.Port
+        )
+        .WithActors((system, registry, resolver) =>
+        {
+            var supervisorProps = resolver.Props<ApiSupervisor>();
+            var supervisor = system.ActorOf(
+                supervisorProps, 
+                nameof(ApiSupervisor)
+            );
+
+            registry.Register<ApiSupervisor>(supervisor);
+        });
+});
 
 //////////////////////////////////////////
 //            Run Migrations            //

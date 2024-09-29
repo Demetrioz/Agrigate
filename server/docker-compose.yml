@@ -29,6 +29,12 @@ services:
       - "Database__Database=agrigate"
       - "Database__Username=postgres"
       - "Database__Password=password"
+      - "Api__ApiService__HostName=api"
+      - "Api__ApiService__Port=5001"
+      - "Api__EventService__ServiceName=EventService"
+      - "Api__EventService__HostName=eventservice"
+      - "Api__EventService__SupervisorName=EventSupervisor"
+      - "Api__EventService__Port=5000"
     ports:
       - 8081:8081
 
@@ -51,5 +57,8 @@ services:
       - "Database__Database=agrigate"
       - "Database__Username=postgres"
       - "Database__Password=password"
+      - "Service__ServiceName=EventService"
+      - "Service__HostName=eventservice"
+      - "Service__Port=5000"
     expose:
       - 1234

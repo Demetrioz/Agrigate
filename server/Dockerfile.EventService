@@ -1,5 +1,6 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
+EXPOSE 5000
 
 # Define default environment variables
 ARG Telemetry__ClientId=clientId
@@ -14,6 +15,9 @@ ARG Database__Port=port
 ARG Database__Database=database
 ARG Database__Username=username
 ARG Database__Password=password
+ARG Service__ServiceName=servicename
+ARG Service__HostName=hostname
+ARG Service__Port=port
 
 # Assign variables so they can be accessed by the RUN command
 ENV Telemetry__ClientId=$Telemetry__ClientId
@@ -28,6 +32,9 @@ ENV Database__Port=$Database__Port
 ENV Database__Database=$Database__Database
 ENV Database__Username=$Database__Username
 ENV Database__Password=$Database__Password
+ENV Service__ServiceName=$Service__ServiceName
+ENV Service__HostName=$Service__HostName
+ENV Service__Port=$Service__Port
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 WORKDIR /src

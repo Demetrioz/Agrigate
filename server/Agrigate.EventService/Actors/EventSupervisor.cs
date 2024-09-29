@@ -1,4 +1,6 @@
+using System.Reflection;
 using Agrigate.Core.Actors;
+using Agrigate.Domain.Messages;
 using Akka.Actor;
 using Akka.DependencyInjection;
 using Akka.Event;
@@ -14,6 +16,7 @@ public class EventSupervisor : AgrigateActor
 
     public EventSupervisor()
     {
+        Receive<GetServiceVersion>(ReturnServiceVersion);
     }
 
     protected override void PreStart()
@@ -41,5 +44,18 @@ public class EventSupervisor : AgrigateActor
             .ActorOf(telemetryProps, nameof(TelemetryHandler));
 
         Logger.Info("{0} completed!", nameof(CreateChildren));
+    }
+
+    /// <summary>
+    /// Returns the EventService version to the requestor
+    /// </summary>
+    /// <param name="message"></param>
+    private void ReturnServiceVersion(GetServiceVersion message)
+    {
+        var serviceVersion = Assembly.GetEntryAssembly()
+                ?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                ?.InformationalVersion ?? "0.0.0";
+
+        Sender.Tell(serviceVersion);
     }
 }
