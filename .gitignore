@@ -4,3 +4,7 @@ obj/
 
 # Settings
 appsettings.*.json
+
+# Test docker environment files
+env.api
+env.eventservice

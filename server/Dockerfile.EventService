@@ -1,0 +1,58 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+
+# Define default environment variables
+ARG Telemetry__ClientId=clientId
+ARG Telemetry__Host=host
+ARG Telemetry__Port=port
+ARG Telemetry__Topic=topic
+ARG Telemetry__Username=username
+ARG Telemetry__Password=passsword
+ARG Telemetry__SecureConnection=true
+ARG Database__Host=host
+ARG Database__Port=port
+ARG Database__Database=database
+ARG Database__Username=username
+ARG Database__Password=password
+
+# Assign variables so they can be accessed by the RUN command
+ENV Telemetry__ClientId=$Telemetry__ClientId
+ENV Telemetry__Host=$Telemetry__Host
+ENV Telemetry__Port=$Telemetry__Port
+ENV Telemetry__Topic=$Telemetry__Topic
+ENV Telemetry__Username=$Telemetry__Username
+ENV Telemetry__Password=$Telemetry__Password
+ENV Telemetry__SecureConnection=$Telemetry__SecureConnection
+ENV Database__Host=$Database__Host
+ENV Database__Port=$Database__Port
+ENV Database__Database=$Database__Database
+ENV Database__Username=$Database__Username
+ENV Database__Password=$Database__Password
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
+WORKDIR /src
+
+COPY ["Agrigate.Core/Agrigate.Core.csproj", "Agrigate.Core/"]
+COPY ["Agrigate.Domain/Agrigate.Domain.csproj", "Agrigate.Domain/"]
+COPY ["Agrigate.EventService/Agrigate.EventService.csproj", "Agrigate.EventService/"]
+
+RUN dotnet restore "Agrigate.EventService/Agrigate.EventService.csproj"
+
+COPY ["Agrigate.Core/", "Agrigate.Core/"]
+COPY ["Agrigate.Domain/", "Agrigate.Domain/"]
+COPY ["Agrigate.EventService/", "Agrigate.EventService/"]
+
+# Remove the domain appsettings.json used for migrations
+RUN rm "Agrigate.Domain/appsettings.json"
+RUN rm "Agrigate.Domain/appsettings.Development.json"
+
+WORKDIR "/src/Agrigate.EventService"
+RUN dotnet build "Agrigate.EventService.csproj" -c Release -o /app/build
+
+FROM build as publish
+RUN dotnet publish "Agrigate.EventService.csproj" -c Release -o /app/publish
+
+FROM base as final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Agrigate.EventService.dll"]

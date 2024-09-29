@@ -32,6 +32,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //////////////////////////////////////////
+//            Run Migrations            //
+//////////////////////////////////////////
+
+// Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
+#pragma warning disable ASP0000 
+using (var provider = builder.Services.BuildServiceProvider())
+{
+    var database = provider.GetRequiredService<AgrigateContext>();
+    database.Database.Migrate();
+}
+#pragma warning restore ASP0000
+
+//////////////////////////////////////////
 //      Configure Request Pipeline      //
 //////////////////////////////////////////
 
