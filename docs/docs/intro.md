@@ -8,7 +8,7 @@ agricultural data and helps you run a more efficient, profitable farm.
 Lets take a look at the three ways that you can utilize Agrigate:
 
 1. Run everything locally on your device (Coming soon!)
-2. Install and connect to a local, self-managed server (Coming soon!)
+2. Install and connect to a local, self-managed server
 3. Use a paid hosting service (Coming soon!)
 
 Regardless of which option you choose, you must first download the app from
@@ -66,7 +66,8 @@ Agrigate consists of several components. The client is is built with
 All components within Agrigate utilize
 [semantic versioning](https://semver.org/) and follow the
 \{MAJOR\}.\{MINOR\}.\{PATCH\} format. Release information can be found via the
-[Releases](https://demetrioz.github.io/Agrigate/releases/0.1.0) page
+
+[Releases](releases/intro) page
 
 ## Contact Information
 

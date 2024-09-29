@@ -58,7 +58,25 @@ const sidebars: SidebarsConfig = {
       ],
     },
   ],
-  releases: ["releases/0.1.0"],
+  releases: [
+    "releases/intro",
+    {
+      type: "category",
+      label: "Api",
+      link: {
+        type: "generated-index",
+      },
+      items: ["releases/api/0.1.0"],
+    },
+    {
+      type: "category",
+      label: "EventService",
+      link: {
+        type: "generated-index",
+      },
+      items: ["releases/eventservice/0.1.0"],
+    },
+  ],
 
   // But you can create a sidebar manually
   /*
