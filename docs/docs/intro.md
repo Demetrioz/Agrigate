@@ -8,7 +8,7 @@ agricultural data and helps you run a more efficient, profitable farm.
 Lets take a look at the three ways that you can utilize Agrigate:
 
 1. Run everything locally on your device (Coming soon!)
-2. Install and connect to a local, self-managed server (Coming soon!)
+2. Install and connect to a local, self-managed server
 3. Use a paid hosting service (Coming soon!)
 
 Regardless of which option you choose, you must first download the app from
@@ -27,7 +27,7 @@ functionality such as accessing your information from multiple devices and
 capturing telemetry from IoT devices. Changing to a new device will require
 exporting your data and importing it on the new device.
 
-### Self-Managed (Coming Soon!)
+### Self-Managed
 
 The second option is installing and running an Agrigate server locally or via
 a cloud provider. This will allow you to connect to and manage IoT devices,
@@ -35,6 +35,13 @@ run jobs, and be able to share data between multiple devices.
 
 You'll install the server, then download the app as normal, choose "Server", and
 enter your server's address.
+
+:::info
+
+The first step when running a self-managed instance of Agrigate is to [setup
+the server](getting-started/server)
+
+:::
 
 ### Hosted (Coming Soon!)
 
@@ -59,7 +66,8 @@ Agrigate consists of several components. The client is is built with
 All components within Agrigate utilize
 [semantic versioning](https://semver.org/) and follow the
 \{MAJOR\}.\{MINOR\}.\{PATCH\} format. Release information can be found via the
-[Releases](https://demetrioz.github.io/Agrigate/releases/0.1.0) page
+
+[Releases](releases/intro) page
 
 ## Contact Information
 

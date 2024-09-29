@@ -20,7 +20,11 @@ const sidebars: SidebarsConfig = {
       link: {
         type: "generated-index",
       },
-      items: ["getting-started/client", "getting-started/server"],
+      items: [
+        "getting-started/client",
+        "getting-started/server",
+        "getting-started/devices",
+      ],
     },
   ],
   guides: ["guides/intro"],
@@ -54,7 +58,25 @@ const sidebars: SidebarsConfig = {
       ],
     },
   ],
-  releases: ["releases/0.1.0"],
+  releases: [
+    "releases/intro",
+    {
+      type: "category",
+      label: "Api",
+      link: {
+        type: "generated-index",
+      },
+      items: ["releases/api/0.1.0"],
+    },
+    {
+      type: "category",
+      label: "EventService",
+      link: {
+        type: "generated-index",
+      },
+      items: ["releases/eventservice/0.1.0"],
+    },
+  ],
 
   // But you can create a sidebar manually
   /*

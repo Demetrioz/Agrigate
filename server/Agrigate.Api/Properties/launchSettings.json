@@ -1,0 +1,80 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:49905",
+      "sslPort": 44388
+    }
+  },
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5185",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database__Host": "",
+        "Database__Port": "",
+        "Database__Database": "",
+        "Database__Username": "",
+        "Database__Password": "",
+        "Api__ApiService__ServiceName": "",
+        "Api__ApiService__HostName": "",
+        "Api__ApiService__SupervisorName": "",
+        "Api__ApiService__Port": "",
+        "Api__EventService__ServiceName": "",
+        "Api__EventService__HostName": "",
+        "Api__EventService__SupervisorName": "",
+        "Api__EventService__Port": ""
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7016;http://localhost:5185",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database__Host": "",
+        "Database__Port": "",
+        "Database__Database": "",
+        "Database__Username": "",
+        "Database__Password": "",
+        "Api__ApiService__ServiceName": "",
+        "Api__ApiService__HostName": "",
+        "Api__ApiService__SupervisorName": "",
+        "Api__ApiService__Port": "",
+        "Api__EventService__ServiceName": "",
+        "Api__EventService__HostName": "",
+        "Api__EventService__SupervisorName": "",
+        "Api__EventService__Port": ""
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database__Host": "",
+        "Database__Port": "",
+        "Database__Database": "",
+        "Database__Username": "",
+        "Database__Password": "",
+        "Api__ApiService__ServiceName": "",
+        "Api__ApiService__HostName": "",
+        "Api__ApiService__SupervisorName": "",
+        "Api__ApiService__Port": "",
+        "Api__EventService__ServiceName": "",
+        "Api__EventService__HostName": "",
+        "Api__EventService__SupervisorName": "",
+        "Api__EventService__Port": ""
+      }
+    }
+  }
+}
