@@ -1,0 +1,29 @@
+name: agrigate
+version: 0.1.0
+summary: Agrigate
+description: Collect, manage, and analyze all of your agricultural data in one place.
+
+confinement: strict
+base: core22
+grade: stable
+
+slots:
+  dbus-agrigate:
+    interface: dbus
+    bus: session
+    name: industries.ktech.agrigate
+
+apps:
+  agrigate:
+    command: agrigate
+    extensions: [gnome] # gnome includes the libraries required by flutter
+    plugs:
+      - network
+    slots:
+      - dbus-agrigate
+
+parts:
+  agrigate:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart # The main entry-point file of the application
