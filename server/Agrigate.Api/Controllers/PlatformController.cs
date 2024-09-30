@@ -1,5 +1,6 @@
 using System.Reflection;
 using Agrigate.Api.Actors;
+using Agrigate.Api.Core;
 using Agrigate.Api.Models;
 using Agrigate.Domain.Messages;
 using Akka.Actor;
@@ -8,9 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Agrigate.Api.Controllers;
 
-[ApiController]
 [Route("Platform")]
-public class PlatformController : ControllerBase
+public class PlatformController : AgrigateController
 {
     private readonly IActorRef _supervisor;
 
@@ -41,9 +41,9 @@ public class PlatformController : ControllerBase
 
             result.Api = apiVersion;
             result.EventService = (string)eventServiceVersion;
-        }
+       }
         catch {}
 
-        return new OkObjectResult(result);
+        return Success(result);
     }
 }

@@ -16,13 +16,16 @@ public class DeviceService : IDeviceService
     }
 
     /// <inheritdoc />
-    public async Task<Device> InsertDevice(DeviceBase device)
+    public async Task<Device> InsertDevice(
+        DeviceBase device,
+        CancellationToken cancellationToken = default
+    )
     {
         var existingDervice = await _db.Devices
             .AsNoTracking()
-            .FirstOrDefaultAsync(d =>
-                d.Name == device.Name
-                && !d.IsDeleted
+            .FirstOrDefaultAsync(
+                d => d.Name == device.Name && !d.IsDeleted, 
+                cancellationToken
             );
             
         if (existingDervice != null)
@@ -39,8 +42,19 @@ public class DeviceService : IDeviceService
         };
 
         _db.Add(newDevice);
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         return newDevice;
+    }
+
+    public async Task<List<Device>> GetDevices(
+        CancellationToken cancellationToken = default
+    )
+    {
+        var allDevices = await _db.Devices
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
+        return allDevices;
     }
 }
