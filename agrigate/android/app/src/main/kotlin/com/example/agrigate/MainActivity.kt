@@ -1,4 +1,4 @@
-package com.example.agrigate
+package industries.ktech.agrigate
 
 import io.flutter.embedding.android.FlutterActivity
 
