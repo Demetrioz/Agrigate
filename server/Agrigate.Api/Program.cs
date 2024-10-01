@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Agrigate.Api.Actors;
 using Agrigate.Api.Configuration;
 using Agrigate.Core.Services.DeviceService;
@@ -37,7 +38,11 @@ builder.Services.AddDbContext<AgrigateContext>(options =>
 builder.Services
     .AddTransient<IDeviceService, DeviceService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

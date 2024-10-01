@@ -126,7 +126,7 @@ formating the user-supplied input as the appropriate type
     {
         'label': 'Upper Limit',
         'key': 'value',
-        'type': 'int'
+        'type': 'double'
     }
 ]
 
@@ -135,12 +135,12 @@ formating the user-supplied input as the appropriate type
     {
         'label': 'Upper Limit',
         'key': 'upperLimit',
-        'type': 'int'
+        'type': 'double'
     },
     {
         'label': 'Lower Limit',
         'key': 'lowerLimit',
-        'type': 'int'
+        'type': 'double'
     }
 ]
 
@@ -195,7 +195,7 @@ which means the label will change based on the user-selected value of `channel`.
     {
         'dependsOn: 'channel',
         'label': {
-            0: 'Channel',
+            0: 'Topic',
             1: 'Email Address',
             2: 'Phone Number'
         },
@@ -212,7 +212,6 @@ follows
 
 ```
 # MQTT Notification
-
 {
     'channel': 0,
     'address': 'notifications'
