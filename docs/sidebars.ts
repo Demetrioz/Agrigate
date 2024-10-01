@@ -58,6 +58,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
   ],
+  technical: ["technical/intro", "technical/setup", "technical/rules"],
   releases: [
     "releases/intro",
     {
