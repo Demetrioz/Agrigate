@@ -1,4 +1,6 @@
 using Agrigate.Api.Core;
+using Agrigate.Api.Models.Requests;
+using Agrigate.Api.Validators;
 using Agrigate.Core.Services.DeviceService;
 using Agrigate.Core.Services.DeviceService.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +35,12 @@ public class DeviceController : AgrigateController
     {
         try 
         {
+            var validation = new CreateDeviceValidator()
+                .Validate(device);
+
+            if (!validation.IsValid)
+                throw new ApplicationException(validation.ToString(", "));
+
             var result = await _deviceService.InsertDevice(
                 device, 
                 cancellationToken
@@ -61,6 +69,29 @@ public class DeviceController : AgrigateController
             var result = await _deviceService.GetDevices(cancellationToken);
 
             return Success(result);
+        }
+        catch (Exception ex)
+        {
+            return Failure(ex.Message);
+        }
+    }
+
+
+    [HttpPost("{id}/Rules")]
+    public async Task<IActionResult> CreateDeviceRule(
+        long id,
+        [FromBody] DeviceRules rules,
+        CancellationToken cancellationToken = default
+    )
+    {
+        try
+        {
+            var validation = new CreateDeviceRuleValidator(id).Validate(rules);
+
+            if (!validation.IsValid)
+                throw new ApplicationException(validation.ToString(", "));
+
+            return Success(true);
         }
         catch (Exception ex)
         {

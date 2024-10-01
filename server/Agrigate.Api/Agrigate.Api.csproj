@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Akka.Remote.Hosting" Version="1.5.28" />
+    <PackageReference Include="FluentValidation" Version="11.10.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
