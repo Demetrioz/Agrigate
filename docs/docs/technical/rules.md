@@ -201,6 +201,11 @@ which means the label will change based on the user-selected value of `channel`.
         },
         'key': 'address',
         'type': 'string'
+    },
+    {
+        'label': 'Content',
+        'key': 'content',
+        'type': 'string'
     }
 ]
 ```

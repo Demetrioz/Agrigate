@@ -4,6 +4,7 @@ using Agrigate.Core.Services.TelemetryService;
 using Agrigate.Domain.Configuration;
 using Agrigate.Domain.Contexts;
 using Agrigate.EventService.Actors;
+using Agrigate.EventService.Actors.Rules;
 using Agrigate.EventService.Configuration;
 using Akka.Hosting;
 using Akka.Remote.Hosting;
@@ -60,7 +61,14 @@ builder.Services.AddAkka(nameof(Agrigate.EventService), builder =>
                 nameof(EventSupervisor)
             );
 
+            var ruleEngineProps = resolver.Props<RuleEngine>();
+            var ruleEngine = system.ActorOf(
+                ruleEngineProps,
+                nameof(RuleEngine)
+            );
+
             registry.Register<EventSupervisor>(supervisor);
+            registry.Register<RuleEngine>(ruleEngine);
         });
 });
 

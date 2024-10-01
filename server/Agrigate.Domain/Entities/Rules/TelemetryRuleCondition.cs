@@ -27,6 +27,11 @@ public class TelemetryRuleCondition : EntityBase
     public RuleCondition Type { get; set; }
 
     /// <summary>
+    /// The telemetry key to which th ecoondition applies
+    /// </summary>
+    public string Key { get; set; } = string.Empty;
+
+    /// <summary>
     /// A json string representing the defnition for this condition
     /// </summary>
     public string Definition { get; set; } = "{}";

@@ -106,6 +106,7 @@ namespace Agrigate.Domain.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     RuleId = table.Column<long>(type: "bigint", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
+                    Key = table.Column<string>(type: "text", nullable: false),
                     Definition = table.Column<string>(type: "text", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     Modified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -210,6 +211,12 @@ namespace Agrigate.Domain.Migrations
                         { 2, "Phone Number" }
                     },
                     key = "address",
+                    type = "string"
+                },
+                new
+                {
+                    label = "Content",
+                    key = "content",
                     type = "string"
                 }
             };

@@ -2,8 +2,12 @@ using Agrigate.Core.Actors;
 using Agrigate.Core.Services.MqttService;
 using Agrigate.Core.Services.TelemetryService;
 using Agrigate.Core.Services.TelemetryService.Models;
+using Agrigate.EventService.Actors.Rules;
 using Agrigate.EventService.Configuration;
+using Agrigate.EventService.Messages;
+using Akka.Actor;
 using Akka.Event;
+using Akka.Hosting;
 using Microsoft.Extensions.Options;
 using MQTTnet.Client;
 using MQTTnet.Formatter;
@@ -20,12 +24,14 @@ public class TelemetryHandler : MQTTActor
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly TelemetryOptions _config;
+    private readonly IActorRef? _ruleEngine;
 
     private IMqttClient? _client;
 
     public TelemetryHandler(
         IServiceProvider serviceProvider,
-        IMqttService mqttService
+        IMqttService mqttService,
+        IRequiredActor<RuleEngine> ruleEngine
     ) : base(mqttService)
     {
         _serviceProvider = serviceProvider
@@ -34,6 +40,9 @@ public class TelemetryHandler : MQTTActor
         _config = _serviceProvider
             .GetRequiredService<IOptions<TelemetryOptions>>().Value
             ?? throw new ArgumentNullException(nameof(TelemetryOptions));
+
+        _ruleEngine = ruleEngine.ActorRef
+            ?? throw new ArgumentNullException(nameof(ruleEngine));
     }
 
     protected override void PreStart()
@@ -114,7 +123,9 @@ public class TelemetryHandler : MQTTActor
             using var scope = _serviceProvider.CreateScope();
             var telemetryService = scope.ServiceProvider.GetRequiredService<ITelemetryService>();
 
-            await telemetryService.InsertDeviceTelemetry(telemetry);
+            var dbTelemetry = await telemetryService.InsertDeviceTelemetry(telemetry);
+
+            _ruleEngine.Tell(new ActivateEngine(dbTelemetry.DeviceId, dbTelemetry.Id));
         }
         catch (Exception ex)
         {

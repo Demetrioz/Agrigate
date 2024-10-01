@@ -182,6 +182,10 @@ namespace Agrigate.Domain.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RuleId");
