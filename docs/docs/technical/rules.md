@@ -23,6 +23,18 @@ rule will be performed.
 To define the rule system, the following entities are used:
 
 - **TelemetryRule** - Defines a single rule for incoming telemetry from a device
+
+The `Timespan` field is the amount of time (seconds), in which all conditions
+must have occured.
+
+The `Operator` field is an enum stating whether the conditions should be
+`And`ed or `Or`ed when determining if the rule's requirements have been met.
+
+| ConditionOperator |
+| ----------------- |
+| And               |
+| Or                |
+
 - **TelemetryRuleCondition** - Defines a condition for the telemetry that must
   be met
 - **TelemetryRuleAction** - Defines an action taken when all
@@ -68,6 +80,8 @@ erDiagram
         long DeviceId
         string Name
         bool IsActive
+        int Operator
+        int Timespan
     }
     TelemetryRuleCondition {
         long Id
@@ -217,9 +231,74 @@ follows
 }
 ```
 
+## Creating a Rule
+
+Rules can be created by making a POST request to the `/devices/{id}/rules`
+endpoint with a payload similar to the following
+
+```
+{
+    deviceId: 0,
+    rules: [
+        {
+            "name": "myFirstRule",
+            "conditions": [
+                {
+                    "key": "temperature",
+                    "type": "0" (enum, upper limit),
+                    "definition": {
+                        "value": 200
+                    }
+                },
+                {
+                    "key": "humidity",
+                    "type": "2" (enum, range),
+                    "definition": {
+                        "upperLimit": 15,
+                        "lowerLimit": 45
+                    }
+                }
+            ],
+            "actions": [
+                {
+                    "type": "0" (enum, notification),
+                    "definition": {
+                        "channel": 0 (enum, mqtt),
+                        "address": "notifications"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## Rule Engine
 
 The rule engine is the system that validates and executes all rules that have
-been created.
+been created. The "engine" is a dedicated actor that currently lives within the
+event service.
 
-## Telemetry Rule Workflow
+```mermaid
+    stateDiagram-v2
+        EventService
+
+        state EventService {
+            [*] --> EventSupervisor
+            [*] --> RuleEngine
+
+            state RuleEngine {
+                id1: Are any rules defined?
+                id2: Have all conditions been met?
+                id3: Complete all actions
+                id4: Exit
+
+                [*] --> id1
+                id1 --> id2 : Yes
+                id1 --> id4 : No
+                id2 --> id3 : Yes
+                id2 --> id4 : No
+                id3 --> id4
+            }
+        }
+```
