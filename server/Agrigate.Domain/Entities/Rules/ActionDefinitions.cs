@@ -6,6 +6,6 @@ namespace Agrigate.Domain.Entities.Rules;
 public class NotificationDefinition
 {
     public NotificationChannel Channel { get; set; }
-    public string Address { get; set; } = string.Empty;
-    public string Content { get; set; } = string.Empty;
+    public string? Address { get; set; }
+    public string? Content { get; set; }
 }

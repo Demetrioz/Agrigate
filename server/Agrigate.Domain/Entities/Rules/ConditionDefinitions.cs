@@ -5,7 +5,7 @@ namespace Agrigate.Domain.Entities.Rules;
 /// </summary>
 public class UpperLimitDefinition
 {
-    public double Value { get; set; }
+    public double? Value { get; set; }
 }
 
 /// <summary>
@@ -13,7 +13,7 @@ public class UpperLimitDefinition
 /// </summary>
 public class LowerLimitDefinition
 {
-    public double Value { get; set; }
+    public double? Value { get; set; }
 }
 
 /// <summary>
@@ -21,6 +21,6 @@ public class LowerLimitDefinition
 /// </summary>
 public class RangeDefinition
 {
-    public double UpperLimit { get; set; }
-    public double LowerLimit { get; set; }
+    public double? UpperLimit { get; set; }
+    public double? LowerLimit { get; set; }
 }

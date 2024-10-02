@@ -122,8 +122,10 @@ public class RuleService : IRuleService
                 && !t.IsDeleted
                 && t.DeviceId == action.Rule!.DeviceId
             )
-            .ToListAsync(cancellationToken) 
-            ?? throw new ApplicationException($"Triggering telemetry not found for Device {action.Rule!.DeviceId}");
+            .ToListAsync(cancellationToken);
+
+        if (telemetry.Count == 0)
+            throw new ApplicationException($"Triggering telemetry not found for Device {action.Rule!.DeviceId}");
 
         // Get the action's definition and execute
         switch(action.Type)
@@ -149,7 +151,7 @@ public class RuleService : IRuleService
                 message = message[..^2];
 
                 await _notificationService.SendMqttNotification(
-                    notificationDefinition.Address, 
+                    notificationDefinition.Address!,
                     $"{title}: {message}", 
                     cancellationToken
                 );
@@ -317,21 +319,33 @@ public class RuleService : IRuleService
                 switch (c.Type)
                 {
                     case RuleCondition.UpperLimit:
-                        var upperLmiit = JsonConvert
-                            .DeserializeObject<UpperLimitDefinition>(c.Definition)
-                            ?? throw new ApplicationException("Invalid UpperLimit Definition");
+                        var upperLimit = JsonConvert
+                            .DeserializeObject<UpperLimitDefinition>(c.Definition);
+
+                        if (upperLimit?.Value == null)
+                            throw new ApplicationException("Invalid UpperLimit Definition");
+
                         break;
 
                     case RuleCondition.LowerLimit:
                         var lowerLimit = JsonConvert
-                            .DeserializeObject<LowerLimitDefinition>(c.Definition)
-                            ?? throw new ApplicationException("Invalid LowerLimit Definition");
+                            .DeserializeObject<LowerLimitDefinition>(c.Definition);
+
+                        if (lowerLimit?.Value == null)
+                            throw new ApplicationException("Invalid UpperLimit Definition");
+
                         break;
 
                     case RuleCondition.Range:
                         var range = JsonConvert
-                            .DeserializeObject<RangeDefinition>(c.Definition)
-                            ?? throw new ApplicationException("Invalid Range Definition");
+                            .DeserializeObject<RangeDefinition>(c.Definition);
+
+                        if (
+                            range?.UpperLimit == null
+                            || range?.LowerLimit == null
+                        )
+                            throw new ApplicationException("Invalid UpperLimit Definition");
+
                         break;
 
                     default:
@@ -354,8 +368,14 @@ public class RuleService : IRuleService
                 {
                     case RuleAction.Notification:
                         var definition = JsonConvert
-                            .DeserializeObject<NotificationDefinition>(a.Definition)
-                            ?? throw new ApplicationException("Invalid Action Definition");
+                            .DeserializeObject<NotificationDefinition>(a.Definition);
+
+                        if (
+                            string.IsNullOrWhiteSpace(definition?.Address)
+                            || string.IsNullOrWhiteSpace(definition?.Content)
+                        )
+                            throw new ApplicationException("Invalid Action Definition");
+
                         break;
                     
                     default:
