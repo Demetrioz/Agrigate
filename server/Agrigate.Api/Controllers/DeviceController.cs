@@ -1,8 +1,9 @@
 using Agrigate.Api.Core;
-using Agrigate.Api.Models.Requests;
 using Agrigate.Api.Validators;
 using Agrigate.Core.Services.DeviceService;
 using Agrigate.Core.Services.DeviceService.Models;
+using Agrigate.Core.Services.RuleService;
+using Agrigate.Core.Services.RuleService.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Agrigate.Api.Controllers;
@@ -14,11 +15,17 @@ namespace Agrigate.Api.Controllers;
 public class DeviceController : AgrigateController
 {
     private readonly IDeviceService _deviceService;
+    private readonly IRuleService _ruleService;
 
-    public DeviceController(IDeviceService deviceService)
+    public DeviceController(
+        IDeviceService deviceService,
+        IRuleService ruleService
+    )
     {
         _deviceService = deviceService 
             ?? throw new ArgumentNullException(nameof(deviceService));
+        _ruleService = ruleService
+            ?? throw new ArgumentNullException(nameof(ruleService));
     }
 
     /// <summary>
@@ -91,7 +98,12 @@ public class DeviceController : AgrigateController
             if (!validation.IsValid)
                 throw new ApplicationException(validation.ToString(", "));
 
-            return Success(true);
+            var result = await _ruleService.CreateDeviceRules(
+                rules, 
+                cancellationToken
+            );
+
+            return Success(result);
         }
         catch (Exception ex)
         {

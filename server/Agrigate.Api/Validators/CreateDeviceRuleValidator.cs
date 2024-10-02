@@ -1,4 +1,4 @@
-using Agrigate.Api.Models.Requests;
+using Agrigate.Core.Services.RuleService.Models;
 using Agrigate.Domain.Entities.Rules;
 using FluentValidation;
 using Newtonsoft.Json;
@@ -50,6 +50,9 @@ public class CreateDeviceRuleValidator : AbstractValidator<DeviceRules>
         if (string.IsNullOrWhiteSpace(rule.Name))
             return (false, "Rules require a name");
 
+        if (rule.Timespan < 0)
+            return (false, "Timespan must be greater than zero");
+            
         if (rule.Conditions.Count == 0)
             return (false, "Rules must have at least one Condition");
 

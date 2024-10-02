@@ -1,4 +1,5 @@
 using Agrigate.Core.Services.RuleService.Models;
+using Agrigate.Domain.Entities.Rules;
 
 namespace Agrigate.Core.Services.RuleService;
 
@@ -44,6 +45,18 @@ public interface IRuleService
     Task ExecuteTelemetryAction(
         long actionId,
         List<long> telemetryIds,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Creates Telemetry rules for a particular device
+    /// </summary>
+    /// <param name="request">The request DTO that contains information about the
+    /// rules that should be created</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<TelemetryRule>> CreateDeviceRules(
+        DeviceRules request,
         CancellationToken cancellationToken = default
     );
 }

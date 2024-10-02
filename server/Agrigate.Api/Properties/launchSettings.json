@@ -29,7 +29,13 @@
         "Api__EventService__ServiceName": "",
         "Api__EventService__HostName": "",
         "Api__EventService__SupervisorName": "",
-        "Api__EventService__Port": ""
+        "Api__EventService__Port": "",
+        "Notifications__ClientId": "",
+        "Notifications__Host": "",
+        "Notifications__Port": "",
+        "Notifications__Username": "",
+        "Notifications__Password": "",
+        "Notifications__SecureConnection": ""
       }
     },
     "https": {
@@ -52,7 +58,13 @@
         "Api__EventService__ServiceName": "",
         "Api__EventService__HostName": "",
         "Api__EventService__SupervisorName": "",
-        "Api__EventService__Port": ""
+        "Api__EventService__Port": "",
+        "Notifications__ClientId": "",
+        "Notifications__Host": "",
+        "Notifications__Port": "",
+        "Notifications__Username": "",
+        "Notifications__Password": "",
+        "Notifications__SecureConnection": ""
       }
     },
     "IIS Express": {
@@ -73,7 +85,13 @@
         "Api__EventService__ServiceName": "",
         "Api__EventService__HostName": "",
         "Api__EventService__SupervisorName": "",
-        "Api__EventService__Port": ""
+        "Api__EventService__Port": "",
+        "Notifications__ClientId": "",
+        "Notifications__Host": "",
+        "Notifications__Port": "",
+        "Notifications__Username": "",
+        "Notifications__Password": "",
+        "Notifications__SecureConnection": ""
       }
     }
   }

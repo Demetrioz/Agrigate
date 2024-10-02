@@ -160,6 +160,29 @@ public class RuleService : IRuleService
         }
     }
 
+    /// <inheritdoc />
+    public async Task<List<TelemetryRule>> CreateDeviceRules(
+        DeviceRules request,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var device = _db.Devices
+            .AsNoTracking()
+            .FirstOrDefault(d =>
+                d.Id == request.DeviceId
+                && !d.IsDeleted
+            ) ?? throw new ApplicationException("Device not found");
+
+        var results = new List<TelemetryRule>();
+        foreach(var rule in request.Rules)
+            results.Add(await TryCreateRule(device.Id, rule));
+
+        _db.AddRange(results);
+        await _db.SaveChangesAsync();
+
+        return results;
+    }
+
     /// <summary>
     /// Takes a rule condition and the triggering telemetry and applies the
     /// condition's logic, seeing if the condition has been validated
@@ -249,5 +272,107 @@ public class RuleService : IRuleService
             Validated = result,
             TriggeringTelemetry = telemetryToCheck.Select(t => t.Id).ToList()
         };
+    }
+
+    /// <summary>
+    /// Attempts to validate and create a Telemetry rule for the given device and payload
+    /// </summary>
+    /// <param name="deviceId">The id of the device to create a new rule for</param>
+    /// <param name="rule">The rule that should be created</param>
+    /// <returns></returns>
+    /// <exception cref="ApplicationException"></exception>
+    private async Task<TelemetryRule> TryCreateRule(long deviceId, RuleDefinition rule)
+    {
+        // TODO: Use FluentValidator
+        if (rule.Timespan < 0)
+            throw new ApplicationException("Timespan must be greater than zero");
+        
+        if (rule.Conditions.Count == 0 || rule.Actions.Count == 0)
+            throw new ApplicationException("Rules must have at least one condition and one action");
+        
+        var existingRule = await _db.TelemetryRules
+            .AsNoTracking()
+            .FirstOrDefaultAsync(r =>
+                r.DeviceId == deviceId
+                && !r.IsDeleted
+                && r.Name == rule.Name
+            );
+
+        if (existingRule != null)
+            throw new ApplicationException("Rule already exists with the provided name");
+
+        var now = DateTimeOffset.UtcNow;
+        var newRule = new TelemetryRule
+        {
+            DeviceId = deviceId,
+            Name = rule.Name,
+            IsActive = rule.IsActive, 
+            Operator = rule.Operator,
+            Timespan = rule.Timespan, 
+            Created = now,
+            Modified = now,
+            IsDeleted = false,
+            Conditions = rule.Conditions.Select(c => 
+            {
+                switch (c.Type)
+                {
+                    case RuleCondition.UpperLimit:
+                        var upperLmiit = JsonConvert
+                            .DeserializeObject<UpperLimitDefinition>(c.Definition)
+                            ?? throw new ApplicationException("Invalid UpperLimit Definition");
+                        break;
+
+                    case RuleCondition.LowerLimit:
+                        var lowerLimit = JsonConvert
+                            .DeserializeObject<LowerLimitDefinition>(c.Definition)
+                            ?? throw new ApplicationException("Invalid LowerLimit Definition");
+                        break;
+
+                    case RuleCondition.Range:
+                        var range = JsonConvert
+                            .DeserializeObject<RangeDefinition>(c.Definition)
+                            ?? throw new ApplicationException("Invalid Range Definition");
+                        break;
+
+                    default:
+                        throw new ApplicationException("Invalid condition definition");
+                }
+
+                return new TelemetryRuleCondition
+                {
+                    Key = c.Key,
+                    Type = c.Type,
+                    Definition = c.Definition,
+                    Created = now,
+                    Modified = now,
+                    IsDeleted = false
+                };
+            }).ToList(),
+            Actions = rule.Actions.Select(a =>
+            {
+                switch (a.Type)
+                {
+                    case RuleAction.Notification:
+                        var definition = JsonConvert
+                            .DeserializeObject<NotificationDefinition>(a.Definition)
+                            ?? throw new ApplicationException("Invalid Action Definition");
+                        break;
+                    
+                    default:
+                        throw new ApplicationException("Invalid action definition");
+                }
+
+                return new TelemetryRuleAction
+                {
+                    Type = a.Type,
+                    Definition = a.Definition,
+                    Created = now,
+                    Modified = now,
+                    IsDeleted = false
+                };
+            }).ToList()
+        };
+
+        return newRule;
     }
 }

@@ -1,6 +1,6 @@
 using Agrigate.Domain.Entities.Rules;
 
-namespace Agrigate.Api.Models.Requests;
+namespace Agrigate.Core.Services.RuleService.Models;
 
 /// <summary>
 /// A condition that should be met before a rule is executed
@@ -54,6 +54,16 @@ public class RuleDefinition
     /// more than one
     /// </summary>
     public Operator Operator { get; set; }
+
+    /// <summary>
+    /// The timespan within which to look when verifiying the rule's conditions
+    /// </summary>
+    public int Timespan { get; set; }
+
+    /// <summary>
+    /// Whether or not the rule is active
+    /// </summary>
+    public bool IsActive { get; set; }
 
     /// <summary>
     /// A list of conditions that must be satified before actions are taken

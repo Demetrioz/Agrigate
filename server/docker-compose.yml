@@ -35,6 +35,12 @@ services:
       - "Api__EventService__HostName=eventservice"
       - "Api__EventService__SupervisorName=EventSupervisor"
       - "Api__EventService__Port=5000"
+      - "Notifications__ClientId=clientId"
+      - "Notifications__Host=host"
+      - "Notifications__Port=1234"
+      - "Notifications__Username=username"
+      - "Notifications__Password=password"
+      - "Notifications__SecureConnection=true"
     ports:
       - 8081:8081
 
