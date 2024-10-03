@@ -17,6 +17,12 @@ ARG Api__EventService__ServiceName=servicename
 ARG Api__EventService__HostName=hostname
 ARG Api__EventService__SupervisorName=supervisorname
 ARG Api__EventService__Port=port
+ARG Notifications__ClientId=client
+ARG Notifications__Host=host
+ARG Notifications__Port=port
+ARG Notifications__Username=usernamee
+ARG Notifications__Password=password
+ARG Notifications__SecureConnection=true
 
 # Assign variables so they can be accessed by the RUN command
 ENV Database__Host=$Database__Host
@@ -32,6 +38,12 @@ ENV Api__EventService__ServiceName=$Api__EventService__ServiceName
 ENV Api__EventService__HostName=$Api__EventService__HostName
 ENV Api__EventService__SupervisorName=$Api__EventService__SupervisorName
 ENV Api__EventService__Port=$Api__EventService__Port
+ENV Notifications__ClientId=$Notifications__ClientId
+ENV Notifications__Host=$Notifications__Host
+ENV Notifications__Port=$Notifications__Port
+ENV Notifications__Username=$Notifications__Username
+ENV Notifications__Password=$Notifications__Password
+ENV Notifications__SecureConnection=$Notifications__SecureConnection
 
 ENV ASPNETCORE_URLS=http://+:8081
 

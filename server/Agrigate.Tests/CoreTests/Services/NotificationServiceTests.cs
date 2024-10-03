@@ -49,8 +49,7 @@ public class NotificationServiceTests
             [])));
 
         _mockMqttService = Substitute.For<IMqttService>();
-        _mockMqttService.CreateMqttClient()
-            .Returns(_mockClient);
+        _mockMqttService.CreateMqttClient().Returns(_mockClient);
     }
 
     [Test]

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Agrigate.Domain.Entities.Rules;
 
 namespace Agrigate.Domain.Entities;
 
@@ -29,4 +30,9 @@ public class Device : EntityBase
     /// Telemetry received by the device
     /// </summary>
     public ICollection<Telemetry>? Telemetry { get; set; }
+
+    /// <summary>
+    /// Rules that are applied to telemetry for the device
+    /// </summary>
+    public ICollection<TelemetryRule>? Rules { get; set; }
 }

@@ -1,6 +1,11 @@
+using System.Text.Json.Serialization;
 using Agrigate.Api.Actors;
 using Agrigate.Api.Configuration;
+using Agrigate.Core.Configuration;
 using Agrigate.Core.Services.DeviceService;
+using Agrigate.Core.Services.MqttService;
+using Agrigate.Core.Services.NotificationService;
+using Agrigate.Core.Services.RuleService;
 using Agrigate.Domain.Configuration;
 using Agrigate.Domain.Contexts;
 using Akka.Hosting;
@@ -19,6 +24,9 @@ builder.Configuration.Bind("Api", apiOptions);
 builder.Services.Configure<ApiOptions>(
     builder.Configuration.GetSection("Api"));
 
+builder.Services.Configure<NotificationOptions>(
+    builder.Configuration.GetSection("Notifications"));
+
 var dbOptions = new DatabaseOptions();
 builder.Configuration.Bind("Database", dbOptions);
 
@@ -35,9 +43,16 @@ builder.Services.AddDbContext<AgrigateContext>(options =>
 //////////////////////////////////////////
 
 builder.Services
-    .AddTransient<IDeviceService, DeviceService>();
+    .AddSingleton<IMqttService, MqttService>()
+    .AddTransient<IDeviceService, DeviceService>()
+    .AddTransient<INotificationService, NotificationService>()
+    .AddTransient<IRuleService, RuleService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
