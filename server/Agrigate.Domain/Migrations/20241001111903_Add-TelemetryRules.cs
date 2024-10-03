@@ -222,10 +222,10 @@ namespace Agrigate.Domain.Migrations
             };
 
             var now = DateTimeOffset.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            var upperLimitJson = JsonConvert.SerializeObject(upperLimitDefinition);//.Replace("\"", "\\\"");
-            var lowerLimitJson = JsonConvert.SerializeObject(lowerLimitDefinition);//.Replace("\"", "\\\"");
-            var rangeJson = JsonConvert.SerializeObject(rangeDefinition);//.Replace("\"", "\\\"");
-            var notificationJson = JsonConvert.SerializeObject(notificationDefinition);//.Replace("\"", "\\\"");
+            var upperLimitJson = JsonConvert.SerializeObject(upperLimitDefinition);
+            var lowerLimitJson = JsonConvert.SerializeObject(lowerLimitDefinition);
+            var rangeJson = JsonConvert.SerializeObject(rangeDefinition);
+            var notificationJson = JsonConvert.SerializeObject(notificationDefinition);
 
             migrationBuilder.Sql(@$"
                 INSERT INTO ""TelemetryRuleConditionDefinition"" (""Type"", ""Definition"", ""Created"", ""Modified"", ""IsDeleted"")
