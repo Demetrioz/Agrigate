@@ -100,7 +100,7 @@ public class RuleServiceTests
         bool shouldThrow
     )
     {
-        var messageTitle = $"{_ruleName} triggered";
+        var messageTitle = $"Agrigate Rule Triggered ({_ruleName})";
         var messageText = $"{_notificationContent} - {_telemetryKey}: {_telemetryValue}";
         var messageContent = $"{messageTitle}: {messageText}";
 

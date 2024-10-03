@@ -142,7 +142,7 @@ public class RuleService : IRuleService
                 )
                     throw new NotImplementedException();
 
-                var title = $"{action.Rule!.Name} triggered";
+                var title = $"Agrigate Rule Triggered ({action.Rule!.Name})";
                 var message = $"{notificationDefinition.Content} - ";
                 foreach(var item in telemetry)
                     message += $"{item.Key}: {item.Value}, ";
