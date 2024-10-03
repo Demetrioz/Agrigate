@@ -58,4 +58,21 @@ public class DeviceServiceTests
         Assert.ThrowsAsync<ApplicationException>(async () => 
             await deviceService.InsertDevice(device));
     }
+
+    [Test, Order(3)]
+    public async Task GetDevices_Succeeds()
+    {
+        using var context = new AgrigateContext(_contextOptions!);
+
+        var deviceService = new DeviceService(context);
+
+        var result = await deviceService.GetDevices();
+
+        Assert.Multiple(() => 
+        {
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result.First().Name, Is.EqualTo("TestDevice"));
+            Assert.That(result.First().Location, Is.EqualTo("TestLocation"));
+        });
+    }
 }

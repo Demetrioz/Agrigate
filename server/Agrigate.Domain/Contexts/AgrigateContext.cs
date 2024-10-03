@@ -1,4 +1,5 @@
 using Agrigate.Domain.Entities;
+using Agrigate.Domain.Entities.Rules;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -36,4 +37,10 @@ public class AgrigateContext : DbContext
 
     public DbSet<Device> Devices { get; set; }
     public DbSet<Telemetry> Telemetry { get; set; }
+    public DbSet<TelemetryRule> TelemetryRules { get; set; }
+    public DbSet<TelemetryRuleCondition> TelemetryRuleConditions { get; set; }
+    public DbSet<TelemetryRuleAction> TelemetryRuleActions { get; set; }
+
+    public DbSet<TelemetryRuleConditionDefinition> TelemetryRuleConditionDefinitions { get; set; }
+    public DbSet<TelemetryRuleActionDefinition> TelemetryRuleActionDefinitions { get; set; }
 }

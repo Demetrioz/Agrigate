@@ -20,7 +20,13 @@
         "Database__Password": "",
         "Service__ServiceName": "",
         "Service__Hostname": "",
-        "Service__Port": ""
+        "Service__Port": "",
+        "Notifications__ClientId": "",
+        "Notifications__Host": "",
+        "Notifications__Port": "",
+        "Notifications__Username": "",
+        "Notifications__Password": "",
+        "Notifications__SecureConnection": ""
       }
     }
   }

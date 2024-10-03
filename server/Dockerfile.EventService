@@ -18,6 +18,12 @@ ARG Database__Password=password
 ARG Service__ServiceName=servicename
 ARG Service__HostName=hostname
 ARG Service__Port=port
+ARG Notifications__ClientId=clientId
+ARG Notifications__Host=host
+ARG Notifications__Port=port
+ARG Notifications__Username=username
+ARG Notifications__Password=password
+ARG Notifications__SecureConnection=true
 
 # Assign variables so they can be accessed by the RUN command
 ENV Telemetry__ClientId=$Telemetry__ClientId
@@ -35,6 +41,12 @@ ENV Database__Password=$Database__Password
 ENV Service__ServiceName=$Service__ServiceName
 ENV Service__HostName=$Service__HostName
 ENV Service__Port=$Service__Port
+ENV Notifications__ClientId=$Notifications__ClientId
+ENV Notifications__Host=$Notifications__Host
+ENV Notifications__Port=$Notifications__Port
+ENV Notifications__Username=$Notifications__Username
+ENV Notifications__Password=$Notifications__Password
+ENV Notifications__SecureConnection=$Notifications__SecureConnection
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 WORKDIR /src

@@ -52,6 +52,176 @@ namespace Agrigate.Domain.Migrations
                     b.ToTable("Device");
                 });
 
+            modelBuilder.Entity("Agrigate.Domain.Entities.Rules.TelemetryRule", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("DeviceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("Modified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Operator")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Timespan")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeviceId");
+
+                    b.ToTable("TelemetryRule");
+                });
+
+            modelBuilder.Entity("Agrigate.Domain.Entities.Rules.TelemetryRuleAction", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Definition")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("Modified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("RuleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RuleId");
+
+                    b.ToTable("TelemetryRuleAction");
+                });
+
+            modelBuilder.Entity("Agrigate.Domain.Entities.Rules.TelemetryRuleActionDefinition", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Definition")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("Modified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TelemetryRuleActionDefinition");
+                });
+
+            modelBuilder.Entity("Agrigate.Domain.Entities.Rules.TelemetryRuleCondition", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Definition")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("Modified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("RuleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RuleId");
+
+                    b.ToTable("TelemetryRuleCondition");
+                });
+
+            modelBuilder.Entity("Agrigate.Domain.Entities.Rules.TelemetryRuleConditionDefinition", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Definition")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("Modified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TelemetryRuleConditionDefinition");
+                });
+
             modelBuilder.Entity("Agrigate.Domain.Entities.Telemetry", b =>
                 {
                     b.Property<long>("Id")
@@ -92,6 +262,39 @@ namespace Agrigate.Domain.Migrations
                     b.ToTable("Telemetry");
                 });
 
+            modelBuilder.Entity("Agrigate.Domain.Entities.Rules.TelemetryRule", b =>
+                {
+                    b.HasOne("Agrigate.Domain.Entities.Device", "Device")
+                        .WithMany("Rules")
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Device");
+                });
+
+            modelBuilder.Entity("Agrigate.Domain.Entities.Rules.TelemetryRuleAction", b =>
+                {
+                    b.HasOne("Agrigate.Domain.Entities.Rules.TelemetryRule", "Rule")
+                        .WithMany("Actions")
+                        .HasForeignKey("RuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rule");
+                });
+
+            modelBuilder.Entity("Agrigate.Domain.Entities.Rules.TelemetryRuleCondition", b =>
+                {
+                    b.HasOne("Agrigate.Domain.Entities.Rules.TelemetryRule", "Rule")
+                        .WithMany("Conditions")
+                        .HasForeignKey("RuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rule");
+                });
+
             modelBuilder.Entity("Agrigate.Domain.Entities.Telemetry", b =>
                 {
                     b.HasOne("Agrigate.Domain.Entities.Device", "Device")
@@ -105,7 +308,16 @@ namespace Agrigate.Domain.Migrations
 
             modelBuilder.Entity("Agrigate.Domain.Entities.Device", b =>
                 {
+                    b.Navigation("Rules");
+
                     b.Navigation("Telemetry");
+                });
+
+            modelBuilder.Entity("Agrigate.Domain.Entities.Rules.TelemetryRule", b =>
+                {
+                    b.Navigation("Actions");
+
+                    b.Navigation("Conditions");
                 });
 #pragma warning restore 612, 618
         }

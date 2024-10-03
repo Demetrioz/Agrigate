@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Agrigate.Core\Agrigate.Core.csproj" />
+    <ProjectReference Include="..\Agrigate.EventService\Agrigate.EventService.csproj" />
   </ItemGroup>
 
 </Project>

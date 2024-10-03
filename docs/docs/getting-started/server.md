@@ -58,28 +58,38 @@ services:
   database:
     ...
     environment:
-      - "POSTGRES_PASSWORD={VALUE}"             # Choose a strong password
+      - "POSTGRES_PASSWORD={VALUE}"               # Choose a strong password
 
   api:
     ...
     environment:
-      - "Database__Database={VALUE}"
-      - "Database__Password={VALUE}"            # Should be the same as the database password
+      - "Database__Password={VALUE}"              # Should be the same as the database password
+      - "Notifications__ClientId={VALUE}"         # The clientId that will show up in the MQTT broker
+      - "Notifications__Host={VALUE}"             # The MQTT broker's host name
+      - "Notifications__Port={VALUE}"             # The MQTT broker's port
+      - "Notifications__Username={VALUE}"         # The username for connecting to the MQTT broker
+      - "Notifications__Password={VALUE}"         # The password for connecting to the MQTT broker
+      - "Notifications__SecureConnection={VALUE}" # Whether the broker connection is using TLS
 
   eventservice:
     ...
     environment:
-      - "Telemetry__ClientId={VALUE}"           # The clientId that will show up in the MQTT broker
-      - "Telemetry__Host={VALUE}"               # The MQTT broker's host name
-      - "Telemetry__Port={VALUE}"               # The MQTT broker's port
-      - "Telemetry__Topic={VALUE}"              # The topic where you want telemetry to be sent
-      - "Telemetry__Username={VALUE}"           # The username for connecting to the MQTT broker
-      - "Telemetry__Password={VALUE}"           # The password for connecting to the MQTT broker
-      - "Telemetry__SecureConnection={VALUE}"   # Whether the broker connection is using TLS
-      - "Database__Database={VALUE}"            # Should be the same as the api's database value
-      - "Database__Password={VALUE}"            # Should be the same as the api's passsword value
+      - "Telemetry__ClientId={VALUE}"             # The clientId that will show up in the MQTT broker
+      - "Telemetry__Host={VALUE}"                 # The MQTT broker's host name
+      - "Telemetry__Port={VALUE}"                 # The MQTT broker's port
+      - "Telemetry__Topic={VALUE}"                # The topic where you want telemetry to be sent
+      - "Telemetry__Username={VALUE}"             # The username for connecting to the MQTT broker
+      - "Telemetry__Password={VALUE}"             # The password for connecting to the MQTT broker
+      - "Telemetry__SecureConnection={VALUE}"     # Whether the broker connection is using TLS
+      - "Database__Password={VALUE}"              # Should be the same as the api's passsword value
+      - "Notifications__ClientId={VALUE}"         # The clientId that will show up in the MQTT broker
+      - "Notifications__Host={VALUE}"             # The MQTT broker's host name
+      - "Notifications__Port={VALUE}"             # The MQTT broker's port
+      - "Notifications__Username={VALUE}"         # The username for connecting to the MQTT broker
+      - "Notifications__Password={VALUE}"         # The password for connecting to the MQTT broker
+      - "Notifications__SecureConnection={VALUE}" # Whether the broker connection is using TLS
     expose:
-      - {VALUE}                                 # Should match the Telemetry__Port value
+      - {VALUE}                                   # Should match the Telemetry__Port value
 
 ```
 
