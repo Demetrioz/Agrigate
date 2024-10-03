@@ -67,7 +67,7 @@ const sidebars: SidebarsConfig = {
       link: {
         type: "generated-index",
       },
-      items: ["releases/api/0.1.0"],
+      items: ["releases/api/0.1.0", "releases/api/0.2.0"],
     },
     {
       type: "category",
@@ -75,7 +75,7 @@ const sidebars: SidebarsConfig = {
       link: {
         type: "generated-index",
       },
-      items: ["releases/eventservice/0.1.0"],
+      items: ["releases/eventservice/0.1.0", "releases/eventservice/0.2.0"],
     },
   ],
 
