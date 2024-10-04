@@ -1,9 +1,16 @@
+import 'package:agrigate/components/common/agrigate_spacer.dart';
+import 'package:agrigate/components/device_info/rule_card.dart';
+import 'package:agrigate/components/device_info/telemetry_reading.dart';
+import 'package:agrigate/constants.dart';
 import 'package:agrigate/pages/page_base.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class DeviceInfo extends StatefulWidget {
   const DeviceInfo({super.key});
+
+  static const String title = 'Device Info';
+  static const String route = '/deviceInfo';
 
   @override
   State<DeviceInfo> createState() => _DeviceInfoState();
@@ -450,42 +457,39 @@ class _DeviceInfoState extends State<DeviceInfo> {
         children: [
           const Text(
             'Telemetry History',
-            style: TextStyle(fontSize: 24),
+            style: TextStyle(
+              fontSize: kLarge,
+            ),
           ),
-          const SizedBox(height: 12),
+          const AgrigateSpacer(
+            size: Size.medium,
+            type: SpacerType.vertical,
+          ),
           AspectRatio(
             aspectRatio: 1.7,
             child: LineChart(mainData()),
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Moisture:',
-                  style: TextStyle(fontSize: 24),
-                ),
-                Text(
-                  '443',
-                  style: TextStyle(fontSize: 24),
-                ),
-              ],
+            padding: EdgeInsets.symmetric(
+              horizontal: kMedium,
+              vertical: kLarge,
             ),
+            // TODO: Map all recent telemetry
+            child: TelemetryReading(name: 'Moisture', value: 443),
           ),
           const Divider(),
           const Text(
             'Telemetry Rules',
-            style: TextStyle(fontSize: 24),
-          ),
-          Card(
-            child: ListTile(
-              title: const Text("Low Moisture"),
-              subtitle: const Text("Lower Limit - Notification"),
-              trailing: const Icon(Icons.circle, color: Colors.green),
-              onTap: _addNewRule,
+            style: TextStyle(
+              fontSize: kLarge,
             ),
           ),
+          // TODO: Map all rules
+          const RuleCard(
+            name: 'Low Moisture',
+            summary: 'Lower Limit - Notification',
+            isActive: true,
+          )
         ],
       ),
     );
