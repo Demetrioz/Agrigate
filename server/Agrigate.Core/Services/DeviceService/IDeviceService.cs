@@ -24,7 +24,7 @@ public interface IDeviceService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<List<Device>> GetDevices(
+    public Task<List<DeviceBase>> GetDevices(
         CancellationToken cancellationToken = default
     );
 }

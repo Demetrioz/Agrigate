@@ -1,5 +1,7 @@
 import 'package:agrigate/components/devices/create_device_sheet.dart';
 import 'package:agrigate/components/devices/device_card.dart';
+import 'package:agrigate/main.dart';
+import 'package:agrigate/models/devices/device_base.dart';
 import 'package:agrigate/pages/page_base.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +16,29 @@ class Devices extends StatefulWidget {
 }
 
 class _DevicesState extends State<Devices> {
+  bool _isLoading = false;
+  List<DeviceBase> _devices = [];
+
+  void _loadDevices() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      final result = await apiService.getDevices();
+
+      setState(() {
+        _devices = result;
+      });
+    } catch (e) {
+      // TODO: Display error
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   void _addNewDevice() {
     showModalBottomSheet(
       context: context,
@@ -22,26 +47,37 @@ class _DevicesState extends State<Devices> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _loadDevices();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PageBase(
       title: 'Devices',
       floatingAction: _addNewDevice,
-      content: const Column(
-        children: [
-          DeviceCard(
-            id: 1,
-            name: 'Moisture',
-            location: 'Raised Bed 1',
-            isActive: true,
-          ),
-          DeviceCard(
-            id: 2,
-            name: 'Temp & Humidity',
-            location: 'Greenhouse',
-            isActive: false,
-          ),
-        ],
-      ),
+      content: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : _devices.isEmpty
+              ? const Center(
+                  child: Text('No devices found'),
+                )
+              : ListView.builder(
+                  itemCount: _devices.length,
+                  itemBuilder: (BuildContext ctx, int index) {
+                    final item = _devices.elementAt(index);
+
+                    return DeviceCard(
+                      id: item.id,
+                      name: item.name,
+                      location: item.location,
+                      isActive: item.isActive,
+                    );
+                  }),
     );
   }
 }

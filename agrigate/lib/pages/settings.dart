@@ -1,5 +1,6 @@
 import 'package:agrigate/components/common/agrigate_textfield.dart';
 import 'package:agrigate/constants.dart';
+import 'package:agrigate/main.dart';
 import 'package:agrigate/pages/page_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -36,6 +37,9 @@ class _SettingsState extends State<Settings> {
         key: kServerUrl,
         value: _serverUrlController.text,
       );
+
+      // Update the Api service to use the newly saved URL
+      apiService.initialize(updatedUrl: _serverUrlController.text);
     } catch (e) {
       // TODO: Display error
     }

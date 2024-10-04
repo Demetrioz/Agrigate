@@ -32,8 +32,10 @@ class _PageBaseState extends State<PageBase> {
       body: LayoutBuilder(builder: (lbContext, viewportConstraints) {
         return SingleChildScrollView(
           child: ConstrainedBox(
-            constraints:
-                BoxConstraints(minHeight: viewportConstraints.maxHeight),
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
+              maxHeight: viewportConstraints.maxHeight,
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: widget.content,

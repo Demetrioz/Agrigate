@@ -47,12 +47,21 @@ public class DeviceService : IDeviceService
         return newDevice;
     }
 
-    public async Task<List<Device>> GetDevices(
+    public async Task<List<DeviceBase>> GetDevices(
         CancellationToken cancellationToken = default
     )
     {
+        var activeCutoff = DateTimeOffset.UtcNow.AddMinutes(-10);
         var allDevices = await _db.Devices
             .AsNoTracking()
+            .Where(d => !d.IsDeleted)
+            .Select(d => new DeviceBase
+            {
+                Id = d.Id,
+                Name = d.Name,
+                Location = d.Location,
+                IsActive = d.Telemetry!.Any(t => t.Timestamp >= activeCutoff)
+            })
             .ToListAsync(cancellationToken);
 
         return allDevices;
