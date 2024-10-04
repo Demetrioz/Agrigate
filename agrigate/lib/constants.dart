@@ -7,7 +7,7 @@ const kLogoPath = 'assets/images/logo.png';
 // Sizes
 enum Size { small, medium, large }
 
-const ksmall = 8.0;
+const ksmall = 6.0;
 const kMedium = 12.0;
 const kLarge = 20.0;
 

@@ -51,25 +51,13 @@ class _CreateDeviceSheetState extends State<CreateDeviceSheet> {
                   fontSize: kLarge,
                 ),
               ),
-              const AgrigateSpacer(
-                size: Size.medium,
-                type: SpacerType.vertical,
-              ),
               AgrigateTextfield(
                 label: 'Device Name',
                 controller: _nameController,
               ),
-              const AgrigateSpacer(
-                size: Size.medium,
-                type: SpacerType.vertical,
-              ),
               AgrigateTextfield(
                 label: 'Device Location',
                 controller: _locationController,
-              ),
-              const AgrigateSpacer(
-                size: Size.medium,
-                type: SpacerType.vertical,
               ),
               OutlinedButton(
                 onPressed: _createDevice,

@@ -13,12 +13,15 @@ class AgrigateTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        label: Text(label),
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(kMedium),
+    return Padding(
+      padding: const EdgeInsets.all(ksmall),
+      child: TextField(
+        decoration: InputDecoration(
+          label: Text(label),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(kMedium),
+            ),
           ),
         ),
       ),
