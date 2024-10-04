@@ -1,0 +1,493 @@
+import 'package:agrigate/pages/page_base.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+
+class DeviceInfo extends StatefulWidget {
+  const DeviceInfo({super.key});
+
+  @override
+  State<DeviceInfo> createState() => _DeviceInfoState();
+}
+
+class _DeviceInfoState extends State<DeviceInfo> {
+  int deviceId = 0;
+  String title = '';
+
+  List<Color> gradientColors = [
+    Colors.green,
+    Colors.greenAccent,
+  ];
+
+  void _loadDeviceDetails() {
+    // print(deviceId);
+    // print(title);
+  }
+
+  void _addNewRule() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const Text(
+                    'Add Rule',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(height: 10),
+                  const TextField(
+                    decoration: InputDecoration(
+                      label: Text('Name'),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const TextField(
+                    decoration: InputDecoration(
+                      label: Text('Timespan'),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            'Is Active',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Checkbox(
+                            value: true,
+                            semanticLabel: 'Is Active?',
+                            onChanged: (value) {},
+                          ),
+                        ],
+                      ),
+                      const DropdownMenu(
+                        inputDecorationTheme: InputDecorationTheme(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
+                            ),
+                          ),
+                        ),
+                        menuStyle: MenuStyle(
+                          shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                        label: Text('Operator'),
+                        initialSelection: 0,
+                        dropdownMenuEntries: [
+                          DropdownMenuEntry(
+                            value: 0,
+                            label: 'And',
+                          ),
+                          DropdownMenuEntry(
+                            value: 1,
+                            label: 'Or',
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Conditions',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.add),
+                      )
+                    ],
+                  ),
+                  const Row(
+                    children: [
+                      DropdownMenu(
+                        inputDecorationTheme: InputDecorationTheme(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
+                            ),
+                          ),
+                        ),
+                        menuStyle: MenuStyle(
+                          shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                        label: Text('Type'),
+                        initialSelection: 0,
+                        dropdownMenuEntries: [
+                          DropdownMenuEntry(
+                            value: 0,
+                            label: 'Upper Limit',
+                          ),
+                          DropdownMenuEntry(
+                            value: 1,
+                            label: 'LowerLimit',
+                          ),
+                          DropdownMenuEntry(
+                            value: 1,
+                            label: 'Range',
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            label: Text('Value'),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Actions',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.add),
+                      )
+                    ],
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      DropdownMenu(
+                        inputDecorationTheme: InputDecorationTheme(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
+                            ),
+                          ),
+                        ),
+                        menuStyle: MenuStyle(
+                          shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                        label: Text('Type'),
+                        initialSelection: 0,
+                        dropdownMenuEntries: [
+                          DropdownMenuEntry(
+                            value: 0,
+                            label: 'Notification',
+                          ),
+                        ],
+                      ),
+                      DropdownMenu(
+                        inputDecorationTheme: InputDecorationTheme(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
+                            ),
+                          ),
+                        ),
+                        menuStyle: MenuStyle(
+                          shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                        label: Text('Channel'),
+                        initialSelection: 0,
+                        dropdownMenuEntries: [
+                          DropdownMenuEntry(
+                            value: 0,
+                            label: 'MQTT',
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  const TextField(
+                    decoration: InputDecoration(
+                      label: Text('Channel'),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const TextField(
+                    decoration: InputDecoration(
+                      label: Text('Message'),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                    ),
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      OutlinedButton(
+                        onPressed: () {},
+                        child: const Text('Cancel'),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {},
+                        child: const Text('Save'),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 2:
+        text = const Text('MAR', style: style);
+        break;
+      case 5:
+        text = const Text('JUN', style: style);
+        break;
+      case 8:
+        text = const Text('SEP', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: text,
+    );
+  }
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 15,
+    );
+    String text;
+    switch (value.toInt()) {
+      case 1:
+        text = '10K';
+        break;
+      case 3:
+        text = '30k';
+        break;
+      case 5:
+        text = '50k';
+        break;
+      default:
+        return Container();
+    }
+
+    return Text(text, style: style, textAlign: TextAlign.left);
+  }
+
+  LineChartData mainData() {
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: true,
+        horizontalInterval: 1,
+        verticalInterval: 1,
+        getDrawingHorizontalLine: (value) {
+          return const FlLine(
+            // color: AppColors.mainGridLineColor,
+            strokeWidth: 1,
+          );
+        },
+        getDrawingVerticalLine: (value) {
+          return const FlLine(
+            // color: AppColors.mainGridLineColor,
+            strokeWidth: 1,
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 30,
+            interval: 1,
+            getTitlesWidget: bottomTitleWidgets,
+          ),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 1,
+            getTitlesWidget: leftTitleWidgets,
+            reservedSize: 42,
+          ),
+        ),
+      ),
+      borderData: FlBorderData(
+        show: true,
+        border: Border.all(color: const Color(0xff37434d)),
+      ),
+      minX: 0,
+      maxX: 11,
+      minY: 0,
+      maxY: 6,
+      lineBarsData: [
+        LineChartBarData(
+          spots: const [
+            FlSpot(0, 3),
+            FlSpot(2.6, 2),
+            FlSpot(4.9, 5),
+            FlSpot(6.8, 3.1),
+            FlSpot(8, 4),
+            FlSpot(9.5, 3),
+            FlSpot(11, 4),
+          ],
+          isCurved: true,
+          gradient: LinearGradient(
+            colors: gradientColors,
+          ),
+          barWidth: 5,
+          isStrokeCapRound: true,
+          dotData: const FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    try {
+      final newDeviceId = arguments['deviceId'];
+      final newTitle = arguments['title'];
+
+      if (newDeviceId != deviceId && newTitle != title) {
+        setState(() {
+          deviceId = newDeviceId;
+          title = newTitle;
+        });
+      }
+
+      _loadDeviceDetails();
+    } catch (e) {
+      // TODO: Dispaly error
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageBase(
+      title: title,
+      floatingAction: _addNewRule,
+      content: Column(
+        children: [
+          const Text(
+            'Telemetry History',
+            style: TextStyle(fontSize: 24),
+          ),
+          const SizedBox(height: 12),
+          AspectRatio(
+            aspectRatio: 1.7,
+            child: LineChart(mainData()),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Moisture:',
+                  style: TextStyle(fontSize: 24),
+                ),
+                Text(
+                  '443',
+                  style: TextStyle(fontSize: 24),
+                ),
+              ],
+            ),
+          ),
+          const Divider(),
+          const Text(
+            'Telemetry Rules',
+            style: TextStyle(fontSize: 24),
+          ),
+          Card(
+            child: ListTile(
+              title: const Text("Low Moisture"),
+              subtitle: const Text("Lower Limit - Notification"),
+              trailing: const Icon(Icons.circle, color: Colors.green),
+              onTap: _addNewRule,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
