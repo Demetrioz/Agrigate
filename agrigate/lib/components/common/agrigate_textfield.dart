@@ -24,6 +24,7 @@ class AgrigateTextfield extends StatelessWidget {
             ),
           ),
         ),
+        controller: controller,
       ),
     );
   }

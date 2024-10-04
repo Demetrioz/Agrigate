@@ -1,3 +1,6 @@
+// Settings Keys
+const kServerUrl = 'AgrigateServerUrl';
+
 // Strings
 const kAgrigate = 'Agrigate';
 
