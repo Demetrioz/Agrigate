@@ -25,7 +25,7 @@ class DeviceBase {
           location: location,
           isActive: isActive,
         ),
-      _ => throw const FormatException('Failed to load album.'),
+      _ => throw const FormatException('Failed to load DeviceBase'),
     };
   }
 }

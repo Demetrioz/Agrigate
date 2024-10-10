@@ -34,7 +34,6 @@ class _PageBaseState extends State<PageBase> {
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: viewportConstraints.maxHeight,
-              maxHeight: viewportConstraints.maxHeight,
             ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),

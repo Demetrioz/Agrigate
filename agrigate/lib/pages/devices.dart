@@ -1,3 +1,4 @@
+import 'package:agrigate/components/common/error_dialog.dart';
 import 'package:agrigate/components/devices/create_device_sheet.dart';
 import 'package:agrigate/components/devices/device_card.dart';
 import 'package:agrigate/main.dart';
@@ -31,7 +32,15 @@ class _DevicesState extends State<Devices> {
         _devices = result;
       });
     } catch (e) {
-      // TODO: Display error
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorDialog(
+            title: 'Error loading devices',
+            message: e.toString(),
+          ),
+        );
+      }
     } finally {
       setState(() {
         _isLoading = false;
@@ -67,6 +76,7 @@ class _DevicesState extends State<Devices> {
                   child: Text('No devices found'),
                 )
               : ListView.builder(
+                  shrinkWrap: true,
                   itemCount: _devices.length,
                   itemBuilder: (BuildContext ctx, int index) {
                     final item = _devices.elementAt(index);

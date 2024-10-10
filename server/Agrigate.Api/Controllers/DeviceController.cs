@@ -83,7 +83,41 @@ public class DeviceController : AgrigateController
         }
     }
 
+    /// <summary>
+    /// Retrieves detailed information for a specific device
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetDeviceDetails(
+        long id,
+        CancellationToken cancellationToken = default
+    )
+    {
+        try
+        {
+            var result = await _deviceService.GetDeviceDetails(
+                id, 
+                cancellationToken
+            );
 
+            return Success(result);
+        }
+        catch (Exception ex)
+        {
+            return Failure(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Creates a new rule for the specified device
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="rules">The rule to create</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ApplicationException"></exception>
     [HttpPost("{id}/Rules")]
     public async Task<IActionResult> CreateDeviceRule(
         long id,
@@ -103,6 +137,32 @@ public class DeviceController : AgrigateController
                 cancellationToken
             );
 
+            return Success(result);
+        }
+        catch (Exception ex)
+        {
+            return Failure(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Retrieves telemetry for the specified device
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("{id}/Telemetry")]
+    public async Task<IActionResult> GetDeviceTelemetry(
+        long id,
+        CancellationToken cancellationToken = default
+    )
+    {
+        try
+        {
+            var result = await _deviceService.GetDeviceTelemetry(
+                id,
+                cancellationToken
+            );
             return Success(result);
         }
         catch (Exception ex)

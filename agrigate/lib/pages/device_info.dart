@@ -1,8 +1,11 @@
 import 'package:agrigate/components/common/agrigate_spacer.dart';
+import 'package:agrigate/components/common/error_dialog.dart';
 import 'package:agrigate/components/device_info/device_rule_sheet.dart';
 import 'package:agrigate/components/device_info/rule_card.dart';
 import 'package:agrigate/components/device_info/telemetry_reading.dart';
 import 'package:agrigate/constants.dart';
+import 'package:agrigate/main.dart';
+import 'package:agrigate/models/devices/device_details.dart';
 import 'package:agrigate/pages/page_base.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -18,17 +21,41 @@ class DeviceInfo extends StatefulWidget {
 }
 
 class _DeviceInfoState extends State<DeviceInfo> {
-  int deviceId = 0;
-  String title = '';
+  bool _isLoading = false;
+  int _deviceId = 0;
+  String _title = '';
+  DeviceDetails? _details;
 
   List<Color> gradientColors = [
     Colors.green,
     Colors.greenAccent,
   ];
 
-  void _loadDeviceDetails() {
-    // print(deviceId);
-    // print(title);
+  void _loadDeviceDetails() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      final result = await apiService.getDeviceDetails(_deviceId);
+      setState(() {
+        _details = result;
+      });
+    } catch (e) {
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorDialog(
+            title: 'Error loading details',
+            message: e.toString(),
+          ),
+        );
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _addNewRule() {
@@ -185,64 +212,103 @@ class _DeviceInfoState extends State<DeviceInfo> {
       final newDeviceId = arguments['deviceId'];
       final newTitle = arguments['title'];
 
-      if (newDeviceId != deviceId && newTitle != title) {
+      if (newDeviceId != _deviceId && newTitle != _title) {
         setState(() {
-          deviceId = newDeviceId;
-          title = newTitle;
+          _deviceId = newDeviceId;
+          _title = newTitle;
         });
       }
 
-      _loadDeviceDetails();
+      if (_details == null) {
+        _loadDeviceDetails();
+      }
     } catch (e) {
-      // TODO: Dispaly error
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => ErrorDialog(
+          title: 'Error',
+          message: e.toString(),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return PageBase(
-      title: title,
+      title: _title,
       floatingAction: _addNewRule,
-      content: Column(
-        children: [
-          const Text(
-            'Telemetry History',
-            style: TextStyle(
-              fontSize: kLarge,
-            ),
-          ),
-          const AgrigateSpacer(
-            size: Size.medium,
-            type: SpacerType.vertical,
-          ),
-          AspectRatio(
-            aspectRatio: 1.7,
-            child: LineChart(mainData()),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: kMedium,
-              vertical: kLarge,
-            ),
-            // TODO: Map all recent telemetry
-            child: TelemetryReading(name: 'Moisture', value: 443),
-          ),
-          const Divider(),
-          const Text(
-            'Telemetry Rules',
-            style: TextStyle(
-              fontSize: kLarge,
-            ),
-          ),
-          // TODO: Map all rules
-          const RuleCard(
-            id: 1,
-            name: 'Low Moisture',
-            summary: 'Lower Limit - Notification',
-            isActive: true,
-          )
-        ],
-      ),
+      content: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : _details == null
+              ? const Center(
+                  child: Text('Unable to load details'),
+                )
+              : Column(
+                  children: [
+                    const Text(
+                      'Telemetry History',
+                      style: TextStyle(
+                        fontSize: kLarge,
+                      ),
+                    ),
+                    const AgrigateSpacer(
+                      size: Size.medium,
+                      type: SpacerType.vertical,
+                    ),
+                    AspectRatio(
+                      aspectRatio: 1.7,
+                      child: LineChart(mainData()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: kMedium,
+                        vertical: kLarge,
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _details!.distinctTelemetry.length,
+                        itemBuilder: (BuildContext ctx, int index) {
+                          final item =
+                              _details!.distinctTelemetry.elementAt(index);
+
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: ksmall,
+                            ),
+                            child: TelemetryReading(
+                              name: item.key,
+                              value: item.value,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const Divider(),
+                    const Text(
+                      'Telemetry Rules',
+                      style: TextStyle(
+                        fontSize: kLarge,
+                      ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _details!.rules.length,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        final item = _details!.rules.elementAt(index);
+
+                        return RuleCard(
+                          id: item.id,
+                          name: item.name,
+                          summary: item.summary,
+                          isActive: item.isActive,
+                        );
+                      },
+                    ),
+                  ],
+                ),
     );
   }
 }

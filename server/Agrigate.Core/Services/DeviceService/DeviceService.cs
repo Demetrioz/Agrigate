@@ -10,9 +10,13 @@ public class DeviceService : IDeviceService
 {
     public readonly AgrigateContext _db;
 
+    private readonly DateTimeOffset _activeTelemetryCutoff;
+
     public DeviceService(AgrigateContext db)
     {
         _db = db ?? throw new ArgumentNullException(nameof(db));
+
+        _activeTelemetryCutoff = DateTimeOffset.UtcNow.AddMinutes(-10);
     }
 
     /// <inheritdoc />
@@ -47,11 +51,11 @@ public class DeviceService : IDeviceService
         return newDevice;
     }
 
+    /// <inheritdoc />
     public async Task<List<DeviceBase>> GetDevices(
         CancellationToken cancellationToken = default
     )
     {
-        var activeCutoff = DateTimeOffset.UtcNow.AddMinutes(-10);
         var allDevices = await _db.Devices
             .AsNoTracking()
             .Where(d => !d.IsDeleted)
@@ -60,10 +64,86 @@ public class DeviceService : IDeviceService
                 Id = d.Id,
                 Name = d.Name,
                 Location = d.Location,
-                IsActive = d.Telemetry!.Any(t => t.Timestamp >= activeCutoff)
+                IsActive = d.Telemetry!.Any(t => t.Timestamp >= _activeTelemetryCutoff)
             })
             .ToListAsync(cancellationToken);
 
         return allDevices;
+    }
+
+    /// <inheritdoc />
+    public async Task<DeviceDetails> GetDeviceDetails(
+        long deviceId,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var details = await _db.Devices
+            .AsNoTracking()
+            .Where(d => 
+                d.Id == deviceId
+                && !d.IsDeleted
+            )
+            .Select(d => new DeviceDetails
+            {
+                Id = d.Id,
+                Name = d.Name,
+                Location = d.Location,
+                IsActive = d.Telemetry!.Any(t => t.Timestamp >= _activeTelemetryCutoff),
+                Rules = d.Rules!
+                    .Where(r => !r.IsDeleted)
+                    .Select(r => new RuleBase
+                    {
+                        Id = r.Id,
+                        Name = r.Name,
+                        Summary = $"{string.Join(", ", r.Conditions!.Select(c => c.Type.ToString()))} - {string.Join(", ", r.Actions!.Select(a => a.Type.ToString()))}",
+                        IsActive = r.IsActive
+                    })
+                    .ToList(),
+                DistinctTelemetry = d.Telemetry!
+                    .Where(t => !t.IsDeleted)
+                    .GroupBy(t => t.Key)
+                    .Select(group => new TelemetryBase
+                    {
+                        Key = group.Key,
+                        Timestamp = group.Max(t => t.Timestamp),
+                        Value = group
+                            .Where(t => t.Timestamp == group.Max(t => t.Timestamp))
+                            .First()
+                            .Value
+                    })
+                    .ToList()
+            })
+            .FirstOrDefaultAsync(cancellationToken)
+            ?? throw new ApplicationException("Device not found");
+
+        return details;
+    }
+
+    /// <inheritdoc />
+    public async Task<List<IGrouping<string, TelemetryBase>>> GetDeviceTelemetry(
+        long deviceId,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var dateCutoff = DateTimeOffset.UtcNow.AddDays(-1);
+        var historicTelemetry = await _db.Telemetry
+            .AsNoTracking()
+            .Where(t =>
+                t.DeviceId == deviceId
+                && !t.IsDeleted
+                && t.Timestamp >= dateCutoff
+            )
+            .OrderBy(t => t.Timestamp)
+            .Select(t => new TelemetryBase
+            {
+                Id = t.Id,
+                Key = t.Key,
+                Value = t.Value,
+                Timestamp = t.Timestamp
+            })
+            .GroupBy(t => t.Key)
+            .ToListAsync(cancellationToken);
+
+        return historicTelemetry;
     }
 }

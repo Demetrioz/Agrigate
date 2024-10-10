@@ -1,5 +1,6 @@
 import 'package:agrigate/constants.dart';
 import 'package:agrigate/models/devices/device_base.dart';
+import 'package:agrigate/models/devices/device_details.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -35,6 +36,17 @@ class ApiService {
         .map((jsonEntity) => DeviceBase.fromJson(jsonEntity))
         .toList();
 
+    return result;
+  }
+
+  Future<DeviceDetails> getDeviceDetails(int id) async {
+    final response = await _dio!.get('/Devices/$id');
+
+    if (response.data['status'] == 1) {
+      throw Exception((response.data['error']));
+    }
+
+    final result = DeviceDetails.fromJson(response.data['data']);
     return result;
   }
 }
