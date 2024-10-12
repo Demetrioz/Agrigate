@@ -397,6 +397,7 @@ public class RuleService : IRuleService
         return newRule;
     }
 
+    /// <inheritdoc />
     public async Task<List<BaseDefinition<RuleCondition>>> GetRuleConditionDefinitions(
         CancellationToken cancellationToken = default
     )
@@ -415,6 +416,7 @@ public class RuleService : IRuleService
             .ToList();
     }
 
+    /// <inheritdoc />
     public async Task<List<BaseDefinition<RuleAction>>> GetRuleActionDefinitions(
         CancellationToken cancellationToken = default
     )
