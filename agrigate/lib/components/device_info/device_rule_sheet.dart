@@ -1,7 +1,12 @@
 import 'package:agrigate/components/common/agrigate_checkbox.dart';
 import 'package:agrigate/components/common/agrigate_dropdown.dart';
 import 'package:agrigate/components/common/agrigate_textfield.dart';
+import 'package:agrigate/components/common/error_dialog.dart';
+import 'package:agrigate/components/device_info/device_rule_action.dart';
+import 'package:agrigate/components/device_info/device_rule_condition.dart';
 import 'package:agrigate/constants.dart';
+import 'package:agrigate/main.dart';
+import 'package:agrigate/models/rules/base_definition.dart';
 import 'package:flutter/material.dart';
 
 class DeviceRuleSheet extends StatefulWidget {
@@ -14,21 +19,84 @@ class DeviceRuleSheet extends StatefulWidget {
 }
 
 class _DeviceRuleSheetState extends State<DeviceRuleSheet> {
-  late TextEditingController _nameController;
-  late TextEditingController _timespanController;
-  late TextEditingController _conditionController;
-  late TextEditingController _channelController;
-  late TextEditingController _messageController;
+  bool _isLoading = false;
+  List<BaseDefinition> _conditionDefinitions = [];
+  List<BaseDefinition> _actionDefinitions = [];
+  final _nameController = TextEditingController();
+  final _timespanController = TextEditingController();
+  final _conditionController = TextEditingController();
+  final _channelController = TextEditingController();
+  final _messageController = TextEditingController();
+  final _operatorController = TextEditingController();
+
+  void _saveRule() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+    } catch (e) {
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorDialog(
+            title: 'Error saving rule',
+            message: e.toString(),
+          ),
+        );
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _loadData() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      if (widget.id != null) {
+        print('loading rule ${widget.id}');
+      }
+
+      final conditionDefinitions =
+          apiService.getRuleDefinitions(DefinitionType.condition);
+      final actionDefinitions =
+          apiService.getRuleDefinitions(DefinitionType.action);
+
+      final results = await Future.wait([
+        conditionDefinitions,
+        actionDefinitions,
+      ]);
+
+      setState(() {
+        _conditionDefinitions = results[0];
+        _actionDefinitions = results[1];
+      });
+    } catch (e) {
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorDialog(
+            title: 'Error loading rule',
+            message: e.toString(),
+          ),
+        );
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
 
-    _nameController = TextEditingController();
-    _timespanController = TextEditingController();
-    _conditionController = TextEditingController();
-    _channelController = TextEditingController();
-    _messageController = TextEditingController();
+    _loadData();
   }
 
   @override
@@ -38,6 +106,7 @@ class _DeviceRuleSheetState extends State<DeviceRuleSheet> {
     _conditionController.dispose();
     _channelController.dispose();
     _messageController.dispose();
+    _operatorController.dispose();
 
     super.dispose();
   }
@@ -66,9 +135,10 @@ class _DeviceRuleSheetState extends State<DeviceRuleSheet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const AgrigateDropdown(
+                AgrigateDropdown(
                   label: 'Operator',
-                  options: [
+                  controller: _operatorController,
+                  options: const [
                     DropdownMenuEntry(value: 0, label: 'And'),
                     DropdownMenuEntry(value: 1, label: 'Or')
                   ],
@@ -98,24 +168,8 @@ class _DeviceRuleSheetState extends State<DeviceRuleSheet> {
               ],
             ),
             // TODO: Map from condition count
-            Row(
-              children: [
-                const AgrigateDropdown(
-                  label: 'Type',
-                  options: [
-                    DropdownMenuEntry(value: 0, label: 'Upper Limit'),
-                    DropdownMenuEntry(value: 1, label: 'Lower Limit'),
-                    DropdownMenuEntry(value: 2, label: 'Range')
-                  ],
-                  initialSelection: 0,
-                ),
-                Expanded(
-                  child: AgrigateTextfield(
-                    label: 'Value',
-                    controller: _conditionController,
-                  ),
-                ),
-              ],
+            DeviceRuleCondition(
+              definitions: _conditionDefinitions,
             ),
             const Divider(),
             Row(
@@ -134,23 +188,7 @@ class _DeviceRuleSheetState extends State<DeviceRuleSheet> {
               ],
             ),
             // TODO: Map from action count
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AgrigateDropdown(
-                  label: 'Type',
-                  options: [
-                    DropdownMenuEntry(value: 0, label: 'Notification'),
-                  ],
-                  initialSelection: 0,
-                ),
-                AgrigateDropdown(
-                  label: 'Channel',
-                  options: [DropdownMenuEntry(value: 0, label: 'MQTT')],
-                  initialSelection: 0,
-                ),
-              ],
-            ),
+            DeviceRuleAction(definitions: _actionDefinitions),
             AgrigateTextfield(
               label: 'Channel',
               controller: _channelController,
@@ -164,11 +202,11 @@ class _DeviceRuleSheetState extends State<DeviceRuleSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pop(),
                   child: const Text('Cancel'),
                 ),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: _isLoading ? null : _saveRule,
                   child: const Text('Save'),
                 )
               ],

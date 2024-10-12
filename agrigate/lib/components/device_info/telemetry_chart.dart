@@ -32,7 +32,12 @@ class _TelemetryChartState extends State<TelemetryChart> {
         _isLoading = true;
       });
 
-      final telemetry = await apiService.getDeviceTelemetry(widget.deviceId!);
+      final now = DateTime.now();
+      final telemetry = (await apiService.getDeviceTelemetry(widget.deviceId!))
+          .where((t) =>
+              t.timestamp.isAfter(now.subtract(const Duration(hours: 23))))
+          .toList();
+
       setState(() {
         _minTelemetryValue =
             telemetry.reduce((a, b) => a.value < b.value ? a : b).value;

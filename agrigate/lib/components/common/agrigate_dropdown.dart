@@ -6,12 +6,16 @@ class AgrigateDropdown<T> extends StatelessWidget {
     super.key,
     required this.label,
     required this.options,
+    required this.controller,
     this.initialSelection,
+    this.onSelected,
   });
 
   final String label;
   final List<DropdownMenuEntry> options;
+  final TextEditingController controller;
   final T? initialSelection;
+  final ValueChanged<dynamic>? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +41,7 @@ class AgrigateDropdown<T> extends StatelessWidget {
         label: Text(label),
         initialSelection: initialSelection,
         dropdownMenuEntries: options,
+        onSelected: onSelected,
       ),
     );
   }

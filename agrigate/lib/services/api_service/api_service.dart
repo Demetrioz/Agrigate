@@ -2,6 +2,7 @@ import 'package:agrigate/constants.dart';
 import 'package:agrigate/models/devices/device_base.dart';
 import 'package:agrigate/models/devices/device_details.dart';
 import 'package:agrigate/models/devices/telemetry_base.dart';
+import 'package:agrigate/models/rules/base_definition.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -52,10 +53,22 @@ class ApiService {
     final response = await _dio!.get('/Devices/$id/Telemetry');
 
     if (response.data['status'] == 1) {
-      throw Exception((response.data['erroro']));
+      throw Exception((response.data['error']));
     }
 
     final result = TelemetryBase.fromJsonList(response.data['data']);
+    return result;
+  }
+
+  Future<List<BaseDefinition>> getRuleDefinitions(DefinitionType type) async {
+    final response = await _dio!.get(
+        '/Rules/${type == DefinitionType.condition ? 'Conditions' : 'Actions'}');
+
+    if (response.data['status'] == 1) {
+      throw Exception((response.data['error']));
+    }
+
+    final result = BaseDefinition.fromJsonList(response.data['data']);
     return result;
   }
 }
