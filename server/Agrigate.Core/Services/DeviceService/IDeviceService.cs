@@ -46,7 +46,7 @@ public interface IDeviceService
     /// for</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<List<IGrouping<string, TelemetryBase>>> GetDeviceTelemetry(
+    public Task<List<TelemetryBase>> GetDeviceTelemetry(
         long deviceId,
         CancellationToken cancellationToken = default
     );

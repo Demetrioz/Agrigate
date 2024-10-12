@@ -28,4 +28,8 @@ class DeviceBase {
       _ => throw const FormatException('Failed to load DeviceBase'),
     };
   }
+
+  static List<DeviceBase> fromJsonList(List<dynamic> list) => list
+      .map((item) => DeviceBase.fromJson(item as Map<String, dynamic>))
+      .toList();
 }

@@ -120,7 +120,7 @@ public class DeviceService : IDeviceService
     }
 
     /// <inheritdoc />
-    public async Task<List<IGrouping<string, TelemetryBase>>> GetDeviceTelemetry(
+    public async Task<List<TelemetryBase>> GetDeviceTelemetry(
         long deviceId,
         CancellationToken cancellationToken = default
     )
@@ -141,7 +141,6 @@ public class DeviceService : IDeviceService
                 Value = t.Value,
                 Timestamp = t.Timestamp
             })
-            .GroupBy(t => t.Key)
             .ToListAsync(cancellationToken);
 
         return historicTelemetry;

@@ -1,6 +1,7 @@
 import 'package:agrigate/constants.dart';
 import 'package:agrigate/models/devices/device_base.dart';
 import 'package:agrigate/models/devices/device_details.dart';
+import 'package:agrigate/models/devices/telemetry_base.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -32,10 +33,7 @@ class ApiService {
       throw Exception(response.data['error']);
     }
 
-    final result = (response.data['data'] as List<dynamic>)
-        .map((jsonEntity) => DeviceBase.fromJson(jsonEntity))
-        .toList();
-
+    final result = DeviceBase.fromJsonList(response.data['data']);
     return result;
   }
 
@@ -47,6 +45,17 @@ class ApiService {
     }
 
     final result = DeviceDetails.fromJson(response.data['data']);
+    return result;
+  }
+
+  Future<List<TelemetryBase>> getDeviceTelemetry(int id) async {
+    final response = await _dio!.get('/Devices/$id/Telemetry');
+
+    if (response.data['status'] == 1) {
+      throw Exception((response.data['erroro']));
+    }
+
+    final result = TelemetryBase.fromJsonList(response.data['data']);
     return result;
   }
 }
