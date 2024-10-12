@@ -38,13 +38,15 @@ class _TelemetryChartState extends State<TelemetryChart> {
               t.timestamp.isAfter(now.subtract(const Duration(hours: 23))))
           .toList();
 
-      setState(() {
-        _minTelemetryValue =
-            telemetry.reduce((a, b) => a.value < b.value ? a : b).value;
-        _maxTelemetryValue =
-            telemetry.reduce((a, b) => a.value > b.value ? a : b).value;
-        _groupedTelemetry = groupBy(telemetry, (t) => t.key);
-      });
+      if (telemetry.isNotEmpty) {
+        setState(() {
+          _minTelemetryValue =
+              telemetry.reduce((a, b) => a.value < b.value ? a : b).value;
+          _maxTelemetryValue =
+              telemetry.reduce((a, b) => a.value > b.value ? a : b).value;
+          _groupedTelemetry = groupBy(telemetry, (t) => t.key);
+        });
+      }
     } catch (e) {
       if (mounted) {
         showDialog(

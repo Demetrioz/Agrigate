@@ -32,7 +32,7 @@ class RuleCard extends StatelessWidget {
           Icons.circle,
           color: isActive ? Colors.green : Colors.red,
         ),
-        onTap: () => _showRuleCard(context),
+        // onTap: () => _showRuleCard(context),
       ),
     );
   }

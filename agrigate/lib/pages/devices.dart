@@ -48,11 +48,17 @@ class _DevicesState extends State<Devices> {
     }
   }
 
-  void _addNewDevice() {
-    showModalBottomSheet(
+  void _addNewDevice() async {
+    final newDevice = await showModalBottomSheet(
       context: context,
       builder: (context) => const CreateDeviceSheet(),
     );
+
+    if (newDevice != null) {
+      setState(() {
+        _devices.add(newDevice);
+      });
+    }
   }
 
   @override

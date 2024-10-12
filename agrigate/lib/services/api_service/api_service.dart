@@ -38,6 +38,29 @@ class ApiService {
     return result;
   }
 
+  Future<DeviceBase> createDevice(String name, String location) async {
+    final response = await _dio!.post(
+      '/Devices',
+      data: {
+        'Name': name,
+        'Location': location,
+      },
+    );
+
+    if (response.data['status'] == 1) {
+      throw Exception((response.data['error']));
+    }
+
+    final fullDevice = response.data['data'];
+    final result = DeviceBase(
+      id: fullDevice['id'],
+      name: fullDevice['name'],
+      location: fullDevice['location'],
+      isActive: false,
+    );
+    return result;
+  }
+
   Future<DeviceDetails> getDeviceDetails(int id) async {
     final response = await _dio!.get('/Devices/$id');
 

@@ -95,7 +95,7 @@ class _DeviceInfoState extends State<DeviceInfo> {
   Widget build(BuildContext context) {
     return PageBase(
       title: _title,
-      floatingAction: _addNewRule,
+      // floatingAction: _addNewRule,
       content: _isLoading
           ? const Center(
               child: CircularProgressIndicator(),
@@ -140,20 +140,24 @@ class _DeviceInfoState extends State<DeviceInfo> {
                         fontSize: kLarge,
                       ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _details!.rules.length,
-                      itemBuilder: (BuildContext ctx, int index) {
-                        final item = _details!.rules.elementAt(index);
+                    _details!.rules.isEmpty
+                        ? const Center(
+                            child: Text('No Rules Available'),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: _details!.rules.length,
+                            itemBuilder: (BuildContext ctx, int index) {
+                              final item = _details!.rules.elementAt(index);
 
-                        return RuleCard(
-                          id: item.id,
-                          name: item.name,
-                          summary: item.summary,
-                          isActive: item.isActive,
-                        );
-                      },
-                    ),
+                              return RuleCard(
+                                id: item.id,
+                                name: item.name,
+                                summary: item.summary,
+                                isActive: item.isActive,
+                              );
+                            },
+                          ),
                   ],
                 ),
     );
