@@ -21,7 +21,7 @@ class _DeviceRuleConditionState extends State<DeviceRuleCondition> {
   final TextEditingController _conditionController = TextEditingController();
 
   void _handleTypeChange(selection) {
-    print('Selected $selection');
+    // TODO: Update the definition UI
   }
 
   @override
