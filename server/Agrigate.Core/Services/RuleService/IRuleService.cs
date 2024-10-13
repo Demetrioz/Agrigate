@@ -59,4 +59,22 @@ public interface IRuleService
         DeviceRules request,
         CancellationToken cancellationToken = default
     );
+
+    /// <summary>
+    /// Retrieves the defined rule condition definitions
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<BaseDefinition<RuleCondition>>> GetRuleConditionDefinitions(
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Retrieves the defined rule action definitions
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<BaseDefinition<RuleAction>>> GetRuleActionDefinitions(
+        CancellationToken cancellationToken = default
+    );
 }

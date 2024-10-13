@@ -24,7 +24,30 @@ public interface IDeviceService
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<List<Device>> GetDevices(
+    public Task<List<DeviceBase>> GetDevices(
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Retrieves detailed information about a specific device
+    /// </summary>
+    /// <param name="deviceId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<DeviceDetails> GetDeviceDetails(
+        long deviceId,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Retrieves historic telemetry for a particular device
+    /// </summary>
+    /// <param name="deviceId">The id of the device to retrieve telemetry 
+    /// for</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<List<TelemetryBase>> GetDeviceTelemetry(
+        long deviceId,
         CancellationToken cancellationToken = default
     );
 }
