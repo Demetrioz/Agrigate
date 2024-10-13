@@ -1,6 +1,9 @@
 using System.Text.Json.Serialization;
+using Agrigate.Api;
 using Agrigate.Api.Actors;
+using Agrigate.Api.Authorization;
 using Agrigate.Api.Configuration;
+using Agrigate.Api.Services;
 using Agrigate.Core.Configuration;
 using Agrigate.Core.Services.DeviceService;
 using Agrigate.Core.Services.MqttService;
@@ -10,7 +13,10 @@ using Agrigate.Domain.Configuration;
 using Agrigate.Domain.Contexts;
 using Akka.Hosting;
 using Akka.Remote.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,11 +45,37 @@ builder.Services.AddDbContext<AgrigateContext>(options =>
     options.UseNpgsql(connectionString));
 
 //////////////////////////////////////////
+//       Configure Authentication       //
+//////////////////////////////////////////
+
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer();
+
+builder.Services
+    .AddAuthorization(options =>
+    {
+        options.AddPolicy(
+            Constants.Policies.ApiKeyPolicy, 
+            policy =>
+            {
+                policy.AddAuthenticationSchemes([JwtBearerDefaults.AuthenticationScheme]);
+                policy.Requirements.Add(new ApiKeyRequirement());
+            });
+    });
+
+//////////////////////////////////////////
 //          Configure Services          //
 //////////////////////////////////////////
 
 builder.Services
+    .AddHttpContextAccessor()
     .AddSingleton<IMqttService, MqttService>()
+    .AddScoped<IAuthorizationHandler, ApiKeyHandler>()
+    .AddScoped<IAuthenticationService, AuthenticationService>()
     .AddTransient<IDeviceService, DeviceService>()
     .AddTransient<INotificationService, NotificationService>()
     .AddTransient<IRuleService, RuleService>();
@@ -54,7 +86,32 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    var apiKeySecurityScheme = new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Name = Constants.Authentication.ApiKeyHeader,
+        Type = SecuritySchemeType.ApiKey,
+        Description = Constants.Authentication.SchemeDescription,
+        Scheme = Constants.Authentication.SchemeName,
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = Constants.Authentication.SchemeDefinition
+        }
+    };
+
+    c.AddSecurityDefinition(
+        Constants.Authentication.SchemeDefinition,
+        apiKeySecurityScheme
+    );
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        { apiKeySecurityScheme, [] }
+    });
+});
 
 //////////////////////////////////////////
 //               Akka.Net               //

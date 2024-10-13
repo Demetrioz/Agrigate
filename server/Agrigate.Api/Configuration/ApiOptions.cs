@@ -16,4 +16,9 @@ public class ApiOptions
     /// Service configuration for the EventService
     /// </summary>
     public ServiceOptions EventService { get; set; } = new();
+
+    /// <summary>
+    /// A secret key that's required to make an API request
+    /// </summary>
+    public string ApiKey { get; set; } = string.Empty;
 }

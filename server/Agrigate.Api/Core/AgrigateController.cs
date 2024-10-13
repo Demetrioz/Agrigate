@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Agrigate.Api.Core;
@@ -6,6 +7,7 @@ namespace Agrigate.Api.Core;
 /// A base controller for the Agrigate API
 /// </summary>
 [ApiController]
+[Authorize(Policy = Constants.Policies.ApiKeyPolicy)]
 public class AgrigateController : ControllerBase
 {
     public AgrigateController()

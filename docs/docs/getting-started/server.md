@@ -64,6 +64,7 @@ services:
     ...
     environment:
       - "Database__Password={VALUE}"              # Should be the same as the database password
+      - "Api__ApiKey={VALUE}"                     # A secret key required to authentication with the API
       - "Notifications__ClientId={VALUE}"         # The clientId that will show up in the MQTT broker
       - "Notifications__Host={VALUE}"             # The MQTT broker's host name
       - "Notifications__Port={VALUE}"             # The MQTT broker's port
@@ -92,6 +93,19 @@ services:
       - {VALUE}                                   # Should match the Telemetry__Port value
 
 ```
+
+:::danger
+
+Make sure that the `Api__ApiKey` value is difficult to guess or remember,
+especially if exposing your local Agrigate API to the internet.
+
+Someone with this key would be able to make API requests to read and modify data
+within your Agrigate instance.
+
+Occasionally changing this value is recommended, as is using a password
+generator like Proton Pass or 1Password.
+
+:::
 
 #### Start Docker-Compose
 
