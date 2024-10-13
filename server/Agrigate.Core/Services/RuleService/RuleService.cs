@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Agrigate.Core.Services.NotificationService;
 using Agrigate.Core.Services.RuleService.Models;
 using Agrigate.Domain.Contexts;
@@ -394,5 +395,43 @@ public class RuleService : IRuleService
         };
 
         return newRule;
+    }
+
+    /// <inheritdoc />
+    public async Task<List<BaseDefinition<RuleCondition>>> GetRuleConditionDefinitions(
+        CancellationToken cancellationToken = default
+    )
+    {
+        var definitions = await _db.TelemetryRuleConditionDefinitions
+            .AsNoTracking()
+            .Where(d => !d.IsDeleted)
+            .ToListAsync(cancellationToken);
+
+        return definitions
+            .Select(d => new BaseDefinition<RuleCondition>
+            {
+                Type = d.Type,
+                Data = JsonDocument.Parse(d.Definition)
+            })
+            .ToList();
+    }
+
+    /// <inheritdoc />
+    public async Task<List<BaseDefinition<RuleAction>>> GetRuleActionDefinitions(
+        CancellationToken cancellationToken = default
+    )
+    {
+        var definitions = await _db.TelemetryRuleActionDefinitions
+            .AsNoTracking()
+            .Where(d => !d.IsDeleted)
+            .ToListAsync(cancellationToken);
+
+        return definitions
+            .Select(d => new BaseDefinition<RuleAction>
+            {
+                Type = d.Type,
+                Data = JsonDocument.Parse(d.Definition)
+            })
+            .ToList();
     }
 }

@@ -166,6 +166,37 @@ public class RuleServiceTests
         }
     }
 
+    [Test, Order(6)]
+    public async Task GetRuleConditionDefinitions_Succeeds()
+    {
+        using var context = new AgrigateContext(_contextOptions);
+        await AddRuleDefinitions(context);
+        var ruleService = new RuleService(context, _mockNotificationService);
+
+        var result = await ruleService.GetRuleConditionDefinitions();
+
+        Assert.Multiple(() => 
+        {
+            Assert.That(result, Has.Count.EqualTo(1));
+            Assert.That(result.First().Type, Is.EqualTo(RuleCondition.UpperLimit));
+        });
+    }
+
+    [Test, Order(7)]
+    public async Task GetRuleActionDefinitions_Succeeds()
+    {
+        using var context = new AgrigateContext(_contextOptions);
+        var ruleService = new RuleService(context, _mockNotificationService);
+
+        var result = await ruleService.GetRuleActionDefinitions();
+
+        Assert.Multiple(() => 
+        {
+            Assert.That(result, Has.Count.EqualTo(1));
+            Assert.That(result.First().Type, Is.EqualTo(RuleAction.Notification));
+        });
+    }
+
     private async Task AddInactiveBaseData(AgrigateContext context)
     {
         var device = new Device
@@ -228,6 +259,23 @@ public class RuleServiceTests
         var test1Rule = await context.TelemetryRules
             .FirstOrDefaultAsync(r => r.Name == _ruleName);
         test1Rule!.IsActive = true;
+        await context.SaveChangesAsync();
+    }
+
+    private async Task AddRuleDefinitions(AgrigateContext context)
+    {
+        var testCondition = new TelemetryRuleConditionDefinition
+        {
+            Type = RuleCondition.UpperLimit,
+        };
+
+        var testAction = new TelemetryRuleActionDefinition
+        {
+            Type = RuleAction.Notification
+        };
+
+        context.Add(testCondition);
+        context.Add(testAction);
         await context.SaveChangesAsync();
     }
 
