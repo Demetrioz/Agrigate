@@ -15,15 +15,22 @@ class ApiService {
   Dio? _dio;
   FlutterSecureStorage? _storage;
 
-  Future<void> initialize({String? updatedUrl}) async {
+  Future<void> initialize({
+    String? updatedUrl,
+    String? updatedApiKey,
+  }) async {
     _storage ??= const FlutterSecureStorage();
     _dio ??= Dio();
 
     final baseUrl = updatedUrl?.isEmpty ?? true
         ? await _storage!.read(key: kServerUrl) ?? ''
         : updatedUrl ?? '';
+    final apiKey = updatedApiKey?.isEmpty ?? true
+        ? await _storage!.read(key: kApiKey) ?? ''
+        : updatedApiKey ?? '';
 
     _dio!.options.baseUrl = baseUrl;
+    _dio!.options.headers[kApiHeaderName] = apiKey;
   }
 
   Future<List<DeviceBase>> getDevices() async {

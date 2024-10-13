@@ -1,5 +1,9 @@
+// API Request Header
+const kApiHeaderName = 'AgrigateApiKey';
+
 // Settings Keys
 const kServerUrl = 'AgrigateServerUrl';
+const kApiKey = 'AgrigateApiKey';
 
 // Strings
 const kAgrigate = 'Agrigate';

@@ -58,7 +58,7 @@ class _DeviceRuleSheetState extends State<DeviceRuleSheet> {
       });
 
       if (widget.id != null) {
-        print('loading rule ${widget.id}');
+        // TODO: Load rule widget.id
       }
 
       final conditionDefinitions =

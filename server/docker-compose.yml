@@ -35,6 +35,7 @@ services:
       - "Api__EventService__HostName=eventservice"
       - "Api__EventService__SupervisorName=EventSupervisor"
       - "Api__EventService__Port=5000"
+      - "Api__ApiKey=apikey"
       - "Notifications__ClientId=clientId"
       - "Notifications__Host=host"
       - "Notifications__Port=1234"
