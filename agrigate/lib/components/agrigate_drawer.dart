@@ -1,7 +1,8 @@
 import 'package:agrigate/constants.dart';
 import 'package:agrigate/pages/devices.dart';
 import 'package:agrigate/pages/home.dart';
-import 'package:agrigate/pages/settings.dart';
+import 'package:agrigate/pages/notifications.dart';
+import 'package:agrigate/pages/settings/settings.dart';
 import 'package:flutter/material.dart';
 
 class AgrigateDrawer extends StatelessWidget {
@@ -47,6 +48,11 @@ class AgrigateDrawer extends StatelessWidget {
             leading: const Icon(Icons.router_outlined),
             title: const Text(Devices.title),
             onTap: () => navigateToPage(context, Devices.route),
+          ),
+          ListTile(
+            leading: const Icon(Icons.chat),
+            title: const Text(Notifications.title),
+            onTap: () => navigateToPage(context, Notifications.route),
           ),
           ListTile(
             leading: const Icon(Icons.settings),

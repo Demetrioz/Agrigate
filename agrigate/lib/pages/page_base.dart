@@ -2,23 +2,28 @@ import 'package:agrigate/components/agrigate_drawer.dart';
 import 'package:flutter/material.dart';
 
 class PageBase extends StatefulWidget {
-  const PageBase(
-      {super.key,
-      required this.content,
-      required this.title,
-      this.floatingAction,
-      this.floatingActionIcon});
+  const PageBase({
+    super.key,
+    required this.content,
+    required this.title,
+    this.floatingAction,
+    this.floatingActionIcon,
+    this.navigationBar,
+  });
 
   final Widget content;
   final String title;
   final VoidCallback? floatingAction;
   final IconData? floatingActionIcon;
+  final NavigationBar? navigationBar;
 
   @override
   State<PageBase> createState() => _PageBaseState();
 }
 
 class _PageBaseState extends State<PageBase> {
+  // TODO: get number of unread notifications
+
   @override
   Widget build(BuildContext context) {
     final route = ModalRoute.of(context)?.settings.name;
@@ -42,6 +47,7 @@ class _PageBaseState extends State<PageBase> {
           ),
         );
       }),
+      bottomNavigationBar: widget.navigationBar,
       floatingActionButton: widget.floatingAction != null
           ? FloatingActionButton(
               onPressed: widget.floatingAction,
