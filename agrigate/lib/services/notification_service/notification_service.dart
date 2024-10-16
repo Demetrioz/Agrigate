@@ -20,7 +20,7 @@ class NotificationService {
     const InitializationSettings initializationSettings =
         InitializationSettings(
       iOS: DarwinInitializationSettings(),
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+      android: AndroidInitializationSettings('@drawable/ic_notification'),
       linux: LinuxInitializationSettings(
           defaultActionName: 'onDidReceiveNotificationResponse'),
     );
