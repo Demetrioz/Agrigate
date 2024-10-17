@@ -1,4 +1,5 @@
 import 'package:agrigate/constants.dart';
+import 'package:agrigate/main.dart';
 import 'package:agrigate/pages/device_info.dart';
 import 'package:agrigate/pages/devices.dart';
 import 'package:agrigate/pages/home.dart';
@@ -25,6 +26,13 @@ class _AgrigateState extends State<Agrigate> {
   }
 
   @override
+  void dispose() {
+    notificationStream.close();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: kAgrigate,
@@ -41,6 +49,9 @@ class _AgrigateState extends State<Agrigate> {
         Settings.route: (context) => const Settings(),
         Notifications.route: (context) => const Notifications(),
       },
+      navigatorObservers: [
+        routeObserver,
+      ],
     );
   }
 }

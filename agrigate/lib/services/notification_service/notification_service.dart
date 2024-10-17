@@ -1,6 +1,12 @@
 import 'dart:io';
 
+import 'package:agrigate/main.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+@pragma('vm:entry-point')
+void notificationTapBackground(NotificationResponse response) {
+  notificationStream.add(response.payload);
+}
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -25,7 +31,13 @@ class NotificationService {
           defaultActionName: 'onDidReceiveNotificationResponse'),
     );
 
-    await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await _flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) async {
+        notificationStream.add(response.payload);
+      },
+      onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+    );
   }
 
   static void requestNotificationPermissions() {
@@ -46,18 +58,35 @@ class NotificationService {
       channelDescription: channelDescription,
       importance: Importance.max,
       priority: Priority.high,
+      actions: [
+        AndroidNotificationAction(
+          'AgrigateAlert',
+          'View Alert',
+          showsUserInterface: true,
+        ),
+      ],
     );
 
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    const LinuxNotificationDetails linuxPlatformChannelSpecifics =
+        LinuxNotificationDetails(
+      actions: [
+        LinuxNotificationAction(
+          key: 'AgrigateAlert',
+          label: 'View Alert',
+        ),
+      ],
+    );
+
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      linux: linuxPlatformChannelSpecifics,
+    );
 
     await _flutterLocalNotificationsPlugin.show(
         id, title, body, platformChannelSpecifics);
   }
 
-  void onDidReceiveNotificationResponse(
-    NotificationResponse notifcationResponse,
-  ) async {
-    // await Navigator.pushNamed(context, Notifications.route);
+  void onDidReceiveNotificationResponse(NotificationResponse response) async {
+    notificationStream.add(response.payload);
   }
 }
