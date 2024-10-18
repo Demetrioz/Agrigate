@@ -151,6 +151,13 @@ public class RuleService : IRuleService
                 // Remove the last two characters - ", "
                 message = message[..^2];
 
+                await _notificationService.SaveNotification(
+                    title,
+                    message,
+                    DateTimeOffset.UtcNow,
+                    cancellationToken
+                );
+
                 await _notificationService.SendMqttNotification(
                     notificationDefinition.Address!,
                     $"{title}: {message}", 

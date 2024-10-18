@@ -1,6 +1,8 @@
 using Agrigate.Core.Configuration;
 using Agrigate.Core.Services.MqttService;
 using Agrigate.Core.Services.NotificationService;
+using Agrigate.Domain.Contexts;
+using Agrigate.Domain.Entities;
 using Microsoft.Extensions.Options;
 using MQTTnet;
 using MQTTnet.Client;
@@ -53,8 +55,11 @@ public class NotificationServiceTests
     }
 
     [Test]
-    public async Task SendMqttNotificationSucceeds()
+    public async Task SendMqttNotification_Succeeds()
     {
+        using var db = TestHelpers
+            .GetUniqueTestDb(nameof(SendMqttNotification_Succeeds));
+
         var topic = "testTopic";
         var payload = new
         {
@@ -64,7 +69,8 @@ public class NotificationServiceTests
 
         var notificationService = new NotificationService(
             _options, 
-            _mockMqttService
+            _mockMqttService,
+            db
         );
 
         await notificationService.SendMqttNotification(
@@ -93,5 +99,76 @@ public class NotificationServiceTests
             .DisconnectAsync(
                 Arg.Any<MqttClientDisconnectOptions>(), 
                 Arg.Any<CancellationToken>());
+    }
+
+    [Test]
+    public async Task SaveNotification_Succeeds()
+    {
+        using var db = TestHelpers
+            .GetUniqueTestDb(nameof(SaveNotification_Succeeds));
+        
+        string title = "Test";
+        string text = "TestText";
+        
+        var notificationService = new NotificationService(
+            _options,
+            _mockMqttService,
+            db
+        );
+
+        var result = await notificationService.SaveNotification(title, text);
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Title, Is.EqualTo(title));
+            Assert.That(result.Text, Is.EqualTo(text));
+        });
+    }
+
+    [Test]
+    public async Task GetRecentNotifications_Succeeds()
+    {
+        using var db = TestHelpers
+            .GetUniqueTestDb(nameof(GetRecentNotifications_Succeeds));
+
+        await AddNotificationsToDb(db);
+
+        var notificationService = new NotificationService(
+            _options,
+            _mockMqttService,
+            db
+        );
+
+        var result = await notificationService.GetRecentNotifications();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Has.Count.EqualTo(10));
+            Assert.That(result.First().Title, Is.EqualTo("Test12"));
+            Assert.That(result.ElementAt(1).Title, Is.EqualTo("Test6"));
+        });
+    }
+
+    private async Task AddNotificationsToDb(AgrigateContext db)
+    {
+        var now = DateTimeOffset.UtcNow;
+        var newNotifications = new List<Notification>
+        {
+            new Notification {Title = "Test1", Text = "Test1", Created = now, Modified = now, Timestamp = now },
+            new Notification {Title = "Test2", Text = "Test2", Created = now, Modified = now, Timestamp = now },
+            new Notification {Title = "Test3", Text = "Test3", Created = now, Modified = now, Timestamp = now },
+            new Notification {Title = "Test4", Text = "Test4", Created = now, Modified = now, Timestamp = now },
+            new Notification {Title = "Test5", Text = "Test5", Created = now, Modified = now, Timestamp = now },
+            new Notification {Title = "Test6", Text = "Test6", Created = now, Modified = now, Timestamp = now.AddDays(7) },
+            new Notification {Title = "Test7", Text = "Test7", Created = now, Modified = now, Timestamp = now },
+            new Notification {Title = "Test8", Text = "Test8", Created = now, Modified = now, Timestamp = now },
+            new Notification {Title = "Test9", Text = "Test9", Created = now, Modified = now, Timestamp = now },
+            new Notification {Title = "Test10", Text = "Test10", Created = now, Modified = now, Timestamp = now },
+            new Notification {Title = "Test11", Text = "Test11", Created = now, Modified = now, Timestamp = now },
+            new Notification {Title = "Test12", Text = "Test12", Created = now, Modified = now, Timestamp = now.AddDays(8) },
+        };
+
+        db.AddRange(newNotifications);
+        await db.SaveChangesAsync();
     }
 }

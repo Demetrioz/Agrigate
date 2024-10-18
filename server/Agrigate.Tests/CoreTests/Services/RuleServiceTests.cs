@@ -117,6 +117,14 @@ public class RuleServiceTests
             await task;
 
             await _mockNotificationService.Received(1)
+                .SaveNotification(
+                    messageTitle, 
+                    messageText, 
+                    Arg.Any<DateTimeOffset>(), 
+                    Arg.Any<CancellationToken>()
+                );
+
+            await _mockNotificationService.Received(1)
                 .SendMqttNotification(
                     _notificationAddress, 
                     messageContent, 
