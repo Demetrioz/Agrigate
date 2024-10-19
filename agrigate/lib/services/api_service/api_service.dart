@@ -2,6 +2,7 @@ import 'package:agrigate/constants.dart';
 import 'package:agrigate/models/devices/device_base.dart';
 import 'package:agrigate/models/devices/device_details.dart';
 import 'package:agrigate/models/devices/telemetry_base.dart';
+import 'package:agrigate/models/notifications/notification_base.dart';
 import 'package:agrigate/models/rules/base_definition.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -100,5 +101,27 @@ class ApiService {
 
     final result = BaseDefinition.fromJsonList(response.data['data']);
     return result;
+  }
+
+  Future<List<NotificationBase>> getNotifications() async {
+    final response = await _dio!.get('/Notifications');
+
+    if (response.data['status'] == 1) {
+      throw Exception((response.data['error']));
+    }
+
+    final result = NotificationBase.fromJsonList(response.data['data']);
+    return result;
+  }
+
+  Future markNotificationsViewed(List<int> ids) async {
+    final respose = await _dio!.post(
+      '/Notifications/Viewed',
+      data: {'Ids': ids},
+    );
+
+    if (respose.data['status'] == 1) {
+      throw Exception((respose.data['error']));
+    }
   }
 }

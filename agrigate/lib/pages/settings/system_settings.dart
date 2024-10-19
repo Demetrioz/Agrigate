@@ -2,32 +2,31 @@ import 'package:agrigate/components/common/agrigate_textfield.dart';
 import 'package:agrigate/components/common/error_dialog.dart';
 import 'package:agrigate/constants.dart';
 import 'package:agrigate/main.dart';
-import 'package:agrigate/pages/page_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({super.key});
-
-  static const String title = 'Settings';
-  static const String route = '/settings';
+class SystemSettings extends StatefulWidget {
+  const SystemSettings({super.key});
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<SystemSettings> createState() => _SystemSettingsState();
 }
 
-class _SettingsState extends State<Settings> {
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
-  final TextEditingController _serverUrlController = TextEditingController();
-  final TextEditingController _apiKeyController = TextEditingController();
+class _SystemSettingsState extends State<SystemSettings> {
+  final _storage = const FlutterSecureStorage();
+  final _serverUrlController = TextEditingController();
+  final _apiKeyController = TextEditingController();
 
   void _loadSettings() async {
     try {
-      final allSettings = await _storage.readAll();
+      final settings = await Future.wait([
+        _storage.read(key: kServerUrl),
+        _storage.read(key: kApiKey),
+      ]);
 
       setState(() {
-        _serverUrlController.text = allSettings[kServerUrl] ?? '';
-        _apiKeyController.text = allSettings[kApiKey] ?? '';
+        _serverUrlController.text = settings[0] ?? '';
+        _apiKeyController.text = settings[1] ?? '';
       });
     } catch (e) {
       if (mounted) {
@@ -90,24 +89,22 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    return PageBase(
-      title: 'Settings',
-      content: Column(
-        children: [
-          AgrigateTextfield(
-            label: 'Server URL',
-            controller: _serverUrlController,
-          ),
-          AgrigateTextfield(
-            label: 'API Key',
-            controller: _apiKeyController,
-          ),
-          ElevatedButton(
-            onPressed: _saveSettings,
-            child: const Text('Save'),
-          )
-        ],
-      ),
+    return Column(
+      children: [
+        AgrigateTextfield(
+          label: 'Server URL',
+          controller: _serverUrlController,
+        ),
+        AgrigateTextfield(
+          label: 'API Key',
+          obscureText: true,
+          controller: _apiKeyController,
+        ),
+        ElevatedButton(
+          onPressed: _saveSettings,
+          child: const Text('Save'),
+        )
+      ],
     );
   }
 }
