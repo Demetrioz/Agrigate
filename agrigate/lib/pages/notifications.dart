@@ -3,7 +3,9 @@ import 'package:agrigate/components/notifications/notification_card.dart';
 import 'package:agrigate/main.dart';
 import 'package:agrigate/models/notifications/notification_base.dart';
 import 'package:agrigate/pages/page_base.dart';
+import 'package:agrigate/providers/notification_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -26,6 +28,10 @@ class _NotificationsState extends State<Notifications> {
       });
 
       final result = await apiService.getNotifications();
+
+      if (mounted) {
+        context.read<NotificationProvider>().setHasUnreadNotifications(false);
+      }
 
       setState(() {
         _notifications = result;

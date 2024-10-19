@@ -3,7 +3,9 @@ import 'package:agrigate/pages/devices.dart';
 import 'package:agrigate/pages/home.dart';
 import 'package:agrigate/pages/notifications.dart';
 import 'package:agrigate/pages/settings/settings.dart';
+import 'package:agrigate/providers/notification_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AgrigateDrawer extends StatelessWidget {
   const AgrigateDrawer({super.key});
@@ -19,6 +21,9 @@ class AgrigateDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasNotifications =
+        context.watch<NotificationProvider>().hasUnreadNotifications;
+
     return Drawer(
       child: ListView(
         children: [
@@ -53,6 +58,12 @@ class AgrigateDrawer extends StatelessWidget {
             leading: const Icon(Icons.chat),
             title: const Text(Notifications.title),
             onTap: () => navigateToPage(context, Notifications.route),
+            trailing: hasNotifications
+                ? const Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                  )
+                : null,
           ),
           ListTile(
             leading: const Icon(Icons.settings),

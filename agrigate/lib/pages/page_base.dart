@@ -1,7 +1,9 @@
 import 'package:agrigate/components/agrigate_drawer.dart';
 import 'package:agrigate/main.dart';
 import 'package:agrigate/pages/notifications.dart';
+import 'package:agrigate/providers/notification_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PageBase extends StatefulWidget {
   const PageBase({
@@ -24,7 +26,17 @@ class PageBase extends StatefulWidget {
 }
 
 class _PageBaseState extends State<PageBase> with RouteAware {
-  // TODO: get number of unread notifications
+  void _handleNotificationEvent(String? payload) async {
+    if (mounted) {
+      switch (payload) {
+        case 'ServiceEvent.notificationReceived':
+          context.read<NotificationProvider>().setHasUnreadNotifications(true);
+          break;
+        default:
+          _handleNotificationTap(payload);
+      }
+    }
+  }
 
   // When tapping on a notification, we should navigate to the notifications
   // page, but only if we're the top-most widget and not already there
@@ -46,7 +58,7 @@ class _PageBaseState extends State<PageBase> with RouteAware {
   void initState() {
     super.initState();
 
-    notificationStream.stream.listen(_handleNotificationTap);
+    notificationStream.stream.listen(_handleNotificationEvent);
   }
 
   @override

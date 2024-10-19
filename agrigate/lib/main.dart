@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:agrigate/agrigate.dart';
 import 'package:agrigate/constants.dart';
 import 'package:agrigate/observers/route_observer.dart';
+import 'package:agrigate/providers/notification_provider.dart';
 import 'package:agrigate/services/api_service/api_service.dart';
 import 'package:agrigate/services/mqtt_service/mqtt_service.dart';
 import 'package:agrigate/services/notification_service/notification_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // Allow services to be accessed from other areas of the app
 final apiService = ApiService();
@@ -34,5 +36,12 @@ Future<void> main() async {
     await mqttService!.loadSettingsAndConnect();
   }
 
-  runApp(const Agrigate());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (_) => NotificationProvider(),
+      ),
+    ],
+    child: const Agrigate(),
+  ));
 }

@@ -15,14 +15,17 @@ class NotificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localDate = date.toLocal();
+    final formattedTime = DateFormat.Hm().format(localDate);
+    final formattedDate = DateFormat.MMMMd().format(localDate);
+
     return Card(
       child: ListTile(
         leading: Icon(
           Icons.notifications,
           color: important ? Colors.red : Colors.blue,
         ),
-        title: Text(
-            '${DateFormat.Hm().format(date)} ${DateFormat.MMMMd().format(date)}'),
+        title: Text('$formattedTime $formattedDate'),
         subtitle: Text(text),
       ),
     );

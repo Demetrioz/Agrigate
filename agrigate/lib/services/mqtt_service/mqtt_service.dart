@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:agrigate/constants.dart';
+import 'package:agrigate/main.dart';
 import 'package:agrigate/pages/settings/notification_settings.dart';
 import 'package:agrigate/services/mqtt_service/service_events.dart';
 import 'package:agrigate/services/notification_service/notification_service.dart';
@@ -198,6 +199,7 @@ class MqttService {
   void _handleMessage(String topic, String payload) async {
     if (kDebugMode) debugPrint('Received $payload from $topic');
 
+    notificationStream.add(ServiceEvent.notificationReceived.toString());
     await NotificationService.showNotification(0, 'Alert!', payload);
   }
 
