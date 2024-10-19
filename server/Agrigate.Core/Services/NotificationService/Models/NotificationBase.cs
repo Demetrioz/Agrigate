@@ -5,6 +5,7 @@ namespace Agrigate.Core.Services.NotificationService.Models;
 /// </summary>
 public class NotificationBase
 {
+    public long Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Text { get; set; } = string.Empty;
     public bool HasBeenViewed { get; set; }

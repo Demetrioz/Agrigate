@@ -6,18 +6,20 @@ class NotificationCard extends StatelessWidget {
     super.key,
     required this.text,
     required this.date,
+    required this.important,
   });
 
   final String text;
   final DateTime date;
+  final bool important;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: const Icon(
+        leading: Icon(
           Icons.notifications,
-          color: Colors.red,
+          color: important ? Colors.red : Colors.blue,
         ),
         title: Text(
             '${DateFormat.Hm().format(date)} ${DateFormat.MMMMd().format(date)}'),

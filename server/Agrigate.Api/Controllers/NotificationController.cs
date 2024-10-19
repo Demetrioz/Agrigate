@@ -1,4 +1,5 @@
 using Agrigate.Api.Core;
+using Agrigate.Api.Models.Requests;
 using Agrigate.Core.Services.NotificationService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ public class NotificationController : AgrigateController
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<object> GetNotifications(
+    public async Task<IActionResult> GetNotifications(
         CancellationToken cancellationToken = default
     )
     {
@@ -34,6 +35,33 @@ public class NotificationController : AgrigateController
                 .GetRecentNotifications(cancellationToken);
 
             return Success(result);
+        }
+        catch (Exception ex)
+        {
+            return Failure(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Marks the specified notifications as viewed
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPost("Viewed")]
+    public async Task<IActionResult> MarkNotificationsRead(
+        [FromBody] NotificationsRead request,
+        CancellationToken cancellationToken = default
+    ) 
+    {
+        try 
+        {
+            await _notificationService.MarkNotificationsRead(
+                request.Ids,
+                cancellationToken
+            );
+
+            return Success(true);
         }
         catch (Exception ex)
         {

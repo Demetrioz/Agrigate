@@ -44,4 +44,16 @@ public interface INotificationService
     Task<List<NotificationBase>> GetRecentNotifications(
         CancellationToken cancellationToken = default
     );
+
+    /// <summary>
+    /// Marks the provided notifications as "has been read"
+    /// </summary>
+    /// <param name="notificationIds">The list of notification ids to 
+    /// update</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task MarkNotificationsRead(
+        List<long> notificationIds,
+        CancellationToken cancellationToken = default
+    );
 }

@@ -149,6 +149,39 @@ public class NotificationServiceTests
         });
     }
 
+    [Test]
+    public async Task MarkNotificationsRead_Succeeds()
+    {
+        using var db = TestHelpers
+            .GetUniqueTestDb(nameof(MarkNotificationsRead_Succeeds));
+
+        await AddNotificationsToDb(db);
+
+        var readNotifications = new List<long> { 1, 3, 5 };
+
+        var notificationService = new NotificationService(
+            _options,
+            _mockMqttService,
+            db
+        );
+
+        await notificationService.MarkNotificationsRead(readNotifications);
+        var results = await notificationService.GetRecentNotifications();
+
+        var readResults = results
+            .Where(n => readNotifications.Contains(n.Id))
+            .ToList();
+
+        Assert.Multiple(() => 
+        {
+            Assert.That(readResults, Has.Count.EqualTo(3));
+            CollectionAssert.AreEquivalent(
+                readNotifications, 
+                readResults.Select(n => n.Id).ToList()
+            );
+        });
+    }
+
     private async Task AddNotificationsToDb(AgrigateContext db)
     {
         var now = DateTimeOffset.UtcNow;

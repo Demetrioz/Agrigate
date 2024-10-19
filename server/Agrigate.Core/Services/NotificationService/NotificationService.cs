@@ -97,6 +97,7 @@ public class NotificationService : INotificationService
             .OrderByDescending(d => d.Timestamp)
             .Select(d => new NotificationBase
             {
+                Id = d.Id,
                 Title = d.Title,
                 Text = d.Text,
                 HasBeenViewed = d.HasBeenViewed,
@@ -104,5 +105,28 @@ public class NotificationService : INotificationService
             })
             .Take(10)
             .ToListAsync(cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task MarkNotificationsRead(
+        List<long> notificationIds,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var notifications = await _db.Notifications
+            .Where(d =>
+                !d.IsDeleted
+                && notificationIds.Contains(d.Id)
+            )
+            .ToListAsync(cancellationToken);
+
+        var now = DateTimeOffset.UtcNow;
+        foreach(var notification in notifications) 
+        {
+            notification.HasBeenViewed = true;
+            notification.Modified = now;
+        }
+
+        await _db.SaveChangesAsync(cancellationToken);
     }
 }
