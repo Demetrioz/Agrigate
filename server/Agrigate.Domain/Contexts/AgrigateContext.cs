@@ -45,5 +45,7 @@ public class AgrigateContext : DbContext
     public DbSet<TelemetryRuleConditionDefinition> TelemetryRuleConditionDefinitions { get; set; }
     public DbSet<TelemetryRuleActionDefinition> TelemetryRuleActionDefinitions { get; set; }
 
+    public DbSet<Notification> Notifications { get; set; }
+
     public DbSet<CropProfile> CropProfiles { get; set; }
 }

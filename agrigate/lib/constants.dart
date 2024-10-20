@@ -1,5 +1,21 @@
+import 'dart:io';
+
+final kIsMobile = Platform.isAndroid || Platform.isIOS;
+
+// API Request Header
+const kApiHeaderName = 'AgrigateApiKey';
+
 // Settings Keys
 const kServerUrl = 'AgrigateServerUrl';
+const kApiKey = 'AgrigateApiKey';
+const kNotificationConnection = 'AgrigateNotificationConnection';
+const kNotificationSecure = 'AgrigateNotificationSecure';
+const kNotificationHost = 'AgrigateNotificationHost';
+const kNotificationPort = 'AgrigateNotificationPort';
+const kNotificationClient = 'AgrigateNotificationClient';
+const kNotificationUser = 'AgrigateNotificationUser';
+const kNotificationPassword = 'AgrigateNotificationPassword';
+const kNotificationTopics = 'AgrigateNotificationTopics';
 
 // Strings
 const kAgrigate = 'Agrigate';
