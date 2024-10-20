@@ -159,6 +159,13 @@ class MqttService {
       _client!.autoReconnect = true;
       _client!.secure = secure;
       _client!.useWebSocket = connectionType == ConnectionType.websocket;
+
+      if (connectionType == ConnectionType.websocket) {
+        _client!.secure = false;
+        _client!.websocketProtocols =
+            MqttClientConstants.protocolsSingleDefault;
+      }
+
       _client!.connectionMessage = connectMessage;
 
       await _client!.connect();
