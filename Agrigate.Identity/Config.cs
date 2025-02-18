@@ -13,6 +13,11 @@ public static class Config
     /// Agrigate's user-facing web application
     /// </summary>
     private const string AgrigateWeb = "Agrigate.Web";
+
+    /// <summary>
+    /// Console app for testing machine to machine authentication
+    /// </summary>
+    private const string AgrigateConsole = "Agrigate.Console";
     
     public static IEnumerable<IdentityResource> IdentityResources =>
     [
@@ -29,7 +34,7 @@ public static class Config
         // Machine to Machine Client
         new Client
         {
-            ClientId = AgrigateWeb,
+            ClientId = AgrigateConsole,
             AllowedGrantTypes = { GrantType.ClientCredentials },
             ClientSecrets = { new Secret("secret".Sha256()) },
             AllowedScopes = { AgrigateApi }

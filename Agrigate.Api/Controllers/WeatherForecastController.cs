@@ -43,4 +43,17 @@ public class WeatherForecastController : ControllerBase
             })
             .ToArray();
     }
+    
+    [Authorize(Policy = "ApiScope")]
+    [HttpGet("Test2")]
+    public IEnumerable<WeatherForecast> Test2()
+    {
+        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+    }
 }
