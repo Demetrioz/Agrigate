@@ -3,54 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{F7B25A45-08C6-4473-8495-C9E2C7B39B9F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agrigate.EventService", "server\Agrigate.EventService\Agrigate.EventService.csproj", "{A826FED7-95F8-4280-BAD4-6358470E1C19}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agrigate.Core", "server\Agrigate.Core\Agrigate.Core.csproj", "{BFA52CE7-EDDB-400F-A1DC-B9BB8DE917D3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Domain", "server\Agrigate.Domain\Agrigate.Domain.csproj", "{13006ECB-16EB-4DF1-9488-DC13351F7BFC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Tests", "server\Agrigate.Tests\Agrigate.Tests.csproj", "{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Api", "server\Agrigate.Api\Agrigate.Api.csproj", "{C9CF8DBC-67BF-48E6-B159-81E0D86B66C3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A826FED7-95F8-4280-BAD4-6358470E1C19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A826FED7-95F8-4280-BAD4-6358470E1C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A826FED7-95F8-4280-BAD4-6358470E1C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A826FED7-95F8-4280-BAD4-6358470E1C19}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BFA52CE7-EDDB-400F-A1DC-B9BB8DE917D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFA52CE7-EDDB-400F-A1DC-B9BB8DE917D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFA52CE7-EDDB-400F-A1DC-B9BB8DE917D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFA52CE7-EDDB-400F-A1DC-B9BB8DE917D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13006ECB-16EB-4DF1-9488-DC13351F7BFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13006ECB-16EB-4DF1-9488-DC13351F7BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13006ECB-16EB-4DF1-9488-DC13351F7BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13006ECB-16EB-4DF1-9488-DC13351F7BFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9CF8DBC-67BF-48E6-B159-81E0D86B66C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9CF8DBC-67BF-48E6-B159-81E0D86B66C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9CF8DBC-67BF-48E6-B159-81E0D86B66C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9CF8DBC-67BF-48E6-B159-81E0D86B66C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A826FED7-95F8-4280-BAD4-6358470E1C19} = {F7B25A45-08C6-4473-8495-C9E2C7B39B9F}
-		{BFA52CE7-EDDB-400F-A1DC-B9BB8DE917D3} = {F7B25A45-08C6-4473-8495-C9E2C7B39B9F}
-		{13006ECB-16EB-4DF1-9488-DC13351F7BFC} = {F7B25A45-08C6-4473-8495-C9E2C7B39B9F}
-		{4B4CAF55-DD32-4581-A9ED-A1E8889C98E1} = {F7B25A45-08C6-4473-8495-C9E2C7B39B9F}
-		{C9CF8DBC-67BF-48E6-B159-81E0D86B66C3} = {F7B25A45-08C6-4473-8495-C9E2C7B39B9F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5D97BE5B-26CA-4A2E-821F-8C32ABE39588}
