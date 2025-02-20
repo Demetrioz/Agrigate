@@ -47,7 +47,12 @@ public static class Config
             ClientId = AgrigateWeb,
             AllowedGrantTypes = GrantTypes.Code,
             ClientSecrets = { new Secret("secret".Sha256()) },
+            // RedirectUris = { "https://bff_host/signin-oidc" },
+            // FrontChannelLogoutUri = "https://bff_host/signout-oidc",
+            // PostLogoutRedirectUris = { "https://bff_host/signout-callback-oidc" },
+            AllowOfflineAccess = true,
             RedirectUris = { "http://localhost:5003/signin-oidc" },
+            // RedirectUris = { "http://localhost:5003/authentication/login-callback" },
             PostLogoutRedirectUris = { "http://localhost:5003/signout-callback-oidc" },
             AllowedScopes =
             {

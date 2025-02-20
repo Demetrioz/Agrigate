@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Duende.BFF" Version="2.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.13" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+        <ProjectReference Include="..\Agrigate.Web.Client\Agrigate.Web.Client.csproj"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.12"/>
+    </ItemGroup>
+
+</Project>

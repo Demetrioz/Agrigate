@@ -132,6 +132,7 @@ public class Index : PageModel
                     }
 
                     // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
+                    // /connect/authorize/callback?client_id=Agrigate.Web&redirect_uri=http://localhost:5003/signin-oidc&response_type=code&scope=openid profile&code_challenge=gYMYJZmUAYSYfjP6V9tmhPh6ahsT3svWaydv_8DKKJU&code_challenge_method=S256&nonce=638755604552105089.ZTQ2NzkwOGMtODhlNy00OTBkLTkwNzItOWFhMTQxNzIxMTQ1NWQ3MzlkN2MtNDBmZS00YmY2LWJhOTUtZmFhZGI3MDA0MDI3&state=CfDJ8N-PjKJ21mpElRouYd_omz1iXy_it-UjRKTAEZ9HaTsifyKj9htKUiaLIpXGV04MHw9GWCwzbGWdMfIzfih0KC2qQZIsEJlbnWOXa5lX2m0upYM2YirpVL7gt1bXsM1aZ5AgoTBhHHc0TVptod8215tzSxE72f1tkFnMk10SLjogNB6FNArFwWnbKS1av7dqHoJyhblXzk-26Af3lXJrmNHGX14qJcHxP6ReyaRbdKphTytSDRCHjqQN4pu6Acgm0Ot9E1-oqz-C4WGaYLruHCbi_68jeuaVmAiiPNBVdKUcT30E4NlfCMO-5Y_ip-VSNxwxd5WHRvdwxnAi9ApMhk5QuDWGtoTJucBZPFCMiVJv1ti73lQ_5TqPCC3mL9ydvg&x-client-SKU=ID_NET8_0&x-client-ver=8.0.1.0
                     return Redirect(Input.ReturnUrl ?? "~/");
                 }
 

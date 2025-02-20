@@ -9,6 +9,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Api", "Agrigate.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Console", "Agrigate.Console\Agrigate.Console.csproj", "{96373B9B-C085-4943-9925-1ED68CB77ED0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Web", "Agrigate.Web\Agrigate.Web\Agrigate.Web.csproj", "{EBEA18A9-604B-4933-9518-5C9F517E853E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Web.Client", "Agrigate.Web\Agrigate.Web.Client\Agrigate.Web.Client.csproj", "{5420839C-7C7D-4227-A04A-9A82177B3943}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Web1", "Agrigate.Web1\Agrigate.Web1\Agrigate.Web1.csproj", "{EB4CCD15-8986-48F1-A202-04DC4744742A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agrigate.Web1.Client", "Agrigate.Web1\Agrigate.Web1.Client\Agrigate.Web1.Client.csproj", "{1075861A-2FB3-4613-B9E1-BA06AD2276EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +35,22 @@ Global
 		{96373B9B-C085-4943-9925-1ED68CB77ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96373B9B-C085-4943-9925-1ED68CB77ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96373B9B-C085-4943-9925-1ED68CB77ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBEA18A9-604B-4933-9518-5C9F517E853E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBEA18A9-604B-4933-9518-5C9F517E853E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBEA18A9-604B-4933-9518-5C9F517E853E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBEA18A9-604B-4933-9518-5C9F517E853E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5420839C-7C7D-4227-A04A-9A82177B3943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5420839C-7C7D-4227-A04A-9A82177B3943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5420839C-7C7D-4227-A04A-9A82177B3943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5420839C-7C7D-4227-A04A-9A82177B3943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB4CCD15-8986-48F1-A202-04DC4744742A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB4CCD15-8986-48F1-A202-04DC4744742A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB4CCD15-8986-48F1-A202-04DC4744742A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB4CCD15-8986-48F1-A202-04DC4744742A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1075861A-2FB3-4613-B9E1-BA06AD2276EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1075861A-2FB3-4613-B9E1-BA06AD2276EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1075861A-2FB3-4613-B9E1-BA06AD2276EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1075861A-2FB3-4613-B9E1-BA06AD2276EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
