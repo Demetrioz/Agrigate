@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Agrigate
-Comment=Collect, manage, and analyze all of your agricultural data in one place.
-Exec=agrigate
-Icon=${SNAP}/meta/gui/agrigate.png
-Terminal=false
-Type=Application
-Categories=Science;
