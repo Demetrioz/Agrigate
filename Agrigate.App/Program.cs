@@ -1,10 +1,21 @@
 using Agrigate.App.Components;
+using ElectronNET.API;
+
+using App = Agrigate.App.Components.App;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseElectron(args);
+
+// Use Electron.NET API-classes directly with DI 
+// builder.Services.AddElectron();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+//////////////////////////////////////////
+//      Configure Request Pipeline      //
+//////////////////////////////////////////
 
 var app = builder.Build();
 
@@ -24,4 +35,15 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.Run();
+await app.StartAsync();
+
+if (HybridSupport.IsElectronActive)
+{
+    var window = await Electron.WindowManager.CreateWindowAsync();
+    await window.WebContents.Session.ClearCacheAsync();
+    window.OnReadyToShow += () => window.Show();
+    window.OnClosed += () => Electron.App.Quit();
+    window.SetTitle("Agrigate");
+}
+
+app.WaitForShutdown();

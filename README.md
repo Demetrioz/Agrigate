@@ -1,39 +1,24 @@
 # Agrigate
 
-Agrigate is a platform that collects, manages, and analyzes all of your
-agricultural data and helps you run a more efficient, profitable farm or garden.
+Agrigate is a cross-platform application that helps growers collect, manages, and analyzes all of their agricultural 
+data and run a more efficient, profitable farm or garden.
+
+## Overview
+
+Coming Soon!
 
 ## Project Structure
 
-Agrigate is a mono-repo that contains all code needed to build and run the
-application. The project consists of the following items:
+Agrigate is a mono-repo that contains all code needed to build and run the  application. The project consists of the 
+following items:
 
-### Client Applications
+- **Agrigate.App**: The client application, built with Blazor Server and Electron.Net
+- **Docs**: A Docusaurus app that hosts documentation for Agrigate via GitHub Pages
 
-The client application is what you use to interact with the Agrigate platform
-and lives in the `agrigate` directory. It is built using flutter and can
-run on Android, iOS, Mac, Windows, Linux, or Web.
+## Getting Started
 
-### Server Application
-
-The `server` directory contains a dockercompose file that will create a
-container with all of the server related code required to run an instance of
-Agrigate. This includes a database, api, and other various services.
-
-### Devices
-
-The `devices` directory contains different IoT devices that can be used on their
-own or in conjunction with Agrigate. The majority of devices are designed using
-some version of a Raspberry Pi.
-
-### Docs
-
-The `docs` directory contains the code for the documentation website.
-
-### Utilities
-
-The `utilities` directory contains various helper scripts and utilities for
-managing the repo and it's dependencies
+To debug the application, navigate to the Aggrigate.App directory and run `electronize start`
+Then, from within Rider, click "Debug" -> "Attach to Process"
 
 ## Documentation
 
