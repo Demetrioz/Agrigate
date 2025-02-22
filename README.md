@@ -9,6 +9,7 @@ Agrigate is a mono-repo that contains all code needed to build and run the  appl
 following items:
 
 - **Agrigate.App**: The client application, built with Blazor Server and Electron.Net
+- **Agrigate.Domain**: A class library containing databases entities and repositories used within Agrigate.  
 - **Docs**: A Docusaurus app that hosts documentation for Agrigate via GitHub Pages
 
 ## Getting Started

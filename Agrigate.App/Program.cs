@@ -1,3 +1,4 @@
+using Agrigate.Domain.Extensions;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
 using MudBlazor.Services;
@@ -11,6 +12,8 @@ builder.WebHost.UseElectron(args);
 // builder.Services.AddElectron();
 
 builder.Services.AddMudServices();
+
+builder.Services.AddAggrigateDomain();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

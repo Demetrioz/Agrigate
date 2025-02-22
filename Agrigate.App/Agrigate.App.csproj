@@ -22,4 +22,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\FontAwesome\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Agrigate.Domain\Agrigate.Domain.csproj" />
+  </ItemGroup>
 </Project>
