@@ -1,5 +1,6 @@
-using Agrigate.App.Components;
 using ElectronNET.API;
+using ElectronNET.API.Entities;
+using MudBlazor.Services;
 
 using App = Agrigate.App.Components.App;
 
@@ -8,6 +9,8 @@ builder.WebHost.UseElectron(args);
 
 // Use Electron.NET API-classes directly with DI 
 // builder.Services.AddElectron();
+
+builder.Services.AddMudServices();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -39,7 +42,17 @@ await app.StartAsync();
 
 if (HybridSupport.IsElectronActive)
 {
-    var window = await Electron.WindowManager.CreateWindowAsync();
+    var window = await Electron.WindowManager
+        .CreateWindowAsync(new BrowserWindowOptions
+        {
+            // Required for interactive server to work
+            WebPreferences = new WebPreferences
+            {
+                NodeIntegration = false,
+                ContextIsolation = false,
+            }
+        });
+    
     await window.WebContents.Session.ClearCacheAsync();
     window.OnReadyToShow += () => window.Show();
     window.OnClosed += () => Electron.App.Quit();
