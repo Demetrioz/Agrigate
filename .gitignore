@@ -5,6 +5,10 @@ obj/
 # Settings
 appsettings.*.json
 
+# FontAwesomePro files
+FontAwesome/css/
+FontAwesome/webfonts/
+
 # Test docker environment files
 env.api
 env.eventservice

@@ -16,5 +16,10 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css" />
     <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\fontawesome\solid.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\fontawesome\solid.min.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\FontAwesome\" />
   </ItemGroup>
 </Project>
