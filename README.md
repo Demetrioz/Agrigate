@@ -1,11 +1,7 @@
 # Agrigate
 
-Agrigate is a cross-platform application that helps growers collect, manages, and analyzes all of their agricultural 
-data and run a more efficient, profitable farm or garden.
-
-## Overview
-
-Coming Soon!
+Agrigate is a cross-platform application that helps growers collect, manage, and analyze agricultural data and run a 
+more efficient, profitable farm or garden.
 
 ## Project Structure
 
@@ -17,8 +13,24 @@ following items:
 
 ## Getting Started
 
-To debug the application, navigate to the Aggrigate.App directory and run `electronize start`
-Then, from within Rider, click "Debug" -> "Attach to Process"
+### Prerequisites
+
+Before development can begin, the following items must be installed:
+
+- [.Net 8 SDK](https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu-install?tabs=dotnet9&pivots=os-linux-ubuntu-2410)
+- Electron.NET CLI `dotnet tool install ElectronNET.CLI -g`
+- EF Core CLI `dotnet tool install --global dotnet-ef`
+
+### Font Awesome
+
+Agrigate uses FontAwesome Pro icons, which are excluded from the repo via `.gitignore`. To include icons locally, 
+[download the pro fonts](https://fontawesome.com/account/general), then add the `css` and `webfonts` directories to 
+`Agrigate.App/wwwroot/FontAwesome`
+
+### Electron Debugging
+
+To debug the application via electron, navigate to the Aggrigate.App directory using the terminal, and run 
+`electronize start`. Then, from within Rider, click "Debug" -> "Attach to Process"
 
 ## Documentation
 
