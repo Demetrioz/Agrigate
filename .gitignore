@@ -6,8 +6,7 @@ obj/
 appsettings.*.json
 
 # FontAwesomePro files
-FontAwesome/css/
-FontAwesome/webfonts/
+/Agrigate.App/wwwroot/FontAwesome/
 
 # Test docker environment files
 env.api
