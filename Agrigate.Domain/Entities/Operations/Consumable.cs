@@ -9,7 +9,7 @@ namespace Agrigate.Domain.Entities.Operations;
 [Table(nameof(Consumable))]
 public class Consumable : ItemBase
 {
-    public long? SupplierId { get; set; }
+    public long SupplierId { get; set; }
     [ForeignKey(nameof(SupplierId))]
     public Supplier? Supplier { get; set; }
     

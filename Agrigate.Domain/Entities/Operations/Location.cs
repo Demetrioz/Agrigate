@@ -17,10 +17,6 @@ public class Location : EntityBase
     [ForeignKey(nameof(AddressId))]
     public Address? Address { get; set; }
     
-    /*
-     * TODO: Add a generic Location for Supplier. Adding a new item will create an ItemTransfer with that as the source
-     */
-    
     /// <summary>
     /// The parent location - required when Type = Site
     /// </summary>
@@ -31,5 +27,10 @@ public class Location : EntityBase
     [MaxLength(255)]
     public string Name { get; set; } = string.Empty;
 
-    public ICollection<LocationMetaData> MetaData { get; set; } = [];
+    /// <summary>
+    /// TODO: Whenever a Consumable or Equipment record is created, create a supplier location and set Metadata to hide that location from regular farm interactions
+    /// TODO: The created location should be used for the first ItemTransfer record
+    /// TODO: Whenever a Product record is created, the first ItemTransfer record should be from the location of the crop
+    /// </summary>
+    public ICollection<LocationMetadata> Metadata { get; set; } = [];
 }

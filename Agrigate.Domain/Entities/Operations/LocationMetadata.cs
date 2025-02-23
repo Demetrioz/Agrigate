@@ -6,8 +6,8 @@ namespace Agrigate.Domain.Entities.Operations;
 /// <summary>
 /// Additional information about a particular location, stored as key-value pairs
 /// </summary>
-[Table(nameof(LocationMetaData))]
-public class LocationMetaData : EntityBase
+[Table(nameof(LocationMetadata))]
+public class LocationMetadata : EntityBase
 {
     public long LocationId { get; set; }
     [ForeignKey(nameof(LocationId))]

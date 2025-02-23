@@ -7,6 +7,13 @@ namespace Agrigate.Domain.Contexts;
 
 public class AgrigateContext : DbContext
 {
+    /// <summary>
+    /// Parameterless constructor for creation of migrations
+    /// </summary>
+    public AgrigateContext()
+    {
+    }
+    
     public AgrigateContext(DbContextOptions<AgrigateContext> options) : base(options)
     {
     }
@@ -16,7 +23,7 @@ public class AgrigateContext : DbContext
     public DbSet<Supplier> Suppliers { get; set; }
     
     public DbSet<Location> Locations { get; set; }
-    public DbSet<LocationMetaData> LocationMetaData { get; set; }
+    public DbSet<LocationMetadata> LocationMetaData { get; set; }
     
     public DbSet<Item> Items { get; set; }
     public DbSet<ItemVariant> ItemVariants { get; set; }

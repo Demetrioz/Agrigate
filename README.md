@@ -33,6 +33,14 @@ Agrigate uses FontAwesome Pro icons, which are excluded from the repo via `.giti
 To debug the application via electron, navigate to the Aggrigate.App directory using the terminal, and run 
 `electronize start`. Then, from within Rider, click "Debug" -> "Attach to Process"
 
+### Migrations
+
+When creating a new migration, ensure that you're in the `Agrigate.Domain` directory and run the following command:
+
+```
+dotnet ef migrations add {MigrationName} --startup-project ../Agrigate.App
+```
+
 ## Documentation
 
 Full documentation for agrigate can be found on
