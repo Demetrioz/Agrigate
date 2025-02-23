@@ -1,18 +1,29 @@
 {
   "executable": "Agrigate.App",
   "splashscreen": {
-    "imageFile": ""
+    "imageFile": "/wwwroot/assets/img/splash.png"
   },
-  "name": "Agrigate.App",
+  "name": "Agrigate",
   "author": "",
   "singleInstance": false,
   "environment": "Production",
   "build": {
     "appId": "com.Agrigate.App.app",
-    "productName": "Agrigate.App",
-    "copyright": "Copyright © 2020",
-    "buildVersion": "1.0.0",
+    "productName": "Agrigate",
+    "copyright": "Copyright © 2025",
+    "buildVersion": "0.1.0",
     "compression": "maximum",
+    "win": {
+      "icon": "Assets/logo.ico",
+      "publish": [
+        {
+          "provider": "github",
+          "owner": "Kevin Williams",
+          "repo": "Agrigate",
+          "token": ""
+        }
+      ]
+    },
     "directories": {
       "output": "../../../bin/Desktop"
     },
