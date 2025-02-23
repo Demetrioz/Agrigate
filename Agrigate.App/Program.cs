@@ -1,3 +1,4 @@
+using System.Reflection;
 using Agrigate.Domain.Extensions;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
@@ -73,6 +74,52 @@ try
                     ContextIsolation = false,
                 }
             });
+        
+        Electron.Menu.SetApplicationMenu(
+        [
+            new MenuItem
+            {
+                Label = "File",
+                Submenu =
+                [
+                    new MenuItem
+                    {
+                        Label = "Exit",
+                        Accelerator = "CmdOrCtrl+E", 
+                        Role = MenuRole.close
+                    }
+                ]
+            },
+            new MenuItem
+            {
+                Label = "Help",
+                Submenu = 
+                [
+                    new MenuItem
+                    {
+                        Label = "About",
+                        Accelerator = "CmdOrCtrl+A",
+                        Click = async () =>
+                        {
+                            var version = Assembly.GetEntryAssembly()?.GetName()?.Version ?? new Version(0, 0, 0);
+                            var options = new MessageBoxOptions($"Version: {version.Major}.{version.Minor}.{version.Build}")
+                            {
+                                Title = "About Agrigate",
+                                Type = MessageBoxType.none,
+                                NoLink = true,
+                                Buttons = ["Ok", "View Documentation"]
+                            };
+                            
+                            var response = await Electron.Dialog.ShowMessageBoxAsync(options);
+                            if (response?.Response == 1)
+                            {
+                                await Electron.Shell.OpenExternalAsync("https://demetrioz.github.io/Agrigate/");
+                            }
+                        }
+                    }
+                ]
+            }
+        ]);
     
         await window.WebContents.Session.ClearCacheAsync();
         window.OnReadyToShow += () => window.Show();
