@@ -1,7 +1,6 @@
-using System.Reflection;
+using Agrigate.App;
 using Agrigate.Domain.Extensions;
 using ElectronNET.API;
-using ElectronNET.API.Entities;
 using MudBlazor.Services;
 using Serilog;
 
@@ -25,8 +24,7 @@ try
         .ReadFrom.Services(services)
         .Enrich.FromLogContext());
     
-    // Use Electron.NET API-classes directly with DI 
-    // builder.Services.AddElectron();
+    builder.Services.AddElectron();
     builder.Services.AddMudServices();
     builder.Services.AddAggrigateDomain();
 
@@ -63,69 +61,7 @@ try
     await app.StartAsync();
 
     if (HybridSupport.IsElectronActive)
-    {
-        var window = await Electron.WindowManager
-            .CreateWindowAsync(new BrowserWindowOptions
-            {
-                // Required for interactive server to work
-                WebPreferences = new WebPreferences
-                {
-                    NodeIntegration = false,
-                    ContextIsolation = false,
-                }
-            });
-        
-        Electron.Menu.SetApplicationMenu(
-        [
-            new MenuItem
-            {
-                Label = "File",
-                Submenu =
-                [
-                    new MenuItem
-                    {
-                        Label = "Exit",
-                        Accelerator = "CmdOrCtrl+E", 
-                        Role = MenuRole.close
-                    }
-                ]
-            },
-            new MenuItem
-            {
-                Label = "Help",
-                Submenu = 
-                [
-                    new MenuItem
-                    {
-                        Label = "About",
-                        Accelerator = "CmdOrCtrl+A",
-                        Click = async () =>
-                        {
-                            var version = Assembly.GetEntryAssembly()?.GetName()?.Version ?? new Version(0, 0, 0);
-                            var options = new MessageBoxOptions($"Version: {version.Major}.{version.Minor}.{version.Build}")
-                            {
-                                Title = "About Agrigate",
-                                Type = MessageBoxType.none,
-                                NoLink = true,
-                                Buttons = ["Ok", "View Documentation"]
-                            };
-                            
-                            var response = await Electron.Dialog.ShowMessageBoxAsync(options);
-                            if (response?.Response == 1)
-                            {
-                                await Electron.Shell.OpenExternalAsync("https://demetrioz.github.io/Agrigate/");
-                            }
-                        }
-                    }
-                ]
-            }
-        ]);
-    
-        await window.WebContents.Session.ClearCacheAsync();
-        window.OnReadyToShow += () => window.Show();
-        window.OnClosed += () => Electron.App.Quit();
-        window.SetTitle("Agrigate");
-    }
+        await app.Services.PrepareElectronWindow();
 
     app.WaitForShutdown();
     Log.Information("Shutdown Complete");
