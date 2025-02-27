@@ -10,3 +10,9 @@ docker build -t image_name:tag -f file/path .
 ```
 docker build --no-cache -t agrigate_app:0.1.0 -f ./DockerFileApp .
 ```
+
+Create auth migrations
+
+```
+dotnet ef migrations add InitialCreate --startup-project ../Agrigate.App
+```

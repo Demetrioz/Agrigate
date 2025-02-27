@@ -3,7 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Agrigate.Domain.Auth;
 
-public class AgrigateAuthContext(DbContextOptions<AgrigateAuthContext> options)
-    : IdentityDbContext<AgrigateUser>(options)
+public class AgrigateAuthContext: IdentityDbContext<AgrigateUser>
 {
+    /// <summary>
+    /// Parameterless constructor for migrations
+    /// </summary>
+    public AgrigateAuthContext()
+    {
+    }
+    
+    public AgrigateAuthContext(DbContextOptions<AgrigateAuthContext> options) : base(options)
+    {
+    }
 }

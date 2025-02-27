@@ -8,10 +8,12 @@ public static class DomainExtensions
 {
     public static IServiceCollection AddAgrigateAuthDb(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
-                               throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        var connectionString = configuration["Authentication:ConnectionString"];
         
-        services.AddDbContext<AgrigateAuthContext>(options => options.UseSqlite(connectionString));
+        if (string.IsNullOrEmpty(connectionString))
+            throw new ApplicationException("Authentication ConnectionString must be set in configuration");
+        
+        services.AddDbContext<AgrigateAuthContext>(options => options.UseNpgsql(connectionString));
         
         return services;
     }
