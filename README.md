@@ -1,41 +1,42 @@
 # Agrigate
 
-Agrigate is a platform that collects, manages, and analyzes all of your
-agricultural data and helps you run a more efficient, profitable farm or garden.
+Agrigate is a platform that collects, manages, and analyzes all of your agricultural data, helping you to run a more 
+efficient and profitable farm or garden.
 
 ## Project Structure
 
-Agrigate is a mono-repo that contains all code needed to build and run the
-application. The project consists of the following items:
+Agrigate is a mono-repo that contains all code needed to build and run the application. The project consists of the 
+following items:
 
-### Client Applications
+**Agrigate.App**: A Blazor server application that uses Identity Server for authentication.
+**Agrigate.Core**: An Akka.Net console application that contains all business logic and acts as the "OS" for the farm.
+**Agrigate.Domain**: A class library containing the data model for Agrigate.
+**Agrigate.Domain.Auth**: A class library containing the data model for authentication.
+**docs**: A docusaurus site containing full documentation for Agrigate. 
 
-The client application is what you use to interact with the Agrigate platform
-and lives in the `agrigate` directory. It is built using flutter and can
-run on Android, iOS, Mac, Windows, Linux, or Web.
+## Getting Started
 
-### Server Application
+### Installation
 
-The `server` directory contains a dockercompose file that will create a
-container with all of the server related code required to run an instance of
-Agrigate. This includes a database, api, and other various services.
+1. Clone (or download) the repository to your local machine
 
-### Devices
+```
+git clone https://github.com/Demetrioz/Agrigate.git
+```
 
-The `devices` directory contains different IoT devices that can be used on their
-own or in conjunction with Agrigate. The majority of devices are designed using
-some version of a Raspberry Pi.
+2. Navigate to the project's root directory and run docker compose to start the application
 
-### Docs
+```
+docker compose up --build
+```
 
-The `docs` directory contains the code for the documentation website.
+### Development
 
-### Utilities
+1. Ensure the following dependencies are installed
 
-The `utilities` directory contains various helper scripts and utilities for
-managing the repo and it's dependencies
+- .Net 8
+- Docker
 
 ## Documentation
 
-Full documentation for agrigate can be found on
-[GitHub Pages](https://demetrioz.github.io/Agrigate/).
+Full documentation for Agrigate can be found on [GitHub Pages](https://demetrioz.github.io/Agrigate/).

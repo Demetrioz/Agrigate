@@ -79,12 +79,12 @@ const config: Config = {
           position: "left",
           label: "Guides",
         },
-        {
-          type: "docSidebar",
-          sidebarId: "devices",
-          position: "left",
-          label: "Devices",
-        },
+        // {
+        //   type: "docSidebar",
+        //   sidebarId: "devices",
+        //   position: "left",
+        //   label: "Devices",
+        // },
         {
           type: "docSidebar",
           sidebarId: "releases",

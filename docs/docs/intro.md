@@ -1,78 +1,84 @@
 # Introduction
 
-Agrigate is a platform that collects, manages, and analyzes all of your
-agricultural data and helps you run a more efficient, profitable farm.
+Agrigate is a platform that collects, manages, and analyzes all of your agricultural data to help you run a more 
+efficient, profitable farm or garden.
 
 ## How to use Agrigate
 
-Lets take a look at the three ways that you can utilize Agrigate:
+### Base Installation
 
-1. Run everything locally on your device (Coming soon!)
-2. Install and connect to a local, self-managed server
-3. Use a paid hosting service (Coming soon!)
+Agrigate is designed to be simple to install and use - All you need to have installed is 
+[Docker](https://www.docker.com/).
 
-Regardless of which option you choose, you must first download the app from
-the app store on Android, iOS, Mac, Windows, or Linux. You can also download
-the binary from the GitHub release or build it from source.
+First, clone the repository to your local machine. If you don't have or know how to use [Git](https://git-scm.com/), 
+you can also download the files instead.
 
-### Local Only (Coming Soon!)
+```
+git clone https://github.com/Demetrioz/Agrigate.git
+```
 
-If you choose to do so, you can run agrigate exclusively on your local device.
-This is the easiest, but most limited, way to get started. After downloading and
-installing Agrigate, choose "Local Only" when starting the app for the first
-time.
+Next, navigate to the directory where you cloned or downloaded the files, and run docker compose.
 
-This will keep all data local to your device, but you loose certain network
-functionality such as accessing your information from multiple devices and
-capturing telemetry from IoT devices. Changing to a new device will require
-exporting your data and importing it on the new device.
+```
+docker compose up --build
+```
 
-### Self-Managed
+At this point, you should be able to navigate to `http://localhost:5000` and login using the following username and
+password:
 
-The second option is installing and running an Agrigate server locally or via
-a cloud provider. This will allow you to connect to and manage IoT devices,
-run jobs, and be able to share data between multiple devices.
+- **User**: admin
+- **Password**: ag@dmin
 
-You'll install the server, then download the app as normal, choose "Server", and
-enter your server's address.
+:::danger
 
-:::info
-
-The first step when running a self-managed instance of Agrigate is to [setup
-the server](getting-started/server)
+Be sure to change the default admin password, especially if you're exposing the application to the internet for remote 
+access.
 
 :::
 
-### Hosted (Coming Soon!)
+### Remote Access
 
-Using a hosted service is the same as running on self-managed server, except you
-don't have to manage the server yourself. When downloading the app, select
-"Hosted" and choose a payment plan.
+Since Agrigate is running on your machine, you can only access it when you're connected to your local network by 
+default. If you would like to have access to the application from anywhere internet access is available, you can expose
+`http://localhost:5000` to the web by using something like [NGrok](https://ngrok.com/) or 
+[Cloudflare](https://www.cloudflare.com/).
+
+:::info
+
+Using a service like NGrok or Cloudflare will allow you to expose the web application to the internet, without 
+exposing the database, background service, or the rest of your network.
+
+:::
+
+#### NGrok
+
+Coming Soon!
+
+#### Cloudflare Zero Trust
+
+Coming Soon!
 
 ## Technical Details
 
-Agrigate is an entire platform with a client application, optional server, and
-a collection of devices to help make growing your own food easier.
+Agrigate is an entire platform, containing a web application, background service, and database.
 
 ### Dependencies
 
-Agrigate consists of several components. The client is is built with
-[Flutter](https://flutter.dev/), while the server is built using
-[.Net](https://dotnet.microsoft.com/en-us/) and physical devices utilize
-[CircuitPython](https://circuitpython.org/).
+- [.Net](https://dotnet.microsoft.com/en-us/)
+- [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
+- [Akka.Net](https://github.com/akkadotnet/akka.net)
+- [Identity Server](https://duendesoftware.com/products/identityserver)
+- [Petabridge.Cmd](https://cmd.petabridge.com/) (Optional - for remote management of the Akka.Net background service) 
 
 ### Versioning
 
 All components within Agrigate utilize
-[semantic versioning](https://semver.org/) and follow the
-\{MAJOR\}.\{MINOR\}.\{PATCH\} format. Release information can be found via the
-
-[Releases](releases/intro) page
+[semantic versioning](https://semver.org/) and follow the \{MAJOR\}.\{MINOR\}.\{PATCH\} format. Release information can 
+be found via the [Releases](releases/intro) page
 
 ## Contact Information
 
 Agrigate is developed and maintained by Kevin Williams. For assistance, reach
-out to via [email](mailto:kevin@ktech.industries)
+out to via [email](mailto:kevin.williams@kevinwilliams.dev).
 
-Have you encountered a bug?
-[Let me know!](https://github.com/Demetrioz/Agrigate/issues)
+Have you encountered a bug? [Let me know!](https://github.com/Demetrioz/Agrigate/issues)

@@ -14,86 +14,90 @@ const sidebars: SidebarsConfig = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
   docs: [
     "intro",
-    {
-      type: "category",
-      label: "Getting Started",
-      link: {
-        type: "generated-index",
-      },
-      items: [
-        "getting-started/client",
-        "getting-started/server",
-        "getting-started/devices",
-      ],
-    },
+    // {
+    //   type: "category",
+    //   label: "Getting Started",
+    //   link: {
+    //     type: "generated-index",
+    //   },
+    //   items: [
+    //     "getting-started/client",
+    //     "getting-started/server",
+    //     "getting-started/devices",
+    //   ],
+    // },
   ],
   guides: ["guides/intro"],
-  devices: [
-    "devices/intro",
-    {
-      type: "category",
-      label: "Raised Bed Irrigation",
-      link: {
-        type: "generated-index",
-      },
-      items: ["devices/raised-bed-irrigation/intro"],
-    },
-    {
-      type: "category",
-      label: "Greenhouse Controller",
-      link: {
-        type: "generated-index",
-      },
-      items: ["devices/greenhouse-controller/intro"],
-    },
-    {
-      type: "category",
-      label: "Grow Tent Controller",
-      link: {
-        type: "generated-index",
-      },
-      items: [
-        "devices/grow-tent-controller/intro",
-        "devices/grow-tent-controller/bom",
-      ],
-    },
+  // devices: [
+  //   "devices/intro",
+  //   {
+  //     type: "category",
+  //     label: "Raised Bed Irrigation",
+  //     link: {
+  //       type: "generated-index",
+  //     },
+  //     items: ["devices/raised-bed-irrigation/intro"],
+  //   },
+  //   {
+  //     type: "category",
+  //     label: "Greenhouse Controller",
+  //     link: {
+  //       type: "generated-index",
+  //     },
+  //     items: ["devices/greenhouse-controller/intro"],
+  //   },
+  //   {
+  //     type: "category",
+  //     label: "Grow Tent Controller",
+  //     link: {
+  //       type: "generated-index",
+  //     },
+  //     items: [
+  //       "devices/grow-tent-controller/intro",
+  //       "devices/grow-tent-controller/bom",
+  //     ],
+  //   },
+  // ],
+  technical: [
+    "technical/intro", 
+    "technical/setup", 
+    // "technical/rules"
   ],
-  technical: ["technical/intro", "technical/setup", "technical/rules"],
   releases: [
     "releases/intro",
-    {
-      type: "category",
-      label: "Api",
-      link: {
-        type: "generated-index",
-      },
-      items: [
-        "releases/api/0.1.0",
-        "releases/api/0.2.0",
-        "releases/api/0.3.0",
-        "releases/api/0.4.0",
-      ],
-    },
-    {
-      type: "category",
-      label: "Client",
-      link: {
-        type: "generated-index",
-      },
-      items: ["releases/client/0.1.0", "releases/client/0.2.0"],
-    },
-    {
-      type: "category",
-      label: "EventService",
-      link: {
-        type: "generated-index",
-      },
-      items: [
-        "releases/eventservice/0.1.0",
-        "releases/eventservice/0.2.0",
-        "releases/eventservice/0.3.0",
-      ],
-    },
+    // {
+    //   type: "category",
+    //   label: "Api",
+    //   link: {
+    //     type: "generated-index",
+    //   },
+    //   items: [
+    //     "releases/api/0.1.0",
+    //     "releases/api/0.2.0",
+    //     "releases/api/0.3.0",
+    //     "releases/api/0.4.0",
+    //   ],
+    // },
+    // {
+    //   type: "category",
+    //   label: "Client",
+    //   link: {
+    //     type: "generated-index",
+    //   },
+    //   items: ["releases/client/0.1.0", "releases/client/0.2.0"],
+    // },
+    // {
+    //   type: "category",
+    //   label: "EventService",
+    //   link: {
+    //     type: "generated-index",
+    //   },
+    //   items: [
+    //     "releases/eventservice/0.1.0",
+    //     "releases/eventservice/0.2.0",
+    //     "releases/eventservice/0.3.0",
+    //   ],
+    // },
   ],
 
   // But you can create a sidebar manually
