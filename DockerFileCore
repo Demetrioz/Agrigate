@@ -1,0 +1,27 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 5000
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY ["Agrigate.Core/Agrigate.Core.csproj", "Agrigate.Core/"]
+
+RUN dotnet restore "Agrigate.Core/Agrigate.Core.csproj"
+
+#COPY . .
+COPY ["Agrigate.Core/", "Agrigate.Core/"]
+
+WORKDIR "/src/Agrigate.Core"
+
+RUN dotnet build "Agrigate.Core.csproj" -c Release -o /app/build
+
+FROM build as publish
+RUN dotnet publish "Agrigate.Core.csproj" -c Release -o /app/publish
+
+FROM base as final
+WORKDIR /app
+
+COPY --from=publish /app/publish .
+
+ENTRYPOINT ["dotnet", "Agrigate.Core.dll"]

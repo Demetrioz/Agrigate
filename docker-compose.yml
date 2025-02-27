@@ -14,7 +14,7 @@ services:
     volumes:
       - ./dc/database/data:/var/lib/postgresql/data
     ports:
-      - 5001:5432
+      - 5002:5432
 
   app:
     build:
@@ -25,3 +25,13 @@ services:
         condition: service_healthy
     ports:
       - 5000:5000
+        
+  core:
+    build:
+      context: ./
+      dockerfile: DockerFileCore
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - 5001:5000

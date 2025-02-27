@@ -23,8 +23,14 @@ Next, navigate to the directory where you cloned or downloaded the files, and ru
 docker compose up --build
 ```
 
-At this point, you should be able to navigate to `http://localhost:5000` and login using the following username and
-password:
+At this point, you should have three containers running as part of the `agrigate` application with the following ports 
+exposed:
+
+- app-1: 5000
+- core-1: 5001
+- database-1: 5002
+
+You should also be able to navigate to `http://localhost:5000` and login using the following credentials:
 
 - **Username**: admin
 - **Password**: Ag@dm1n!

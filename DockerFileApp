@@ -17,6 +17,8 @@ RUN dotnet restore "Agrigate.Domain.Auth/Agrigate.Domain.Auth.csproj"
 RUN dotnet restore "Agrigate.App/Agrigate.App.csproj"
 
 COPY . .
+#COPY ["Agrigate.Domain.Auth/", "Agrigiate.Domain.Auth/"]
+#COPY ["Agrigate.App/", "Agrigate.App/"]
 
 WORKDIR "/src/Agrigate.App"
 
