@@ -1,8 +1,8 @@
 using Agrigate.App.Components.Account;
 using Agrigate.Domain.Auth;
+using Agrigate.Domain.Auth.Extensions;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Agrigate.App.Extensions;
 
@@ -23,12 +23,8 @@ public static class AuthenticationExtensions
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             })
             .AddIdentityCookies();
-        
-        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
-            throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-        
-        services.AddDbContext<AgrigateAuthContext>(options => options.UseSqlite(connectionString));
-        services.AddDatabaseDeveloperPageExceptionFilter();
+
+        services.AddAgrigateAuthDb(configuration);
         
         services.AddIdentityCore<AgrigateUser>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddEntityFrameworkStores<AgrigateAuthContext>()
@@ -40,6 +36,8 @@ public static class AuthenticationExtensions
 
     public static WebApplication UseAgrigateAuthentication(this WebApplication app)
     {
+        app.Services.ApplyAgrigateAuthMigrations();
+        
         // Add additional endpoints required by the Identity /Account Razor components.
         app.MapAdditionalIdentityEndpoints();
         
