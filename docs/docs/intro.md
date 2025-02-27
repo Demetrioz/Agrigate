@@ -26,8 +26,8 @@ docker compose up --build
 At this point, you should be able to navigate to `http://localhost:5000` and login using the following username and
 password:
 
-- **User**: admin
-- **Password**: ag@dmin
+- **Username**: admin
+- **Password**: Ag@dm1n!
 
 :::danger
 
