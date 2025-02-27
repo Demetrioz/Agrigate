@@ -1,5 +1,5 @@
 using Agrigate.App.Components.Account;
-using Agrigate.App.Data;
+using Agrigate.Domain.Auth;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Agrigate.App.Migrations
+namespace Agrigate.Domain.Auth.Migrations
 {
     /// <inheritdoc />
     public partial class CreateIdentitySchema : Migration

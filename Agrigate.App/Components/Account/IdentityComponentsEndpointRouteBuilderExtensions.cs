@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Agrigate.App.Components.Account.Pages;
 using Agrigate.App.Components.Account.Pages.Manage;
-using Agrigate.App.Data;
+using Agrigate.Domain.Auth;
 
 namespace Microsoft.AspNetCore.Routing;
 

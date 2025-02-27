@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Agrigate.App.Components.Account;
-using Agrigate.App.Data;
 using Agrigate.App.Extensions;
+using Agrigate.Domain.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
