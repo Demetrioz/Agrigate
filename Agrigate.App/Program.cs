@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddBlazor();
 builder.Services.AddAgrigateAuthentication(builder.Configuration);
 
-builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddSingleton<IEmailSender<AgrigateUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
 

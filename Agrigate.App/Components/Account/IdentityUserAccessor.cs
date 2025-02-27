@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 namespace Agrigate.App.Components.Account;
 
 internal sealed class IdentityUserAccessor(
-    UserManager<ApplicationUser> userManager,
+    UserManager<AgrigateUser> userManager,
     IdentityRedirectManager redirectManager)
 {
-    public async Task<ApplicationUser> GetRequiredUserAsync(HttpContext context)
+    public async Task<AgrigateUser> GetRequiredUserAsync(HttpContext context)
     {
         var user = await userManager.GetUserAsync(context.User);
 

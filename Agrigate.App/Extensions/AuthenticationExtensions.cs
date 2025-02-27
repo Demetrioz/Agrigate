@@ -27,11 +27,11 @@ public static class AuthenticationExtensions
         var connectionString = configuration.GetConnectionString("DefaultConnection") ??
             throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         
-        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
+        services.AddDbContext<AgrigateAuthContext>(options => options.UseSqlite(connectionString));
         services.AddDatabaseDeveloperPageExceptionFilter();
         
-        services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-            .AddEntityFrameworkStores<ApplicationDbContext>()
+        services.AddIdentityCore<AgrigateUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            .AddEntityFrameworkStores<AgrigateAuthContext>()
             .AddSignInManager()
             .AddDefaultTokenProviders();
         
