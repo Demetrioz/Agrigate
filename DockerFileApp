@@ -2,8 +2,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5000
 
-ENV Authentication__DefaultUser=admin
-ENV Authentication__DefaultPassword=Ag@dm1n!
+# Add environment variables here. They're currently pulling from AppSettings.json
+# ENV Authentication__DefaultUser=admin
+# ENV Authentication__DefaultPassword=Ag@dm1n!
 
 ENV ASPNETCORE_URLS=http://+:5000
 

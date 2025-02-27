@@ -10,7 +10,7 @@ services:
       timeout: 5s
       retries: 5
     environment:
-      - "POSTGRES_PASSWORD=password"
+      - "POSTGRES_PASSWORD=GjsaYdhj#WbcUg6hXR^QjNhzHf836aQK"
     volumes:
       - ./dc/database/data:/var/lib/postgresql/data
     ports:
