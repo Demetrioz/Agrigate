@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Agrigate.Domain.Entities.System;
 
-[Table("Settings")]
+[Table(nameof(Setting))]
 public class Setting : EntityBase
 {
     [MaxLength(255)]

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agrigate.Domain.Auth.Migrations
 {
     [DbContext(typeof(AgrigateAuthContext))]
-    [Migration("Agrigate.Domain.Auth_20250227172344_InitialCreate")]
+    [Migration("20250227172344_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

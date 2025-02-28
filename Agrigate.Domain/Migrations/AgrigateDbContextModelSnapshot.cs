@@ -50,7 +50,7 @@ namespace Agrigate.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Settings");
+                    b.ToTable("Settings", (string)null);
                 });
 #pragma warning restore 612, 618
         }
