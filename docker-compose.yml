@@ -13,8 +13,8 @@ services:
       - "POSTGRES_PASSWORD=GjsaYdhj#WbcUg6hXR^QjNhzHf836aQK"
     volumes:
       - ./dc/database/data:/var/lib/postgresql/data
-    ports:
-      - 5002:5432
+    # ports:
+    #   - 5002:5432
 
   app:
     build:

@@ -17,7 +17,39 @@ you can also download the files instead.
 git clone https://github.com/Demetrioz/Agrigate.git
 ```
 
-Next, navigate to the directory where you cloned or downloaded the files, and run docker compose.
+Next, update the password for Postgres. This should be done in two locations:
+
+```
+# ./Agrigate.App/appsettings.json
+{
+    ...
+    "Authentication": {
+        ...
+        "ConnectionString": "...Password={NEW_PASSWORD};"
+    }
+  },
+}
+
+# ./docker-compose.yml
+services:
+    database:
+        ...
+        environment:
+            - "POSTGRES_PASSWORD={NEW_PASSWORD}"
+```
+
+Additionally, you can choose to expose the database locally by uncommenting the following lines:
+
+```
+# ./docker-compose.yml
+services:
+    database:
+        ...
+        # ports:
+        #     - 5002:5432
+```
+
+Finally, navigate to the directory where you cloned or downloaded the files and run docker compose.
 
 ```
 docker compose up --build

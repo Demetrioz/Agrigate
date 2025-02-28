@@ -8,11 +8,11 @@ efficient and profitable farm or garden.
 Agrigate is a mono-repo that contains all code needed to build and run the application. The project consists of the 
 following items:
 
-**Agrigate.App**: A Blazor server application that uses Identity Server for authentication.
-**Agrigate.Core**: An Akka.Net console application that contains all business logic and acts as the "OS" for the farm.
-**Agrigate.Domain**: A class library containing the data model for Agrigate.
-**Agrigate.Domain.Auth**: A class library containing the data model for authentication.
-**docs**: A docusaurus site containing full documentation for Agrigate. 
+**Agrigate.App**: A Blazor server application that uses APS.Net Core Identity for authentication.  
+**Agrigate.Core**: An Akka.Net console application that contains all business logic and acts as the "OS" for the farm.  
+**Agrigate.Domain**: A class library containing the data model for Agrigate.  
+**Agrigate.Domain.Auth**: A class library containing the data model for authentication.  
+**docs**: A docusaurus site containing full documentation for Agrigate.  
 
 ## Getting Started
 
