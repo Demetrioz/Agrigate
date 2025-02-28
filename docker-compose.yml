@@ -16,16 +16,6 @@ services:
     # ports:
     #   - 5002:5432
 
-  app:
-    build:
-      context: ./
-      dockerfile: DockerFileApp
-    depends_on:
-      database:
-        condition: service_healthy
-    ports:
-      - 5000:5000
-        
   core:
     build:
       context: ./
@@ -35,3 +25,15 @@ services:
         condition: service_healthy
     ports:
       - 5001:5000
+
+  app:
+    build:
+      context: ./
+      dockerfile: DockerFileApp
+    depends_on:
+      database:
+        condition: service_healthy
+      core:
+        condition: service_started
+    ports:
+      - 5000:5000

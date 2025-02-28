@@ -2,17 +2,19 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5000
 
-# Add environment variables here. They're currently pulling from AppSettings.json
+ENV Agrigate__ConnectionString="Host=database;Port=5432;Database=postgres;User Id=postgres;Password=GjsaYdhj#WbcUg6hXR^QjNhzHf836aQK;"
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 COPY ["Agrigate.Core/Agrigate.Core.csproj", "Agrigate.Core/"]
+COPY ["Agrigate.Domain/Agrigate.Domain.csproj", "Agrigate.Domain/"]
 
 RUN dotnet restore "Agrigate.Core/Agrigate.Core.csproj"
 
 #COPY . .
 COPY ["Agrigate.Core/", "Agrigate.Core/"]
+COPY ["Agrigate.Domain/", "Agrigate.Domain/"]
 
 WORKDIR "/src/Agrigate.Core"
 

@@ -1,14 +1,27 @@
 ﻿using Akka.Hosting;
 using Agrigate.Core;
+using Agrigate.Core.Actors.Root;
+using Agrigate.Domain.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 var hostBuilder = new HostBuilder();
+hostBuilder.ConfigureHostConfiguration(builder =>
+        builder.AddEnvironmentVariables().AddCommandLine(args));
 
 hostBuilder.ConfigureServices((context, services) =>
 {
+    services.AddAgrigateDb(context.Configuration);
+    
     services.AddAkka("MyActorSystem", (builder, sp) =>
     {
         builder
+            .WithActors((system, registry, resolver) =>
+            {
+                var coreProps = resolver.Props<CoreManager>();
+                var coreActor = system.ActorOf(coreProps, "core-manager");
+                registry.Register<CoreManager>(coreActor);
+            })
             .WithActors((system, registry, resolver) =>
             {
                 var helloActor = system.ActorOf(Props.Create(() => new HelloActor()), "hello-actor");

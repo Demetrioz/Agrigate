@@ -2,24 +2,22 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5000
 
-# Add environment variables here. They're currently pulling from AppSettings.json
-# ENV Authentication__DefaultUser=admin
-# ENV Authentication__DefaultPassword=Ag@dm1n!
+ENV Authentication__DefaultUser=admin
+ENV Authentication__DefaultPassword=Ag@dm1n!
+ENV Authentication__ConnectionString="Host=database;Port=5432;Database=postgres;User Id=postgres;Password=GjsaYdhj#WbcUg6hXR^QjNhzHf836aQK;"
 
 ENV ASPNETCORE_URLS=http://+:5000
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 WORKDIR /src
 
-COPY ["Agrigate.Domain.Auth/Agrigate.Domain.Auth.csproj", "Agrigate.Domain.Auth/"]
 COPY ["Agrigate.App/Agrigate.App.csproj", "Agrigate.App/"]
+COPY ["Agrigate.Domain.Auth/Agrigate.Domain.Auth.csproj", "Agrigate.Domain.Auth/"]
 
-RUN dotnet restore "Agrigate.Domain.Auth/Agrigate.Domain.Auth.csproj"
 RUN dotnet restore "Agrigate.App/Agrigate.App.csproj"
 
-COPY . .
-#COPY ["Agrigate.Domain.Auth/", "Agrigiate.Domain.Auth/"]
-#COPY ["Agrigate.App/", "Agrigate.App/"]
+COPY ["Agrigate.App/", "Agrigate.App/"]
+COPY ["Agrigate.Domain.Auth/", "Agrigate.Domain.Auth/"]
 
 WORKDIR "/src/Agrigate.App"
 

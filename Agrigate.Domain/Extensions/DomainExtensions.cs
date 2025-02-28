@@ -9,7 +9,7 @@ public static class DomainExtensions
 {
     public static IServiceCollection AddAgrigateDb(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration[""];
+        var connectionString = configuration["Agrigate:ConnectionString"];
 
         if (string.IsNullOrEmpty(connectionString))
             throw new ApplicationException("Database ConnectionString must be set in configuration");
