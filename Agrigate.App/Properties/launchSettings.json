@@ -15,7 +15,8 @@
         "launchBrowser": true,
         "applicationUrl": "http://localhost:5267",
         "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "Authentication__ConnectionString": "Host=127.0.0.1;Port=5432;Database=agrigate-refresh;User Id=agrigate-refresh-admin;Password=*ugWar2485#SHmDBNZxp9uehpNk2rnS2;"
         }
       },
       "https": {

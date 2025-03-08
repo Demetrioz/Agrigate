@@ -1,5 +1,6 @@
 ﻿using Akka.Hosting;
 using Agrigate.Core;
+using Agrigate.Core.Actors.Operations;
 using Agrigate.Core.Actors.Root;
 using Agrigate.Domain.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,12 @@ hostBuilder.ConfigureServices((context, services) =>
                 var coreProps = resolver.Props<CoreManager>();
                 var coreActor = system.ActorOf(coreProps, "core-manager");
                 registry.Register<CoreManager>(coreActor);
+            })
+            .WithActors((system, registry, resolver) =>
+            {
+                var locationProps = resolver.Props<LocationManager>();
+                var locationActor = system.ActorOf(locationProps, "location-manager");
+                registry.Register<LocationManager>(locationActor);
             })
             .WithActors((system, registry, resolver) =>
             {
