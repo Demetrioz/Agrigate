@@ -1,3 +1,6 @@
+# Rider
+.idea
+
 # Build directories
 bin/
 obj/
