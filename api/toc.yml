@@ -1,0 +1,10 @@
+### YamlMime:TableOfContent
+items:
+- uid: Agrigate.Core
+  name: Agrigate.Core
+  type: Namespace
+  items:
+  - uid: Agrigate.Core.Class1
+    name: Class1
+    type: Class
+memberLayout: SamePage

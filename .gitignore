@@ -1,5 +1,9 @@
 # Rider config
-/.idea
+.idea
 
 # Local docfx build artifacts
 /_site
+
+# .Net build files
+bin
+obj

@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Agrigate.Core
+  commentId: N:Agrigate.Core
+  id: Agrigate.Core
+  children:
+  - Agrigate.Core.Class1
+  langs:
+  - csharp
+  - vb
+  name: Agrigate.Core
+  nameWithType: Agrigate.Core
+  fullName: Agrigate.Core
+  type: Namespace
+  assemblies:
+  - Agrigate.Core
+references:
+- uid: Agrigate.Core.Class1
+  commentId: T:Agrigate.Core.Class1
+  href: Agrigate.Core.Class1.html
+  name: Class1
+  nameWithType: Class1
+  fullName: Agrigate.Core.Class1
