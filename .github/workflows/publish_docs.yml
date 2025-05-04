@@ -1,0 +1,45 @@
+# Trigger the action when pushing to main
+on:
+  push:
+    branches:
+      - main
+
+# Allow the GITHUB_TOKEN to deploy to GitHub pages
+permissions:
+  actions: read
+  pages: write
+  id-token: write
+
+# Only allow a single concurrent deployment, skipping runs queued between the run in-progress and latest queued
+# Do not cancel in-progress runs as we want to allow the production deployment to complete 
+concurrency: 
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  publish-docs:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Dotnet Setup
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.x
+      
+      - run: dotnet tool update -g docfx
+      - run: docfx ./docfx.json
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload the entire repository
+          path: ./site
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

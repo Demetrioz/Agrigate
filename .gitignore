@@ -1,0 +1,5 @@
+# Rider config
+/.idea
+
+# Local docfx build artifacts
+/_site
