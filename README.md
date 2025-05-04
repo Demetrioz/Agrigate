@@ -1,2 +1,5 @@
 # Agrigate
-Agrigate is a decentralized application focused on connecting local farms and helping them grow
+
+Agrigate is an application focused on building and connecting a decentralized food system.
+
+Full documentation can be found online at [https://agrigate.app](https://agrigate.app).

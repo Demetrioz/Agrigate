@@ -1,3 +1,5 @@
+- name: Guides
+  href: guides/
 - name: Docs
   href: docs/
 - name: API
