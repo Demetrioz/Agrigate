@@ -19,6 +19,10 @@ TODO: Why the software is being created and how it came about
 
 TODO: The different components that exist within Agrigate 
 
+## Contributing
+
+TODO: How to contribute
+
 ## Quick Start Notes:
 
 1. Add images to the *images* folder if the file is referencing an image.

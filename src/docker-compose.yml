@@ -1,0 +1,35 @@
+name: agrigate
+
+networks:
+  agrigate: {}
+
+volumes:
+  grafana-data: {}
+  loki-data: {}
+
+services:
+  loki:
+    image: grafana/loki
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - loki-data:/loki
+    networks:
+      - agrigate
+  
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_FEATURE_TOGGLES_ENABLE=alertingSimplifiedRouting,alertingQueryAndExpressionsStepMode
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./docker-compose/grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - agrigate
