@@ -18,6 +18,16 @@ public class WeatherForecastController : ControllerBase
         _logger = logger;
     }
 
+    [HttpPost]
+    public IActionResult Test()
+    {
+        _logger.LogInformation("Test Info");
+        _logger.LogError("Test Error");
+        _logger.LogCritical("Test Critical");
+        _logger.LogWarning("Test Warning");
+        return Ok();
+    }
+
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {

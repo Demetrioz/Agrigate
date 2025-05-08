@@ -18,6 +18,12 @@ services:
       - loki-data:/loki
     networks:
       - agrigate
+    healthcheck:
+      test: wget -q --tries=1 -O- http://localhost:3100/ready
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
   
   grafana:
     image: grafana/grafana-oss
@@ -33,6 +39,9 @@ services:
       - ./docker-compose/grafana/provisioning:/etc/grafana/provisioning
     networks:
       - agrigate
+    depends_on:
+      loki:
+        condition: service_healthy
   
   api:
     container_name: api
@@ -41,3 +50,8 @@ services:
       dockerfile: DockerfileApi
     ports:
       - "5000:5000"
+    networks:
+      - agrigate
+    depends_on:
+      loki:
+        condition: service_healthy
