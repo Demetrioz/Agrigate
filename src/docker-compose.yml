@@ -33,3 +33,11 @@ services:
       - ./docker-compose/grafana/provisioning:/etc/grafana/provisioning
     networks:
       - agrigate
+  
+  api:
+    container_name: api
+    build:
+      context: ./
+      dockerfile: DockerfileApi
+    ports:
+      - "5000:5000"
