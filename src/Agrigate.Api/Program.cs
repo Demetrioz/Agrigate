@@ -1,33 +1,8 @@
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.Grafana.Loki;
+using Agrigate.Core.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog((context, config) =>
-{
-    config.MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning);
-    config.MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning);
-    config.MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning);
-    
-    config.WriteTo.Console();
-
-    #if !DEBUG
-    config.WriteTo.GrafanaLoki(
-        "http://loki:3100",
-        labels: [
-            new LokiLabel
-            {
-                Key = "source",
-                Value = "Agrigate.Api"
-            }
-        ],
-        propertiesAsLabels: [
-            "source"
-        ]
-    );
-    #endif
-});
+builder.Host.ConfigureAgrigateLogging(builder.Configuration);
 
 // Add services to the container.
 
@@ -37,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-app.UseSerilogRequestLogging();
+app.UseAgrigateLogging();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();

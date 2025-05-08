@@ -2,16 +2,20 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5000
 
+ENV Logging__LokiHost=http://loki:3100
+
 ENV ASPNETCORE_URLS=http://+:5000
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 COPY ["Agrigate.Api/Agrigate.Api.csproj", "Agrigate.Api/"]
+COPY ["Agrigate.Core/Agrigate.Core.csproj", "Agrigate.Core/"]
 
 RUN dotnet restore "Agrigate.Api/Agrigate.Api.csproj"
 
 COPY ["Agrigate.Api/", "Agrigate.Api"]
+COPY ["Agrigate.Core/", "Agrigate.Core"]
 
 WORKDIR "/src/Agrigate.Api"
 
