@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Agrigate.Api.Controllers;
@@ -21,13 +22,34 @@ public class WeatherForecastController : ControllerBase
     [HttpPost]
     public IActionResult Test()
     {
-        _logger.LogInformation("Test Info");
-        _logger.LogError("Test Error");
-        _logger.LogCritical("Test Critical");
-        _logger.LogWarning("Test Warning");
+        // _logger.LogInformation("Test Info");
+        // _logger.LogError("Test Error");
+        // _logger.LogCritical("Test Critical");
+        // _logger.LogWarning("Test Warning");
         return Ok();
     }
 
+    [Authorize]
+    [HttpPost("Test2")]
+    public IActionResult Test2()
+    {
+        return Ok();
+    }
+
+    [Authorize(Roles = "Test Role")]
+    [HttpPost("Test3")]
+    public IActionResult Test3()
+    {
+        return Ok();
+    }
+    
+    [Authorize(Roles = "Admin")]
+    [HttpPost("Test4")]
+    public IActionResult Test4()
+    {
+        return Ok();
+    }
+    
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {

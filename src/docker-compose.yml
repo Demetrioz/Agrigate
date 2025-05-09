@@ -4,13 +4,37 @@ networks:
   agrigate: {}
 
 volumes:
+  postgres-data: {}
+  fusionauth-data: {}
   grafana-data: {}
   loki-data: {}
 
 services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - agrigate
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:?postgres user required}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?postgres password required}
+  
   loki:
     image: grafana/loki
     container_name: loki
+    restart: unless-stopped
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
@@ -42,6 +66,34 @@ services:
     depends_on:
       loki:
         condition: service_healthy
+  
+  fusionauth:
+    image: fusionauth/fusionauth-app
+    container_name: fusionauth
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - ./.env
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/fusionauth
+      - DATABASE_ROOT_USERNAME=${POSTGRES_USER:?postgres user required}
+      - DATABASE_ROOT_PASSWORD=${POSTGRES_PASSWORD:?postgres password required}
+      - DATABASE_USERNAME=${FUSIONAUTH_DB_USER:?fusionauth database username required}
+      - DATABASE_PASSWORD=${FUSIONAUTH_DB_PASSWORD:?fusionauth database password required}
+      - FUSIONAUTH_APP_MEMORY=512M
+      - FUSIONAUTH_APP_RUNTIME_MODE=production
+      - FUSIONAUTH_APP_URL=http://fusionauth:9011
+      - SEARCH_TYPE=database
+      - FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json
+    ports:
+      - "9011:9011"
+    networks:
+      - agrigate
+    volumes:
+      - fusionauth-data:/usr/local/fusionauth/config
+      - ./docker-compose/fusionauth/kickstart:/usr/local/fusionauth/kickstart
   
   api:
     container_name: api
