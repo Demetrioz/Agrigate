@@ -1,0 +1,9 @@
+@using Microsoft.AspNetCore.Authorization
+
+@page "/test2"
+
+@attribute [Authorize(Roles = "Test Role")]
+
+<PageTitle>Test Role</PageTitle>
+
+<div>Test role!</div>

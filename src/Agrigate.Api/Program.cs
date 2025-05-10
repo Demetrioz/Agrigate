@@ -1,31 +1,9 @@
-using Agrigate.Api.Configuration;
 using Agrigate.Core.Extensions;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.ConfigureAgrigateLogging(builder.Configuration);
-
-var authSettings = new AuthenticationConfiguration();
-builder.Configuration.Bind("Authentication", authSettings);
-
-builder.Services.AddAuthentication()
-    .AddJwtBearer(options =>
-    {
-        options.Authority = authSettings.Authority;
-        options.Audience = authSettings.Audience;
-        options.RequireHttpsMetadata = authSettings.RequireHttpsMetadata;
-
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidAudience = authSettings.Audience,
-            
-            ValidateIssuerSigningKey = true,
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-        };
-    });
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 // Add services to the container.
 

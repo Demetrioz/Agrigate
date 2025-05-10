@@ -17,6 +17,7 @@
       "applicationUrl": "http://localhost:5233",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
+        "Logging__LokiHost": "http://localhost:3100",
         "Authentication__Authority": "http://localhost:9011",
         "Authentication__Audience": "e9fdb985-9173-4e01-9d73-ac2d60d1dc8e",
         "Authentication__RequireHttpsMetadata": "false"

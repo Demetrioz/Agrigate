@@ -1,4 +1,4 @@
-namespace Agrigate.Api.Configuration;
+namespace Agrigate.Core.Configuration;
 
 /// <summary>
 /// Configuration settings related to authentication
@@ -19,4 +19,14 @@ public class AuthenticationConfiguration
     /// Whether to require HTTPS metadata. Should be true in production
     /// </summary>
     public bool RequireHttpsMetadata { get; set; }
+    
+    /// <summary>
+    /// The client's id from the IDP
+    /// </summary>
+    public string ClientId { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// The client's secret from the IDP
+    /// </summary>
+    public string ClientSecret { get; set; } = string.Empty;
 }
