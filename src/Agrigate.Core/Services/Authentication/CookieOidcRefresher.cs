@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Agrigate.Core.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -16,16 +17,32 @@ namespace Agrigate.Core.Services.Authentication;
 /// <summary>
 /// Class to assist with automatically refreshing the OIDC Cookie. See https://github.com/dotnet/blazor-samples/tree/main/8.0/BlazorWebAppOidcServer
 /// </summary>
-/// <param name="oidcOptionsMonitor"></param>
-internal sealed class CookieOidcRefresher(IOptionsMonitor<OpenIdConnectOptions> oidcOptionsMonitor)
+internal sealed class CookieOidcRefresher
 {
-    private readonly OpenIdConnectProtocolValidator oidcTokenValidator = new()
+    private readonly IOptionsMonitor<OpenIdConnectOptions> _oidcOptionsMonitor;
+    private static string _assemblyName = string.Empty;
+    
+    public CookieOidcRefresher(IOptionsMonitor<OpenIdConnectOptions> oidcOptionsMonitor)
+    {
+        _oidcOptionsMonitor = oidcOptionsMonitor;
+        
+        if (string.IsNullOrWhiteSpace(_assemblyName))
+            _assemblyName = CoreHelper.GetSourceNamespace();
+    }
+    
+    private readonly OpenIdConnectProtocolValidator _oidcTokenValidator = new()
     {
         // We no longer have the original nonce cookie which is deleted at the end of the authorization code flow having served its purpose.
         // Even if we had the nonce, it's likely expired. It's not intended for refresh requests. Otherwise, we'd use oidcOptions.ProtocolValidator.
         RequireNonce = false,
     };
 
+    /// <summary>
+    /// Validates the access token from the cookie and refreshes the token, if needed
+    /// </summary>
+    /// <param name="validateContext"></param>
+    /// <param name="oidcScheme"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task ValidateOrRefreshCookieAsync(CookieValidatePrincipalContext validateContext, string oidcScheme)
     {
         var accessTokenExpirationText = validateContext.Properties.GetTokenValue("expires_at");
@@ -34,7 +51,7 @@ internal sealed class CookieOidcRefresher(IOptionsMonitor<OpenIdConnectOptions> 
             return;
         }
 
-        var oidcOptions = oidcOptionsMonitor.Get(oidcScheme);
+        var oidcOptions = _oidcOptionsMonitor.Get(oidcScheme);
         var now = oidcOptions.TimeProvider!.GetUtcNow();
         if (now + TimeSpan.FromMinutes(5) < accessTokenExpiration)
         {
@@ -84,12 +101,15 @@ internal sealed class CookieOidcRefresher(IOptionsMonitor<OpenIdConnectOptions> 
 
         var validatedIdToken = JwtSecurityTokenConverter.Convert(validationResult.SecurityToken as JsonWebToken);
         validatedIdToken.Payload["nonce"] = null;
-        oidcTokenValidator.ValidateTokenResponse(new()
+        _oidcTokenValidator.ValidateTokenResponse(new OpenIdConnectProtocolValidationContext
         {
             ProtocolMessage = message,
             ClientId = oidcOptions.ClientId,
             ValidatedIdToken = validatedIdToken,
         });
+        
+        var rolesToAdd = TokenHelper.GetRolesFromKeyCloakToken(message.AccessToken, _assemblyName);
+        validationResult.ClaimsIdentity.AddClaims(rolesToAdd);
 
         validateContext.ShouldRenew = true;
         validateContext.ReplacePrincipal(new ClaimsPrincipal(validationResult.ClaimsIdentity));
@@ -97,11 +117,11 @@ internal sealed class CookieOidcRefresher(IOptionsMonitor<OpenIdConnectOptions> 
         var expiresIn = int.Parse(message.ExpiresIn, NumberStyles.Integer, CultureInfo.InvariantCulture);
         var expiresAt = now + TimeSpan.FromSeconds(expiresIn);
         validateContext.Properties.StoreTokens([
-            new() { Name = "access_token", Value = message.AccessToken },
-            new() { Name = "id_token", Value = message.IdToken },
-            new() { Name = "refresh_token", Value = message.RefreshToken },
-            new() { Name = "token_type", Value = message.TokenType },
-            new() { Name = "expires_at", Value = expiresAt.ToString("o", CultureInfo.InvariantCulture) },
+            new AuthenticationToken { Name = "access_token", Value = message.AccessToken },
+            new AuthenticationToken { Name = "id_token", Value = message.IdToken },
+            new AuthenticationToken { Name = "refresh_token", Value = message.RefreshToken },
+            new AuthenticationToken { Name = "token_type", Value = message.TokenType },
+            new AuthenticationToken { Name = "expires_at", Value = expiresAt.ToString("o", CultureInfo.InvariantCulture) },
         ]);
     }
 }

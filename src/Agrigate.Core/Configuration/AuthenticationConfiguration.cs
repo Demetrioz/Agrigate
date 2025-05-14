@@ -16,6 +16,16 @@ public class AuthenticationConfiguration
     public string Audience { get; set; } = string.Empty;
     
     /// <summary>
+    /// URL exposing IDP metadata
+    /// </summary>
+    public string MetadataAddress { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Audiences allowed to make requests to a given service
+    /// </summary>
+    public List<string> AllowedAudiences { get; set; } = [];
+    
+    /// <summary>
     /// Whether to require HTTPS metadata. Should be true in production
     /// </summary>
     public bool RequireHttpsMetadata { get; set; }

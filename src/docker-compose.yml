@@ -5,7 +5,6 @@ networks:
 
 volumes:
   postgres-data: {}
-  fusionauth-data: {}
   grafana-data: {}
   loki-data: {}
 
@@ -30,6 +29,44 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER:?postgres user required}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?postgres password required}
+      - POSTGRES_DB=keycloak
+
+  # TODO: https://stackoverflow.com/questions/47181821/using-keycloak-behind-a-reverse-proxy-could-not-open-admin-loginpage-because-mi
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    container_name: keycloak
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    command:
+      - start-dev
+      - --import-realm
+    # TODO: enable healthcheck so api can depend on keycloak
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+    networks:
+      - agrigate
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./docker-compose/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    environment:
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://postgres:5432/keycloak
+      - KC_DB_USERNAME=${KEYCLOAK_DB_USER:?keycloak database username required}
+      - KC_DB_PASSWORD=${KEYCLOAK_DB_PASSWORD:?keycloak database password required}
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN:?keycloak admin username required}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD:?keycloak admin password required}
+      - KC_HEALTH_ENABLED=true
+      - KC_METRICS_ENABLED=true
+      - KC_HTTP_ENABLED=true
+      - KC_HOSTNAME_STRICT=false
+      - KC_PROXY=edge
+      - KC_HTTP_RELATIVE_PATH=/auth
   
   loki:
     image: grafana/loki
@@ -67,43 +104,52 @@ services:
       loki:
         condition: service_healthy
   
-  fusionauth:
-    image: fusionauth/fusionauth-app
-    container_name: fusionauth
-    restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
-    env_file:
-      - ./.env
-    environment:
-      - DATABASE_URL=jdbc:postgresql://postgres:5432/fusionauth
-      - DATABASE_ROOT_USERNAME=${POSTGRES_USER:?postgres user required}
-      - DATABASE_ROOT_PASSWORD=${POSTGRES_PASSWORD:?postgres password required}
-      - DATABASE_USERNAME=${FUSIONAUTH_DB_USER:?fusionauth database username required}
-      - DATABASE_PASSWORD=${FUSIONAUTH_DB_PASSWORD:?fusionauth database password required}
-      - FUSIONAUTH_APP_MEMORY=512M
-      - FUSIONAUTH_APP_RUNTIME_MODE=production
-      - FUSIONAUTH_APP_URL=http://fusionauth:9011
-      - SEARCH_TYPE=database
-      - FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json
-    ports:
-      - "9011:9011"
-    networks:
-      - agrigate
-    volumes:
-      - fusionauth-data:/usr/local/fusionauth/config
-      - ./docker-compose/fusionauth/kickstart:/usr/local/fusionauth/kickstart
-  
   api:
     container_name: api
     build:
       context: ./
       dockerfile: DockerfileApi
+    environment:
+      - Logging__LokiHost=http://loki:3100
+      - Authentication__Authority=https://mydomain.com/auth/realms/Agrigate
+      - Authentication__Audience=account
+      - Authentication__MetadataAddress=https://mydomain.com/auth/realms/Agrigate/.well-known/openid-configuration
+      - Authentication__AllowedAudiences:0=account
+      - Authentication__AllowedAudiences:1=Agrigate.Web
+      - Authentication__RequireHttpsMetadata=false
     ports:
       - "5000:5000"
+    networks:
+      - agrigate
+    healthcheck:
+      test: wget -q --tries=1 -O- http://localhost:5000/System/Healthcheck
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      loki:
+        condition: service_healthy
+      # TODO: Depend on keycloak
+      # keycloak:
+      #   condition: service_healthy
+  
+  # TODO: Offline tokens not allowed for the user or client
+  web:
+    container_name: web
+    build:
+      context: ./
+      dockerfile: DockerfileWeb
+    environment:
+      - Authentication__Authority=https://mydomain.com/auth/realms/Agrigate
+      - Authentication__ClientId=Agrigate.Web
+      - Authentication__ClientSecret=${AGRIGATE_WEB_SECRET:?web secret required}
+    ports:
+      - "5001:5001"
     networks:
       - agrigate
     depends_on:
       loki:
         condition: service_healthy
+      # TODO: Depend on api
+      # api:
+      #   condition: service_healthy

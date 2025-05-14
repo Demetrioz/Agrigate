@@ -1,10 +1,8 @@
 using System.Globalization;
-using Agrigate.Core;
 using Agrigate.Core.Extensions;
 using Agrigate.Web;
-using Agrigate.Web.Extensions;
 
-// SEE https://github.com/dotnet/blazor-samples/tree/main/8.0/BlazorWebAppOidcServer For additional auth config
+// SEE https://github.com/dotnet/blazor-samples/tree/main/8.0/BlazorWebAppOidcServer for additional auth config
 
 // Display $ properly on Linux
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
@@ -16,6 +14,14 @@ builder.Services.AddOidcAuthentication(builder.Configuration);
 
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<TokenHandler>();
+builder.Services
+    .AddHttpClient(
+        "ExternalApi",
+        client => client.BaseAddress = new Uri("http://localhost:5233"))
+    .AddHttpMessageHandler<TokenHandler>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -42,7 +48,6 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.MapGroup(Constants.Authentication.Routes.Auth)
-    .MapAuthenticationRoutes();
+app.MapAuthenticationRoutes();
 
 app.Run();

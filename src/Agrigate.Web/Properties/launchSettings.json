@@ -17,9 +17,9 @@
         "environmentVariables": {
           "ASPNETCORE_ENVIRONMENT": "Development",
           "Logging__LokiHost": "http://localhost:3100",
-          "Authentication__Authority": "http://localhost:9011",
-          "Authentication__ClientId": "e9fdb985-9173-4e01-9d73-ac2d60d1dc8e",
-          "Authentication__ClientSecret": "super-secret-secret-that-should-be-regenerated-for-production"
+          "Authentication__Authority": "http://localhost:8080/auth/realms/Agrigate",
+          "Authentication__ClientId": "Agrigate.Web",
+          "Authentication__ClientSecret": "isOv9Wd235OfiLvQFCgbR2aAIli3moME"
         }
       },
       "https": {

@@ -7,17 +7,17 @@ namespace Agrigate.Api.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
+    private static readonly string[] Summaries =
+    [
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    ];
 
-    private readonly ILogger<WeatherForecastController> _logger;
-
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
-    {
-        _logger = logger;
-    }
+    // private readonly ILogger<WeatherForecastController> _logger;
+    
+    // public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    // {
+    //     _logger = logger;
+    // }
 
     [HttpPost]
     public IActionResult Test()
@@ -33,19 +33,30 @@ public class WeatherForecastController : ControllerBase
     [HttpPost("Test2")]
     public IActionResult Test2()
     {
-        return Ok();
+        var claims = User.Claims
+            .Select(c => new { c.Type, c.Value })
+            .ToList();
+        
+        return Ok(claims);
     }
 
-    [Authorize(Roles = "Test Role")]
+    [Authorize(Roles = "api-admin")]
     [HttpPost("Test3")]
     public IActionResult Test3()
     {
         return Ok();
     }
     
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "agrigate-admin")]
     [HttpPost("Test4")]
     public IActionResult Test4()
+    {
+        return Ok();
+    }
+    
+    [Authorize(Roles = "invalid-role")]
+    [HttpPost("Test5")]
+    public IActionResult Test5()
     {
         return Ok();
     }

@@ -2,8 +2,34 @@
 
 @page "/test3"
 
-@attribute [Authorize(Roles = "Admin")]
+@attribute [Authorize(Roles = "web-admin")]
 
 <PageTitle>Admin</PageTitle>
 
 <div>Admin role!</div>
+
+@code {
+    [Inject]
+    public required IHttpClientFactory HttpClientFactory { get; set; }
+    
+    [Inject]
+    public required ILogger<TestBase> Logger { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, "/WeatherForecast/Test3");
+            var client = HttpClientFactory.CreateClient("ExternalApi");
+        
+            var response = await client.SendAsync(request);
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                throw new ApplicationException($"{response.StatusCode}: {result}");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to make request: {Message}", ex.Message);
+        }
+    }
+}

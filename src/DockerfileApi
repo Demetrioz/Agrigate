@@ -2,11 +2,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5000
 
-ENV Logging__LokiHost=http://loki:3100
-ENV Authentication__Authority=https://static-url.ngrok-free.app
-ENV Authentication__Audience=e9fdb985-9173-4e01-9d73-ac2d60d1dc8e
-ENV Authentication__RequireHttpsMetadata=false
-
 ENV ASPNETCORE_URLS=http://+:5000
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build

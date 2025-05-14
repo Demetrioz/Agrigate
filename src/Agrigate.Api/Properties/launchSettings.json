@@ -18,8 +18,11 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "Logging__LokiHost": "http://localhost:3100",
-        "Authentication__Authority": "http://localhost:9011",
-        "Authentication__Audience": "e9fdb985-9173-4e01-9d73-ac2d60d1dc8e",
+        "Authentication__Authority": "http://localhost:8080/auth/realms/Agrigate",
+        "Authentication__Audience": "account",
+        "Authentication__MetadataAddress": "http://localhost:8080/auth/realms/Agrigate/.well-known/openid-configuration",
+        "Authentication__AllowedAudiences:0": "account",
+        "Authentication__AllowedAudiences:1": "Agrigate.Web",
         "Authentication__RequireHttpsMetadata": "false"
       }
     },
