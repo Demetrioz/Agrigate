@@ -9,3 +9,4 @@ Agrigate.sln.DotSettings.user
 
 appsettings.*.json
 *.db
+.env

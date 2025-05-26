@@ -1,0 +1,93 @@
+name: agrigate
+
+networks:
+  agrigate: {}
+  
+volumes:
+  postgres-data: {}
+  grafana-data: {}
+  loki-data: {}
+  
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - agrigate
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:?postgres user required}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?postgres password required}
+
+  loki:
+    image: grafana/loki
+    container_name: loki
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - loki-data:/loki
+    networks:
+      - agrigate
+    healthcheck:
+      test: wget -q --tries=1 -O- http://localhost:3100/ready
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+      
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_FEATURE_TOGGLES_ENABLE=alertingSimplifiedRouting,alertingQueryAndExpressionsStepMode
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./docker-compose/grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - agrigate
+    depends_on:
+      loki:
+        condition: service_healthy
+  
+  api:
+    container_name: api
+    build:
+      context: ./
+      dockerfile: DockerfileApi
+    ports:
+      - "5000:5000"
+    networks:
+      - agrigate
+    depends_on:
+      loki:
+        condition: service_healthy
+        
+  web:
+    container_name: web
+    build:
+      context: ./
+      dockerfile: DockerfileWeb
+    ports:
+      - "5001:5001"
+    networks:
+      - agrigate
+    depends_on:
+      loki:
+        condition: service_healthy
