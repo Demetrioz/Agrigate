@@ -6,7 +6,18 @@ namespace Agrigate.Core;
 public class Constants
 {
     /// <summary>
-    /// Configuration related constants
+    /// Configuration related to Agrigate
+    /// </summary>
+    public class Agrigate
+    {
+        /// <summary>
+        /// The configuration section containing agrigate related setup
+        /// </summary>
+        public const string Configuration = "Agrigate";
+    }
+    
+    /// <summary>
+    /// Configuration related to Logging
     /// </summary>
     public class Logging
     {

@@ -29,6 +29,7 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER:?postgres user required}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?postgres password required}
+      - POSTGRES_DB=agrigate
 
   loki:
     image: grafana/loki
@@ -88,6 +89,11 @@ services:
       dockerfile: DockerfileWeb
     environment:
       - Logging__LokiHost=http://loki:3100
+      - Agrigate__DbConnectionString=Host=postgres;Port=5432;Database=agrigate;User Id=${POSTGRES_USER:?postgres user required};Password=${POSTGRES_PASSWORD:?postgres password required}
+      - Agrigate__DefaultEmail=${AGRIGATE_USER:?agrigate user required}
+      - Agrigate__DefaultPassword=${AGRIGATE_PASSWORD:?agrigate password required}
+    env_file:
+      - ./.env
     ports:
       - "5001:5001"
     networks:

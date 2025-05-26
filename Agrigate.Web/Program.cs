@@ -1,3 +1,5 @@
+using Agrigate.Core;
+using Agrigate.Core.Configuration;
 using Agrigate.Core.Extensions;
 using Agrigate.Domain.Contexts;
 using Agrigate.Domain.Entities.Common;
@@ -9,6 +11,9 @@ using Agrigate.Web.Components.Account;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAgrigateLogging(builder.Configuration);
+
+var settings = new AgrigateConfiguration();
+builder.Configuration.Bind(Constants.Agrigate.Configuration, settings);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -28,9 +33,8 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 
 // Database
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<AgrigateContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseNpgsql(settings.DbConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<AgrigateUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -41,6 +45,29 @@ builder.Services.AddIdentityCore<AgrigateUser>(options => options.SignIn.Require
 builder.Services.AddSingleton<IEmailSender<AgrigateUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    // Apply migrations
+    var db = scope.ServiceProvider.GetRequiredService<AgrigateContext>();
+    db.Database.Migrate();
+    
+    // Create the first user
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AgrigateUser>>();
+    var defaultUser = userManager.FindByEmailAsync(settings.DefaultEmail ?? "").GetAwaiter().GetResult();
+    if (defaultUser == null)
+    {
+        var adminUser = new AgrigateUser
+        {
+            UserName = settings.DefaultEmail,
+            Email = settings.DefaultEmail,
+            EmailConfirmed = true
+        };
+        
+        userManager.CreateAsync(adminUser, settings.DefaultPassword ?? "").Wait();
+    }
+}
+
 app.UseAgrigateLogging();
 
 // Configure the HTTP request pipeline.

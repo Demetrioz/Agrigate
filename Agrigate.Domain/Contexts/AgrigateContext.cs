@@ -23,6 +23,6 @@ public class AgrigateContext : IdentityDbContext<AgrigateUser>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
-            optionsBuilder.UseSqlite("Data Source=agrigate.db");
+            optionsBuilder.UseNpgsql("");
     }
 }
