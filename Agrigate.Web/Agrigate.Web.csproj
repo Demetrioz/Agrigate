@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Agrigate.Core\Agrigate.Core.csproj" />
       <ProjectReference Include="..\Agrigate.Domain\Agrigate.Domain.csproj" />
     </ItemGroup>
 

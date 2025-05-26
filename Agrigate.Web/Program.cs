@@ -1,3 +1,4 @@
+using Agrigate.Core.Extensions;
 using Agrigate.Domain.Contexts;
 using Agrigate.Domain.Entities.Common;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -7,6 +8,7 @@ using Agrigate.Web.Components;
 using Agrigate.Web.Components.Account;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.ConfigureAgrigateLogging(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -39,6 +41,7 @@ builder.Services.AddIdentityCore<AgrigateUser>(options => options.SignIn.Require
 builder.Services.AddSingleton<IEmailSender<AgrigateUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
+app.UseAgrigateLogging();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

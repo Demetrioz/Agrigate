@@ -71,6 +71,8 @@ services:
     build:
       context: ./
       dockerfile: DockerfileApi
+    environment:
+      - Logging__LokiHost=http://loki:3100
     ports:
       - "5000:5000"
     networks:
@@ -84,6 +86,8 @@ services:
     build:
       context: ./
       dockerfile: DockerfileWeb
+    environment:
+      - Logging__LokiHost=http://loki:3100
     ports:
       - "5001:5001"
     networks:

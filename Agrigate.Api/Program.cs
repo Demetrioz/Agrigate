@@ -1,4 +1,8 @@
+using Agrigate.Core.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.ConfigureAgrigateLogging(builder.Configuration);
 
 // Add services to the container.
 
@@ -8,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.UseAgrigateLogging();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

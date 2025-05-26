@@ -8,11 +8,13 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 COPY ["Agrigate.Web/Agrigate.Web.csproj", "Agrigate.Web/"]
+COPY ["Agrigate.Core/Agrigate.Core.csproj", "Agrigate.Core/"]
 COPY ["Agrigate.Domain/Agrigate.Domain.csproj", "Agrigate.Domain/"]
 
 RUN dotnet restore "Agrigate.Web/Agrigate.Web.csproj"
 
 COPY ["Agrigate.Web/", "Agrigate.Web"]
+COPY ["Agrigate.Core/", "Agrigate.Core"]
 COPY ["Agrigate.Domain/", "Agrigate.Domain"]
 
 WORKDIR "/src/Agrigate.Web"
