@@ -6,8 +6,9 @@ using Agrigate.Domain.Entities.Common;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Agrigate.Web.Components;
+using Agrigate.Web;
 using Agrigate.Web.Components.Account;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAgrigateLogging(builder.Configuration);
@@ -41,6 +42,9 @@ builder.Services.AddIdentityCore<AgrigateUser>(options => options.SignIn.Require
     .AddEntityFrameworkStores<AgrigateContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
+
+// Mudblazor
+builder.Services.AddMudServices();
 
 builder.Services.AddSingleton<IEmailSender<AgrigateUser>, IdentityNoOpEmailSender>();
 

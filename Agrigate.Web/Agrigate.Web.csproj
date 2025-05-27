@@ -11,11 +11,30 @@
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.16"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.16"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.16"/>
+        <PackageReference Include="MudBlazor" Version="8.6.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Agrigate.Core\Agrigate.Core.csproj" />
       <ProjectReference Include="..\Agrigate.Domain\Agrigate.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Components\Pages\Auth.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Counter.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Error.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Home.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Weather.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Layout\MainLayout.razor" />
+      <AdditionalFiles Include="Layout\NavMenu.razor" />
+      <AdditionalFiles Include="Pages\Auth.razor" />
+      <AdditionalFiles Include="Pages\Counter.razor" />
+      <AdditionalFiles Include="Pages\Error.razor" />
+      <AdditionalFiles Include="Pages\Home.razor" />
+      <AdditionalFiles Include="Pages\Weather.razor" />
     </ItemGroup>
 
 </Project>
