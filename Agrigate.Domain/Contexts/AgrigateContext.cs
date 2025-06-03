@@ -1,4 +1,5 @@
 using Agrigate.Domain.Entities.Common;
+using Agrigate.Domain.Entities.Crops;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,4 +26,6 @@ public class AgrigateContext : IdentityDbContext<AgrigateUser>
         if (!optionsBuilder.IsConfigured)
             optionsBuilder.UseNpgsql("");
     }
+    
+    public DbSet<CropDetail> CropDetails { get; set; }
 }
