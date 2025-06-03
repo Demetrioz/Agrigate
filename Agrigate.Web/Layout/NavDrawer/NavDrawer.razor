@@ -1,10 +1,20 @@
 @inherits NavDrawerBase
 
-<MudDrawer Open="@IsOpen" ClipMode="DrawerClipMode.Always" Variant="DrawerVariant.Mini">
+<MudDrawer Open="@IsOpen" ClipMode="DrawerClipMode.Always">
     <MudNavMenu>
-        <MudNavLink Match="NavLinkMatch.All" Href="/" Icon="@Icons.Material.Filled.Home">
+        <MudText Typo="Typo.h6">Agrigate</MudText>
+        <MudDivider />
+        <MudNavLink Match="NavLinkMatch.All" Href="/" Icon="fas fa-home">
             Home
         </MudNavLink>
+        <MudNavGroup Title="Production" Icon="fas fa-tractor">
+            <MudNavLink Match="NavLinkMatch.All" Href="/counter" Icon="fas fa-seedling">
+                Plantings
+            </MudNavLink>
+            <MudNavLink Match="NavLinkMatch.All" Href="/counter" Icon="fas fa-circle-info">
+                Crop Details
+            </MudNavLink>
+        </MudNavGroup>
         <MudNavLink Match="NavLinkMatch.All" Href="/counter" Icon="@Icons.Material.Filled.Calculate">
             Counter
         </MudNavLink>
@@ -12,20 +22,20 @@
             Weather
         </MudNavLink>
         <MudNavLink Match="NavLinkMatch.All" Href="/auth" Icon="@Icons.Material.Filled.Lock">
-            Auth Required    
+            Auth Required
         </MudNavLink>
         <AuthorizeView>
             <Authorized>
                 <MudNavLink Match="NavLinkMatch.All" Href="/account/manage" Icon="@Icons.Material.Filled.AccountCircle">
-                    @context.User.Identity?.Name    
+                    @context.User.Identity?.Name
                 </MudNavLink>
             </Authorized>
             <NotAuthorized>
                 <MudNavLink Match="NavLinkMatch.All" Href="/account/register" Icon="@Icons.Material.Filled.AppRegistration">
-                    Register    
+                    Register
                 </MudNavLink>
                 <MudNavLink Match="NavLinkMatch.All" Href="/account/login" Icon="@Icons.Material.Filled.Login">
-                    Login 
+                    Login
                 </MudNavLink>
             </NotAuthorized>
         </AuthorizeView>
