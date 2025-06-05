@@ -39,7 +39,7 @@ public static class LoggingExtensions
             config.MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning);
             config.MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning);
             
-            config.WriteTo.Console();
+            config.WriteTo.Console(outputTemplate: "[{Level:u3}][{Timestamp:yyyy-MM-dd HH:mm:ss}][{Thread}][{ActorPath}] {Message:lj}{NewLine}{Exception}");
 
             if (!string.IsNullOrWhiteSpace(settings.LokiHost))
                 config.WriteTo.GrafanaLoki(

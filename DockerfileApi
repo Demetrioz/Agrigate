@@ -9,11 +9,13 @@ WORKDIR /src
 
 COPY ["Agrigate.Api/Agrigate.Api.csproj", "Agrigate.Api/"]
 COPY ["Agrigate.Core/Agrigate.Core.csproj", "Agrigate.Core/"]
+COPY ["Agrigate.Domain/Agrigate.Domain.csproj", "Agrigate.Domain/"]
 
 RUN dotnet restore "Agrigate.Api/Agrigate.Api.csproj"
 
 COPY ["Agrigate.Api/", "Agrigate.Api"]
 COPY ["Agrigate.Core/", "Agrigate.Core"]
+COPY ["Agrigate.Domain/", "Agrigate.Domain"]
 
 WORKDIR "/src/Agrigate.Api"
 

@@ -74,6 +74,7 @@ services:
       dockerfile: DockerfileApi
     environment:
       - Logging__LokiHost=http://loki:3100
+      - Agrigate__DbConnectionString=Host=postgres;Port=5432;Database=agrigate;User Id=${POSTGRES_USER:?postgres user required};Password=${POSTGRES_PASSWORD:?postgres password required}
     ports:
       - "5000:5000"
     networks:
