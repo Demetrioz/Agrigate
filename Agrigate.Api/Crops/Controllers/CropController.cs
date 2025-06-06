@@ -1,10 +1,15 @@
 using System.Net;
+using Agrigate.Api.Core.Messages;
+using Agrigate.Api.Core.Queries;
+using Agrigate.Api.Core.ValueTypes;
 using Agrigate.Api.Crops.Actors;
 using Agrigate.Api.Crops.Messages;
+using Agrigate.Api.Crops.Models;
 using Agrigate.Domain.Entities.Crops;
 using Agrigate.Domain.Models;
 using Akka.Actor;
 using Akka.Hosting;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Agrigate.Api.Crops.Controllers;
@@ -43,58 +48,81 @@ public class CropController : ControllerBase
     /// <summary>
     /// Retrieve Crop Details
     /// </summary>
-    /// <param name="id">The ID of a particular CropDetail record</param>
+    /// <param name="queryParams">The query parameters, if any</param>
     /// <returns>A CropDetail record</returns>
     /// <response code="200">Request Successful</response>
     [HttpGet("Detail")]
-    [ProducesResponseType(typeof(CropDetail), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetCropDetail([FromQuery] int? id)
+    [ProducesResponseType(typeof(PaginatedResult<CropDetail>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> GetCropDetail([FromQuery] QueryParams queryParams)
     {
-        return Ok(new CropDetail
+        try
         {
-            Id = 1,
-            Crop = "Test",
-            Cultivar = "Variant",
-            Dtm = 3,
-            Created = DateTimeOffset.Now,
-            Modified = DateTimeOffset.Now,
-            IsDeleted = false
-        });
+            var query = new CropQueries.QueryCropDetail(
+                new NonEmptyString(nameof(CropQueries.QueryCropDetail.Uri), Request.GetDisplayUrl()), 
+                queryParams
+            );
+            var result = await _cropManager.Ask(query, TimeSpan.FromSeconds(5));
+
+            if (result is IErrorEvent error)
+                throw new ApplicationException(error.Message);
+            
+            return Ok(result);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message, statusCode: (int)HttpStatusCode.InternalServerError);
+        }
     }
 
     /// <summary>
     /// Create a new CropDetail record
     /// </summary>
-    /// <param name="detail">The details to save</param>
+    /// <param name="request">The details to save</param>
     /// <returns></returns>
     [HttpPost("Detail")]
-    [ProducesResponseType(typeof(CropDetailBase), (int)HttpStatusCode.OK)]
-    [ProducesErrorResponseType(typeof(ProblemDetails))]
-    public async Task<IActionResult> CreateCropDetail([FromBody] CropDetailBase detail)
+    [ProducesResponseType(typeof(CropDetail), (int)HttpStatusCode.Created)]
+    [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> CreateCropDetail([FromBody] CropDetailBase request)
     {
         try
         {
-            var command = new CropCommands.CreateCropDetail(detail);
-            var result = await _cropManager.Ask(command, TimeSpan.FromSeconds(5)) as CropDetailBase;
-            return CreatedAtAction(nameof(GetCropDetail), new { id = 1 }, result);
+            var newDetail = new NewCropDetail(
+                new NonEmptyString(nameof(NewCropDetail.Crop), request.Crop),
+                request.Cultivar,
+                new PositiveInt(nameof(NewCropDetail.Dtm), request.Dtm),
+                new NullOrNonNegativeInt(nameof(NewCropDetail.StackingDays), request.StackingDays),
+                new NullOrNonNegativeInt(nameof(NewCropDetail.BlackoutDays), request.BlackoutDays),
+                new NullOrNonNegativeInt(nameof(NewCropDetail.NurseryDays), request.NurseryDays),
+                new NullOrNonNegativeInt(nameof(NewCropDetail.SoakHours), request.SoakHours),
+                new NullOrPositiveDouble(nameof(NewCropDetail.PlantQuantity), request.PlantQuantity)
+            );
+
+            var command = new CropCommands.CreateCropDetail(newDetail);
+            var result = await _cropManager.Ask(command, TimeSpan.FromSeconds(5));
+
+            if (result is IErrorEvent error)
+                throw error is CoreEvents.ValidationError
+                    ? new ArgumentException(error.Message)
+                    : new ApplicationException(error.Message);
+
+            return CreatedAtAction(nameof(GetCropDetail), result);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError("Unable to create CropDetail: {Error}", ex.Message);
             return Problem(ex.Message, statusCode: (int)HttpStatusCode.InternalServerError); 
         }
     }
     
     #endregion
-    
-    // #region Crops
-    //
-    //
-    // [HttpPost()]
-    // public async Task<IActionResult> CreateCrop()
-    // {
-    //     return Ok();
-    // }
-    //
-    // #endregion
 }

@@ -16,12 +16,12 @@ public abstract class EntityBase
     /// <summary>
     /// The date the record was created
     /// </summary>
-    public DateTimeOffset Created { get; set; } = DateTimeOffset.Now;
+    public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
     
     /// <summary>
     /// The most recent date the record was modified
     /// </summary>
-    public DateTimeOffset Modified { get; set; } = DateTimeOffset.Now;
+    public DateTimeOffset Modified { get; set; } = DateTimeOffset.UtcNow;
     
     /// <summary>
     /// A soft-delete
