@@ -9,6 +9,7 @@ using Agrigate.Domain.Entities.Crops;
 using Agrigate.Domain.Models;
 using Akka.Actor;
 using Akka.Hosting;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,6 +52,7 @@ public class CropController : ControllerBase
     /// <param name="queryParams">The query parameters, if any</param>
     /// <returns>A CropDetail record</returns>
     /// <response code="200">Request Successful</response>
+    [Authorize]
     [HttpGet("Detail")]
     [ProducesResponseType(typeof(PaginatedResult<CropDetail>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]
@@ -85,6 +87,7 @@ public class CropController : ControllerBase
     /// </summary>
     /// <param name="request">The details to save</param>
     /// <returns></returns>
+    [Authorize]
     [HttpPost("Detail")]
     [ProducesResponseType(typeof(CropDetail), (int)HttpStatusCode.Created)]
     [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]

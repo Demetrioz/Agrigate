@@ -18,7 +18,10 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "Logging__LokiHost": "",
-        "Agrigate__DbConnectionString": ""
+        "Agrigate__DbConnectionString": "",
+        "Authentication__Issuer": "Agrigate",
+        "Authentication__Audience": "Agrigate",
+        "Authentication__SecretKey": ""
       }
     },
     "https": {

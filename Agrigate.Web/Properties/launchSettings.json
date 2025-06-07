@@ -19,7 +19,11 @@
           "Logging__LokiHost": "",
           "Agrigate__DbConnectionString": "",
           "Agrigate__DefaultEmail": "",
-          "Agrigate__DefaultPassword": ""
+          "Agrigate__DefaultPassword": "",
+          "Authentication__Issuer": "Agrigate",
+          "Authentication__Audience": "Agrigate",
+          "Authentication__SecretKey": "",
+          "Authentication__TokenDurationMinutes": "30"
         }
       },
       "https": {

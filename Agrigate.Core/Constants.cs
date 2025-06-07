@@ -42,4 +42,15 @@ public class Constants
             public const string ServiceName = "service_name";
         }
     }
+
+    /// <summary>
+    /// Configuration related to authentication
+    /// </summary>
+    public class Authentication
+    {
+        /// <summary>
+        /// The configuration section containing authentication related setup
+        /// </summary>
+        public const string Configuration = "Authentication";
+    }
 }

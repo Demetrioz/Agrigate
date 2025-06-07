@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Agrigate.Web;
 using Agrigate.Web.Services;
+using Agrigate.Web.Services.JwtService;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,9 @@ builder.Host.ConfigureAgrigateLogging(builder.Configuration);
 
 var settings = new AgrigateConfiguration();
 builder.Configuration.Bind(Constants.Agrigate.Configuration, settings);
+
+builder.Services.Configure<AuthenticationConfiguration>(
+    builder.Configuration.GetSection(Constants.Authentication.Configuration));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -25,6 +29,7 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 builder.Services.AddAuthentication(options =>
     {

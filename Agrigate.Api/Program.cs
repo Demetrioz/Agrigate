@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text;
 using Agrigate.Api.Crops.Actors;
 using Agrigate.Api.System.Actors;
 using Agrigate.Core;
@@ -7,13 +8,19 @@ using Agrigate.Core.Extensions;
 using Agrigate.Domain.Contexts;
 using Akka.Hosting;
 using Akka.Logger.Serilog;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAgrigateLogging(builder.Configuration);
 
 var settings = new AgrigateConfiguration();
 builder.Configuration.Bind(Constants.Agrigate.Configuration, settings);
+
+var authSettings = new AuthenticationConfiguration();
+builder.Configuration.Bind(Constants.Authentication.Configuration, authSettings);
 
 builder.Services.AddDbContext<AgrigateContext>(options =>
     options.UseNpgsql(settings.DbConnectionString));
@@ -38,10 +45,53 @@ builder.Services.AddAkka("Agrigate", (akkaBuilder, provider) =>
     });
 });
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            
+            ValidIssuer = authSettings.Issuer,
+            ValidAudience = authSettings.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(authSettings.SecretKey))
+        };
+    });
+builder.Services.AddAuthorization();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    var jwtSecurityScheme = new OpenApiSecurityScheme
+    {
+        BearerFormat = "JWT",
+        Name = "JWT Authentication",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Put ONLY your JWT token in the textbox below",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+    
+    options.AddSecurityDefinition(
+        jwtSecurityScheme.Reference.Id,
+        jwtSecurityScheme
+    );
+    
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        { jwtSecurityScheme, [] }
+    });
+    
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
@@ -59,6 +109,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
