@@ -1,3 +1,7 @@
+:root {
+    --navbar-height: 48px;
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -53,4 +57,12 @@ h1:focus {
 /* Font Awesome oversized font fix */
 .mud-nav-link-icon-default {
     transform: scale(0.7);
+}
+
+.content-loading {
+    width: 100%;
+    height: calc(100vh - var(--navbar-height));
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
