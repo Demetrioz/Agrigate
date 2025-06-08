@@ -1,12 +1,12 @@
 using System.Net;
 using Agrigate.Api.Core.Messages;
-using Agrigate.Api.Core.Queries;
 using Agrigate.Api.Core.ValueTypes;
 using Agrigate.Api.Crops.Actors;
 using Agrigate.Api.Crops.Messages;
 using Agrigate.Api.Crops.Models;
 using Agrigate.Domain.Entities.Crops;
 using Agrigate.Domain.Models;
+using Agrigate.Domain.Models.Queries;
 using Akka.Actor;
 using Akka.Hosting;
 using Microsoft.AspNetCore.Authorization;

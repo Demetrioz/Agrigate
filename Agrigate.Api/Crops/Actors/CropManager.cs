@@ -1,8 +1,8 @@
 using Agrigate.Api.Core.Messages;
-using Agrigate.Api.Core.Queries;
 using Agrigate.Api.Crops.Messages;
 using Agrigate.Domain.Contexts;
 using Agrigate.Domain.Entities.Crops;
+using Agrigate.Domain.Models.Queries;
 using Akka.Actor;
 using Akka.Event;
 using Akka.Logger.Serilog;
@@ -32,6 +32,10 @@ public class CropManager : ReceiveActor
         ReceiveAsync<CropCommands.CreateCropDetail>(CreateCropDetail);
     }
 
+    /// <summary>
+    /// Retrieves a set of CropDetail records matching the query parameters
+    /// </summary>
+    /// <param name="query"></param>
     private async Task QueryCropDetail(CropQueries.QueryCropDetail query)
     {
         try
@@ -45,6 +49,7 @@ public class CropManager : ReceiveActor
                     query.Params.Page,
                     query.Params.PageSize,
                     query.Uri.Value,
+                    (cd) => cd.Id,
                     CancellationToken.None);
         
             Sender.Tell(result);

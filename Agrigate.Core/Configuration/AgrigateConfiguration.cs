@@ -19,4 +19,9 @@ public class AgrigateConfiguration
     /// The default password for logging in to Agrigate 
     /// </summary>
     public string? DefaultPassword { get; set; }
+    
+    /// <summary>
+    /// The URL to use when making requests to the Agrigate API
+    /// </summary>
+    public string? ApiUrl { get; set; }
 }

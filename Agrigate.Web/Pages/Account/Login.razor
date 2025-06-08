@@ -5,11 +5,9 @@
 @using Microsoft.AspNetCore.Identity
 @using Agrigate.Domain.Entities.Common
 @using Agrigate.Web.Services
-@using Agrigate.Web.Services.JwtService
 
 @inject SignInManager<AgrigateUser> SignInManager
 @inject ILogger<Login> Logger
-@inject IJwtService JwtService
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
@@ -96,11 +94,6 @@
         if (result.Succeeded)
         {
             Logger.LogInformation("User logged in.");
-            
-            // TODO: Store token for future use
-            var token = await JwtService.GenerateToken(Input.Email);
-            Logger.LogInformation("Token: {Token}", token);
-            
             RedirectManager.RedirectTo(ReturnUrl);
         }
         else if (result.RequiresTwoFactor)

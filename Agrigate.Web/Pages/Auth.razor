@@ -1,5 +1,8 @@
 ﻿@page "/auth"
 
+@using Agrigate.Domain.Entities.Crops
+@using Agrigate.Domain.Models.Queries
+@using Agrigate.Web.Services.AgrigateApiClient
 @using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
@@ -11,3 +14,22 @@
 <AuthorizeView>
     Hello @context.User.Identity?.Name!
 </AuthorizeView>
+
+<button @onclick="@Test">Click me!</button>
+
+@code
+{
+    [Inject]
+    public required IAgrigateApiClient ApiClient { get; set; }
+    
+    private async Task Test()
+    {
+        try
+        {
+            var result = await ApiClient.Request<PaginatedResult<CropDetail>>(HttpMethod.Get, "/Crops/Detail");
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+}

@@ -96,6 +96,7 @@ services:
       - Agrigate__DbConnectionString=Host=postgres;Port=5432;Database=agrigate;User Id=${POSTGRES_USER:?postgres user required};Password=${POSTGRES_PASSWORD:?postgres password required}
       - Agrigate__DefaultEmail=${AGRIGATE_USER:?agrigate user required}
       - Agrigate__DefaultPassword=${AGRIGATE_PASSWORD:?agrigate password required}
+      - Agrigate__ApiUrl=http://api:5000
       - Authentication__Issuer=Agrigate
       - Authentication__Audience=Agrigate
       - Authentication__SecretKey=${AUTH_SECRET_KEY:?secret key required}

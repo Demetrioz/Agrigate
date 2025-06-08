@@ -16,6 +16,9 @@ public class JwtService : IJwtService
     private readonly UserManager<AgrigateUser> _userManager;
     private readonly AuthenticationConfiguration _configuration;
 
+    private string? _jwt;
+    private DateTime? _expiration;
+    
     public JwtService(
         ILogger<JwtService> logger,
         IOptions<AuthenticationConfiguration> options,
@@ -26,9 +29,26 @@ public class JwtService : IJwtService
         _configuration = options.Value ?? throw new ArgumentNullException(nameof(options));
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
     }
-    
+
     /// <inheritdoc />
-    public async Task<string> GenerateToken(string email)
+    public async Task<string> GetOrCreateToken(string email)
+    {
+        if (
+            string.IsNullOrEmpty(_jwt) 
+            || _expiration == null 
+            || _expiration.Value.Subtract(TimeSpan.FromMinutes(5)) < DateTime.Now
+        )
+            _jwt = await GenerateToken(email);
+
+        return _jwt;
+    }
+    
+    /// <summary>
+    /// Generates a token for a provided email, assuming the user exists
+    /// </summary>
+    /// <param name="email">The email to create a token for</param>
+    /// <returns></returns>
+    private async Task<string> GenerateToken(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
@@ -52,12 +72,13 @@ public class JwtService : IJwtService
 
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.SecretKey));
         var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-        
+
+        _expiration = DateTime.Now.AddMinutes(_configuration.TokenDurationMinutes);
         var tokenOptions = new JwtSecurityToken(
             issuer: _configuration.Issuer,
             audience: _configuration.Audience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(_configuration.TokenDurationMinutes),
+            expires: _expiration,
             signingCredentials: signingCredentials
         );
         

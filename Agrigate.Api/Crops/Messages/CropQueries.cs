@@ -1,5 +1,5 @@
-using Agrigate.Api.Core.Queries;
 using Agrigate.Api.Core.ValueTypes;
+using Agrigate.Domain.Models.Queries;
 
 namespace Agrigate.Api.Crops.Messages;
 

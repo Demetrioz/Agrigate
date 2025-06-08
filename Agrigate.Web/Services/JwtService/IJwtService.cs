@@ -6,9 +6,9 @@ namespace Agrigate.Web.Services.JwtService;
 public interface IJwtService
 {
     /// <summary>
-    /// Generates a JWT for a user with the given email
+    /// Attempts to retrieve a cached token, otherwise generates a new token
     /// </summary>
     /// <param name="email">The email address of a user</param>
     /// <returns></returns>
-    Task<string> GenerateToken(string email);
+    Task<string> GetOrCreateToken(string email);
 }

@@ -20,6 +20,7 @@
           "Agrigate__DbConnectionString": "",
           "Agrigate__DefaultEmail": "",
           "Agrigate__DefaultPassword": "",
+          "Agrigate__ApiUrl": "http://localhost:5000",
           "Authentication__Issuer": "Agrigate",
           "Authentication__Audience": "Agrigate",
           "Authentication__SecretKey": "",

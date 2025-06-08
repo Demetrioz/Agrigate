@@ -1,4 +1,4 @@
-namespace Agrigate.Api.Core.Queries;
+namespace Agrigate.Domain.Models.Queries;
 
 public class QueryParams
 {

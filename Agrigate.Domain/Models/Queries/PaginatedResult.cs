@@ -1,7 +1,8 @@
 using System.Collections.Specialized;
+using System.Text.Json.Serialization;
 using System.Web;
 
-namespace Agrigate.Api.Core.Queries;
+namespace Agrigate.Domain.Models.Queries;
 
 /// <summary>
 /// A paginated result returned from a query
@@ -20,16 +21,23 @@ public class PaginatedResult<T> where T : class, new()
     private bool HasNextPage => CurrentPage < TotalPages;
     private bool HasPreviousPage => CurrentPage > 1;
 
+    /// <summary>
+    /// Parameterless constructor for serialization. Do not use!
+    /// </summary>
+    public PaginatedResult()
+    {
+    }
+
     public PaginatedResult(
         List<T> items,
-        int itemCount,
-        int pageNumber,
+        int totalItems,
+        int currentPage,
         int itemsPerPage,
         string requestUrl)
     {
         Items = items;
-        TotalItems = itemCount;
-        CurrentPage = pageNumber;
+        TotalItems = totalItems;
+        CurrentPage = currentPage;
         ItemsPerPage = itemsPerPage;
         TotalPages = (int)Math.Ceiling(TotalItems / (double)itemsPerPage);
         
