@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Host.ConfigureAgrigateLogging(builder.Configuration);
+builder.Host.ConfigureAgrigateLogging();
 
 var settings = new AgrigateConfiguration();
 builder.Configuration.Bind(Constants.Agrigate.Configuration, settings);

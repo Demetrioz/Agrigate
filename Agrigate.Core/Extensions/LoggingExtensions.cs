@@ -21,11 +21,8 @@ public static class LoggingExtensions
     /// <param name="builder"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>
-    public static IHostBuilder ConfigureAgrigateLogging(this IHostBuilder builder, IConfiguration configuration)
+    public static IHostBuilder ConfigureAgrigateLogging(this IHostBuilder builder)
     {
-        var settings = new LoggingConfiguration();
-        configuration.Bind(Constants.Logging.Configuration, settings);
-
         var sourceProject = Assembly
             .GetEntryAssembly()?.EntryPoint?.DeclaringType?.Assembly?.FullName?
             .Split(",")
@@ -34,6 +31,9 @@ public static class LoggingExtensions
         
         builder.UseSerilog((context, config) =>
         {
+            var settings = new LoggingConfiguration();
+            context.Configuration.Bind(Constants.Logging.Configuration, settings);
+            
             // Remove the noisy .net core logs
             config.MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning);
             config.MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning);
