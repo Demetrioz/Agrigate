@@ -2,9 +2,11 @@ import sys
 
 from PySide6 import QtWidgets
 from PySide6.QtGui import QAction
-from PySide6.QtWidgets import QMainWindow, QMenu
+from PySide6.QtWidgets import QMainWindow
 
 from components.main_menu.about import About
+from screens.root import Root
+
 
 class Agrigate(QMainWindow):
     def __init__(self):
@@ -13,6 +15,9 @@ class Agrigate(QMainWindow):
         self.setWindowTitle("Agrigate")
         self.create_file_menu()
         self.create_help_menu()
+
+        root = Root(self)
+        self.setCentralWidget(root)
 
     def create_file_menu(self):
         file_menu = self.menuBar().addMenu("File")
