@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ShopifySharp;
+using ShopifySharp.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAgrigateLogging();
@@ -44,6 +46,8 @@ builder.Services.AddAkka("Agrigate", (akkaBuilder, provider) =>
         registry.Register<CropManager>(cropActor);
     });
 });
+
+builder.Services.AddShopifySharp<LeakyBucketExecutionPolicy>(ServiceLifetime.Transient);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

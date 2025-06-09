@@ -11,6 +11,8 @@
         <PackageReference Include="Akka.Hosting" Version="1.5.42" />
         <PackageReference Include="Akka.Logger.Serilog" Version="1.5.25" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.16" />
+        <PackageReference Include="ShopifySharp" Version="6.24.1" />
+        <PackageReference Include="ShopifySharp.Extensions.DependencyInjection" Version="1.8.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
 
