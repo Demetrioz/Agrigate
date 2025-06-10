@@ -1,0 +1,20 @@
+@inherits UnauthenticatedLayoutBase
+
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    
+    <MudAppBar Dense="true">
+        Agrigate
+    </MudAppBar>
+    
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+    
+</MudLayout>

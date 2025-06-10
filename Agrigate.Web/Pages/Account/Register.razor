@@ -8,6 +8,8 @@
 @using Agrigate.Domain.Entities.Common
 @using Agrigate.Web.Services
 
+@layout UnauthenticatedLayout
+
 @inject UserManager<AgrigateUser> UserManager
 @inject IUserStore<AgrigateUser> UserStore
 @inject SignInManager<AgrigateUser> SignInManager

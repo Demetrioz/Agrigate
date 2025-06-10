@@ -1,5 +1,6 @@
 using Agrigate.Domain.Entities.Crops;
 using Agrigate.Domain.Models.Queries;
+using Agrigate.Web.Components.Dialogs.EditCropDetail;
 using Agrigate.Web.Services.AgrigateApiClient;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;

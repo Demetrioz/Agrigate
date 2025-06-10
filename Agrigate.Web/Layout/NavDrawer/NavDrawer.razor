@@ -15,29 +15,5 @@
                 Crop Details
             </MudNavLink>
         </MudNavGroup>
-        <MudNavLink Match="NavLinkMatch.All" Href="/counter" Icon="@Icons.Material.Filled.Calculate">
-            Counter
-        </MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All" Href="/weather" Icon="@Icons.Material.Filled.Storm">
-            Weather
-        </MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All" Href="/auth" Icon="@Icons.Material.Filled.Lock">
-            Auth Required
-        </MudNavLink>
-        <AuthorizeView>
-            <Authorized>
-                <MudNavLink Match="NavLinkMatch.All" Href="/account/manage" Icon="@Icons.Material.Filled.AccountCircle">
-                    @context.User.Identity?.Name
-                </MudNavLink>
-            </Authorized>
-            <NotAuthorized>
-                <MudNavLink Match="NavLinkMatch.All" Href="/account/register" Icon="@Icons.Material.Filled.AppRegistration">
-                    Register
-                </MudNavLink>
-                <MudNavLink Match="NavLinkMatch.All" Href="/account/login" Icon="@Icons.Material.Filled.Login">
-                    Login
-                </MudNavLink>
-            </NotAuthorized>
-        </AuthorizeView>
     </MudNavMenu>
 </MudDrawer>

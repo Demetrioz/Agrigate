@@ -2,7 +2,7 @@ using Agrigate.Domain.Entities.Crops;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Agrigate.Web.Pages.Production.CropDetails;
+namespace Agrigate.Web.Components.Dialogs.EditCropDetail;
 
 public class EditCropDetailBase : ComponentBase
 {
