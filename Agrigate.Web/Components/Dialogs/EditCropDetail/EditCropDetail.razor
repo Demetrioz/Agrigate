@@ -7,60 +7,76 @@
                 @bind-Value="Detail.Crop"
                 Label="Crop"
                 Variant="Variant.Outlined"
-                InputType="InputType.Text"/>
+                InputType="InputType.Text"
+                Disabled="IsLoading"/>
             <MudTextField
                 @bind-Value="Detail.Cultivar"
                 Label="Cultivar"
                 Variant="Variant.Outlined"
-                InputType="InputType.Text"/>
+                InputType="InputType.Text"
+                Disabled="IsLoading"/>
         </div>
         <div class="textfield-container">
             <MudTextField
                 @bind-Value="Detail.Dtm"
                 Label="DTM"
                 Variant="Variant.Outlined"
-                InputType="InputType.Number"/>
+                InputType="InputType.Number"
+                Disabled="IsLoading"/>
             <MudTextField
                 @bind-Value="Detail.PlantQuantity"
                 Label="Planting Quantity"
                 Variant="Variant.Outlined"
-                InputType="InputType.Number"/>
+                InputType="InputType.Number"
+                Disabled="IsLoading"/>
         </div>
         <div class="textfield-container">
             <MudTextField
                 @bind-Value="Detail.SoakHours"
                 Label="Soak Hours"
                 Variant="Variant.Outlined"
-                InputType="InputType.Number"/>
+                InputType="InputType.Number"
+                Disabled="IsLoading"/>
             <MudTextField
                 @bind-Value="Detail.StackingDays"
                 Label="Stack Days"
                 Variant="Variant.Outlined"
-                InputType="InputType.Number"/>
+                InputType="InputType.Number"
+                Disabled="IsLoading"/>
         </div>
         <div class="textfield-container">
             <MudTextField
                 @bind-Value="Detail.BlackoutDays"
                 Label="Blackout Days"
                 Variant="Variant.Outlined"
-                InputType="InputType.Number"/>
+                InputType="InputType.Number"
+                Disabled="IsLoading"/>
             <MudTextField
                 @bind-Value="Detail.NurseryDays"
                 Label="Nursery Days"
                 Variant="Variant.Outlined"
-                InputType="InputType.Number"/>
+                InputType="InputType.Number"
+                Disabled="IsLoading"/>
         </div>
     </DialogContent>
     <DialogActions>
         <MudButton 
             Color="Color.Error"
-            OnClick="HandleClose">
+            OnClick="HandleClose"
+            Disabled="IsLoading">
             Cancel
         </MudButton>
-        <MudButton 
+        <MudButton
             Color="Color.Primary"
-            OnClick="HandleSave">
-            Save
+            OnClick="HandleSave"
+            Disabled="IsLoading">
+            @if (IsLoading)
+            {
+                <MudProgressCircular 
+                    Size="Size.Small" 
+                    Indeterminate="true"/>
+            }
+            <MudText>Save</MudText>   
         </MudButton>
     </DialogActions>
 </MudDialog>

@@ -1,9 +1,8 @@
 @page "/crop-details"
 
 @using Agrigate.Domain.Entities.Crops
-@using Microsoft.AspNetCore.Authorization
-@inherits CropDetailsBase
 
+@inherits CropDetailsBase
 @attribute [Authorize]
 
 <PageTitle>Crop Details</PageTitle>
@@ -16,7 +15,7 @@
 }
 else
 {
-    <MudBreadcrumbs Items="Breadcrumbs" Separator=">"></MudBreadcrumbs>
+    <MudBreadcrumbs Items="Breadcrumbs" Separator=">" />
     
     <MudTable 
         T="CropDetail" 

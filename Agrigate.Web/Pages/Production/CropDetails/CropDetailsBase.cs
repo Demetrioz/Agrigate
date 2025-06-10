@@ -25,7 +25,7 @@ public class CropDetailsBase : ComponentBase
         new ("Crop Details", href: null, disabled: true)
     ];
     
-    protected bool IsLoading { get; set; } = true;
+    protected bool IsLoading { get; private set; } = true;
     protected string SearchTerm { get; set; } = "";
     protected List<CropDetail> CropDetails { get; set; } = [];
     
@@ -70,8 +70,14 @@ public class CropDetailsBase : ComponentBase
     /// <summary>
     /// Displays the EditCropDetail dialog
     /// </summary>
-    protected void HandleCreateNewDetail()
+    protected async Task HandleCreateNewDetail()
     {
-        DialogService.ShowAsync<EditCropDetail>("Create Crop Detail");
+        var dialog = await DialogService.ShowAsync<EditCropDetail>("Create Crop Detail");
+        var result = await dialog.Result;
+
+        if (result == null || result.Canceled || result.Data is not CropDetail typedResult)
+            return;
+        
+        CropDetails.Add(typedResult);
     }
 }
